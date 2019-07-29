@@ -1,8 +1,8 @@
-class LanguageRegistry{
+class LanguageRegistry {
     
 }
 
-interface Language{
+interface Language {
     name: string; 
     language: string;
     extension: string;
@@ -14,7 +14,7 @@ interface Language{
     nav: Nav;
 }
 
-interface Display{
+interface Display {
     name: String;
     version: String;
     runtime: String;

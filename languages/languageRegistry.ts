@@ -3,7 +3,7 @@ class LanguageRegistry {
 }
 
 interface Language {
-    name: string;
+    name: string; 
     language: string;
     extension: string;
     version: string;

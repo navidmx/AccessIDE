@@ -1,4 +1,4 @@
-interface Write {
+export interface Write {
     createFunction(tabs: number, name: string, parameters: string[]): string;
     createVariable(name: string, value: any): string;
     createConstant(name: string, value: any): string;
@@ -9,11 +9,11 @@ interface Write {
     createElseStatement(tabs: number): string;
 }
 
-interface Read {
+export interface Read {
 
 }
 
-interface Nav {
+export interface Nav {
 
 }
 

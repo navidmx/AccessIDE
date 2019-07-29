@@ -1,4 +1,6 @@
-class LanguageRegistry {
+import { Write, Read, Nav } from "./language";
+
+export class LanguageRegistry {
     
 }
 

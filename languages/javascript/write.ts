@@ -1,3 +1,5 @@
+import { Write } from '../language';
+
 class JSWrite implements Write {
     createFunction(tabs: number, name: string, parameters: string[]): string {
         return `function ${name}(${parameters.join}) ${this.createBlock(tabs)}`;

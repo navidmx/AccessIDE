@@ -1,40 +1,31 @@
-class JSWrite implements Write {
-    createFunction(tabs: number, name: string, parameters: string[]): string {
+class JSWrite {
+    createFunction(tabs, name, parameters) {
         return `function ${name}(${parameters.join}) ${this.createBlock(tabs)}`;
     }
-
-    createVariable(name: string, value: any): string {
+    createVariable(name, value) {
         return `let ${name}${value ? ' = ' + value : ''};`;
     }
-
-    createConstant(name: string, value: any): string {
+    createConstant(name, value) {
         return `const ${name}${value ? ' = ' + value : ''};`;
     }
-
-    createForLoop(tabs: number, start: number, end: number, step: number, flag: string): string {
+    createForLoop(tabs, start, end, step, flag) {
         return `for(let ${flag} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} += ${step}) ${this.createBlock(tabs)}`;
     }
-
-    createWhileLoop(tabs: number, condition: string): string {
+    createWhileLoop(tabs, condition) {
         return `while(${condition}) ${this.createBlock(tabs)}`;
     }
-
-    createIfStatement(tabs: number, condition: string): string {
+    createIfStatement(tabs, condition) {
         return `if (${condition}) ${this.createBlock(tabs)}`;
     }
-
-    createElseIfStatement(tabs: number, condition: string): string {
+    createElseIfStatement(tabs, condition) {
         return `else if (${condition}) ${this.createBlock(tabs)}`;
     }
-
-    createElseStatement(tabs: number): string {
+    createElseStatement(tabs) {
         return `else ${this.createBlock(tabs)}`;
     }
-
     /* Helper function for creating code blocks */
-    private createBlock(tabs: number): string {
+    createBlock(tabs) {
         return `{\n${new String('\t').repeat(tabs + 1)}\n${'\t'.repeat(tabs)}}\n`;
     }
 }
-
 export default new JSWrite();

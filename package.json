@@ -1,0 +1,28 @@
+{
+  "name": "accesside",
+  "version": "1.0.0",
+  "description": "A web based IDE to aid Blind and Visually impared developers write code",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navidmx/AccessIDE.git"
+  },
+  "author": "Navid Mamoon and Garrett Burroughs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/navidmx/AccessIDE/issues"
+  },
+  "homepage": "https://github.com/navidmx/AccessIDE#readme",
+  "dependencies": {
+    "@types/node": "^12.6.8",
+    "child-process": "^1.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

@@ -4,10 +4,10 @@ class LanguageRegistry{
 
 interface Language{
     name: string; 
-    language: string,
-    extension: string,
-    version: string,
-    exec: string,
+    language: string;
+    extension: string;
+    version: string;
+    exec: string;
     display: Display;
     write: Write;
     read: Read;
@@ -15,7 +15,7 @@ interface Language{
 }
 
 interface Display{
-    name: String,
-    version: String,
-    runtime: String
+    name: String;
+    version: String;
+    runtime: String;
 }

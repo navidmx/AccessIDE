@@ -1,0 +1,46 @@
+{
+  "name": "accesside",
+  "version": "1.0.0",
+  "description": "A web based IDE to aid Blind and Visually impared developers write code",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "next-build": "next build",
+    "next-start": "next start",
+    "dev:node":"nodemon server/server.js",
+    "dev:typescript": "tsc --watch true",
+    "build:next" : "run-s",
+    "build:typescript": "tsc --watch false",
+    "build:server" : "node server/server.js",
+    "dev": "run-p dev:*",
+    "start": "run-s build:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navidmx/AccessIDE.git"
+  },
+  "author": "Navid Mamoon and Garrett Burroughs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/navidmx/AccessIDE/issues"
+  },
+  "homepage": "https://github.com/navidmx/AccessIDE#readme",
+  "dependencies": {
+    "@types/node": "^12.6.8",
+    "bootstrap": "^4.3.1",
+    "child-process": "^1.0.2",
+    "express": "^4.17.1",
+    "jquery": "^3.4.1",
+    "next": "^9.0.2",
+    "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.10",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.23",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.3"
+  }
+}

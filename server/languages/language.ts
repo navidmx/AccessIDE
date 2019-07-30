@@ -10,11 +10,10 @@ export interface Write {
 }
 
 export interface Read {
-    
-
+    readLine(line: string);
 }
 
 export interface Nav {
-
+    findFunction(line: string);
 }
 

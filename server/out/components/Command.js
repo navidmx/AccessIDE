@@ -1,9 +1,8 @@
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCode } from '@fortawesome/free-solid-svg-icons'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
 let CommandStyle = {
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
@@ -13,14 +12,12 @@ let CommandStyle = {
     fontSize: '18px',
     height: 'calc(100vh - 70px)',
     overflow: 'scroll'
-}
-
-const Command = () => (
-    <Form inline>
+};
+const Command = () => (<Form inline>
         <InputGroup>
             <InputGroup.Prepend>
                 <InputGroup.Text>
-                    <FontAwesomeIcon icon={ faCode } />
+                    <FontAwesomeIcon icon={faCode}/>
                 </InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl placeholder="Enter a command..." ariaLabel="Command">
@@ -37,5 +34,4 @@ const Command = () => (
 //        </div>
 //    </form>
 );
-
 export default Command;

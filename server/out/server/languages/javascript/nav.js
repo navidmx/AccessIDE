@@ -1,5 +1,6 @@
 class JSNav {
-    findFunction(line) {
+    findFunction() {
+        throw new Error("Method not implemented.");
     }
 }
 export default new JSNav();

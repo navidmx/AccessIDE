@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
@@ -8,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 
 const Index = () => (
     <div>
+        <Header />
         <Head>
             <title>AccessIDE</title>
             <link href="/static/assets/bootstrap.min.css" rel="stylesheet" />

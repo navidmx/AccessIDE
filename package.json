@@ -7,11 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "next-build": "next build",
     "next-start": "next start",
-    "dev:node":"nodemon server/server.js",
+    "dev:node": "nodemon server/server.js",
     "dev:typescript": "tsc --watch true",
-    "build:next" : "run-s",
+    "build:next": "run-s",
     "build:typescript": "tsc --watch false",
-    "build:server" : "node server/server.js",
+    "build:server": "node server/server.js",
     "dev": "run-p dev:*",
     "start": "run-s build:*"
   },
@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/navidmx/AccessIDE#readme",
   "dependencies": {
-    "@types/node": "^12.6.8",
     "bootstrap": "^4.3.1",
     "child-process": "^1.0.2",
     "express": "^4.17.1",
@@ -39,7 +38,9 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
+    "@types/node": "^12.6.8",
     "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "nodemon": "^1.19.1",
     "typescript": "^3.5.3"
   }

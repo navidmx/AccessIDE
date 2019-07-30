@@ -7,7 +7,8 @@ let HeaderStyle = {
 let BrandText = {
     color: '#f9ee98',
     fontSize: '32px',
-    fontWeight: 800
+    fontWeight: 800,
+    marginRight: '20px'
 };
 const Header = () => (<Navbar style={HeaderStyle}>
         <Navbar.Brand style={BrandText}>CodeABLE</Navbar.Brand>

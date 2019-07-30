@@ -5,11 +5,14 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon out/server/server.js",
+    "node": "nodemon server/server.js",
     "typescript": "tsc",
-    "start": "run-p typescript server",
-    "dev": "next",
-    "build": "next build"
+    "server": "run-p typescript node",
+    "next-dev": "next",
+    "dev": "run-p next-dev server",
+    "build": "next build",
+    "next-start": "next start",
+    "start": "run-p build next-start server"
   },
   "repository": {
     "type": "git",

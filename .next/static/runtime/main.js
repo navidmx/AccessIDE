@@ -6344,7 +6344,7 @@ function connect(options) {
       error.name = err.name;
       error.stack = err.stack; // __NEXT_DIST_DIR is provided by webpack
 
-      (0, _sourceMapSupport.rewriteStacktrace)(error, "/Users/allstarcode/Documents/AccessIDE/.next");
+      (0, _sourceMapSupport.rewriteStacktrace)(error, "/Users/Navid/Documents/Projects/AccessIDE/.next");
       return error;
     }
   };

@@ -5,11 +5,15 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon out/server/server.js",
-    "typescript": "tsc",
-    "start": "run-p typescript server",
-    "dev": "next",
-    "build": "next build"
+    "next-build": "next build",
+    "next-start": "next start",
+    "dev:node": "nodemon server/server.js",
+    "dev:typescript": "tsc --watch true",
+    "build:next": "run-s",
+    "build:typescript": "tsc --watch false",
+    "build:server": "node server/server.js",
+    "dev": "run-p dev:*",
+    "start": "run-s build:*"
   },
   "repository": {
     "type": "git",
@@ -40,7 +44,9 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
+    "@types/node": "^12.6.8",
     "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "nodemon": "^1.19.1",
     "typescript": "^3.5.3"
   }

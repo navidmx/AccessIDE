@@ -1,13 +1,23 @@
 # AccessIDE
-An IDE with accessibility in mind using audio input/output and defined commands to easily navigate, read, and even write code.
-
+#### An IDE with accessibility in mind using audio input/output and defined commands to easily navigate, read, and even write code.
 
 ## Development
+To set up the project, make sure you have Node.js and npm installed, then run: `npm install`
 
-This project is managed with NPM.
+To start the development server, run: `npm run dev`
 
-To set up the project, make sure you have nodejs and npm installed, then run `npm install`
+To start a production build, run: `npm start`
 
-To start the development server run `npm run dev`, this will re-compile the typescript code and redeploy the server every time you save your code 
+## Commands
+The following commands can be run by hitting the `ESC` key to activate voice input, or simply typing into the command bar at the top of the page.
 
-To start a production build run `npm start`
+### Creation
+Triggered with `create/make/write` keywords
+
+`create a function called (name) [with parameters (parameters)]`
+
+### Reading
+
+
+### Writing
+

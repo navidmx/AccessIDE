@@ -9,6 +9,5 @@ OutputStyle = {
     height: 'calc(100vh - 70px)',
     overflow: 'scroll'
 };
-const Output = () => (<div style={OutputStyle}>
-    </div>);
+const Output = () => (<div style={OutputStyle}></div>);
 export default Output;

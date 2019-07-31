@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 class Command extends React.Component {
     commandEntered(target) {
-        return target;
+        // Enter key pressed in command bar
+        if (target.charCode == 13) {
+            target.preventDefault();
+            console.log("Entered!");
+        }
     }
     render() {
         return (<Form inline>
@@ -15,8 +19,7 @@ class Command extends React.Component {
                             <FontAwesomeIcon icon={faCode}/>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <Form.Control onKeyPress={this.commandEntered} placeholder="Enter a command..." type="text">
-                    </Form.Control>
+                    <Form.Control onKeyPress={this.commandEntered} placeholder="Enter a command..." type="text"></Form.Control>
                 </InputGroup>
             </Form>);
     }

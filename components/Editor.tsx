@@ -9,7 +9,7 @@ const Editor = (props) => {
         require('brace');
         require('brace/mode/javascript');
         require('brace/theme/twilight');
-        return <Ace style={EditorStyle} {...props} />
+        return <Ace style={EditorStyle} {...props}/>
     }
 
     return null;

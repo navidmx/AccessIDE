@@ -1,6 +1,6 @@
-import { CSSProperties } from "react";
+import {CSSProperties} from "react";
 
-let OutputStyle: CSSProperties;
+let OutputStyle : CSSProperties;
 
 OutputStyle = {
     whiteSpace: 'pre-wrap',
@@ -14,8 +14,7 @@ OutputStyle = {
 }
 
 const Output = () => (
-    <div style={OutputStyle}>
-    </div>
+    <div style={OutputStyle}></div>
 );
 
 export default Output;

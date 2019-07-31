@@ -1,10 +1,12 @@
-class NLP{
-    processLine(input: string): string{
-        return '';
-    }
+import { outputType } from './runCommand';
 
-    parseLine(input: string): string[]{
-        return []
+class NLP {
+
+    processLine(input: string): { type: outputType, contents: string } {
+        return {
+            type: 'write',
+            contents: ''
+        };
     }
 }
 

@@ -7,6 +7,7 @@ export interface Write {
     createIfStatement(tabs: number, condition: string): string;
     createElseIfStatement(tabs: number, condition: string): string;
     createElseStatement(tabs: number): string;
+    write(input:string);
 }
 
 export interface Read {
@@ -15,5 +16,6 @@ export interface Read {
 
 export interface Nav {
     findFunction(line: string);
+    nav(input:string);
 }
 

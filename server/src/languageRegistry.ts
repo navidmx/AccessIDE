@@ -31,9 +31,9 @@ export interface Language {
     version: string;
     exec: string;
     display: Display;
-    write: Write;
-    read: Read;
-    nav: Nav;
+    writer: Write;
+    reader: Read;
+    navigator: Nav;
 }
 
 interface Display {

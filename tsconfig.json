@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "module": "esnext",
-    "outDir": "./server/out/",
+    "outDir": "src/out",
+    "watch": true,
     "lib": [
       "dom",
       "dom.iterable",

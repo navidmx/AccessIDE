@@ -1,0 +1,16 @@
+{
+    "language": "javascript",
+    "extension": ".js",
+    "version": "ECMAScript 2015",
+    "exec": "node",
+    "display": {
+        "name": "JavaScript",
+        "version": "ES6",
+        "runtime": "nodejs"
+    },
+    "parsers": {
+        "write": "write.ts",
+        "read": "read.ts",
+        "nav": "nav.ts"
+    }
+}

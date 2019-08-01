@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import next from 'next';
 import CommandRunner from './runCommand';
 import Registry from './languageRegistry';
+import AudioProcessor from './processing/AudioProcessor';
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({
@@ -28,8 +29,12 @@ app.prepare()
         server.use('/static', express.static(join(__dirname + "/static")));
         server.use(bodyParser.json());
 
+        server.get('/voiceCommand', (req, res) => {
+            res.send(AudioProcessor.processAudio(req.body.audio));
+        });
+
         server.get('/runCommand', (req, res) => {
-            res.send(CommandRunner.runCommand(req.body));
+            res.send(CommandRunner.runCommand(req.body.command));
         });
 
 

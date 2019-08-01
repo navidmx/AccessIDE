@@ -1,6 +1,9 @@
 import { Write, Read, Nav } from '../language';
 
 class PythonWrite implements Write {
+    write(input: string) {
+        throw new Error("Method not implemented.");
+    }
     createFunction(tabs: number, name: string, parameters: string[]): string {
         throw new Error("Method not implemented.");
     }

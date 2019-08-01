@@ -15,7 +15,7 @@ let BrandText = {
 
 const Header = () => (
     <Navbar style={HeaderStyle}>
-        <Navbar.Brand style={BrandText}>CodeABLE</Navbar.Brand>
+        <Navbar.Brand style={BrandText}>AccessIDE</Navbar.Brand>
         <Command/>
     </Navbar>
 );

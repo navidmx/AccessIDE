@@ -11,6 +11,7 @@ import next from 'next';
 import CommandRunner from './runCommand';
 import Registry from './languageRegistry';
 import AudioProcessor from './processing/AudioProcessor';
+import languageRegistry from './languageRegistry';
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({
@@ -20,9 +21,9 @@ const handle = app.getRequestHandler();
 
 
 app.prepare()
-    .then(() => {
+    .then(async () => {
         const server = express();
-        Registry.findLanguages();
+        await Registry.findLanguages();
 
         console.log();
 
@@ -35,6 +36,10 @@ app.prepare()
 
         server.get('/runCommand', (req, res) => {
             res.send(CommandRunner.runCommand(req.body.command));
+        });
+
+        server.get('/getLangs', (req, res) => {
+            res.send(languageRegistry.getLanguages());
         });
 
 

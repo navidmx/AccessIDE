@@ -9,8 +9,8 @@
         "runtime": "nodejs"
     },
     "parsers": {
-        "write": "write.ts",
-        "read": "read.ts",
-        "nav": "nav.ts"
+        "write": "write.js",
+        "read": "read.js",
+        "nav": "nav.js"
     }
 }

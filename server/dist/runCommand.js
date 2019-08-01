@@ -1,34 +1,36 @@
-import nlp from './nlp';
-class RunCommand {
+import nlp from './processing/nlp';
+class CommandRunner {
     runCommand(input) {
         // Process Language
-        const processedCommand = nlp.processLine(input);
-        let output;
+        const processedCommands = nlp.processLine(input);
+        let outputs;
         // Pipe command output
-        switch (processedCommand.type) {
-            case 'write':
-                output = {
-                    type: 'write',
-                    contents: this.language.writer.write(processedCommand.contents)
-                };
-                break;
-            case 'read':
-                output = {
-                    type: 'read',
-                    contents: this.language.reader.readLine(processedCommand.contents)
-                };
-                break;
-            case 'nav':
-                output = {
-                    type: 'nav',
-                    contents: this.language.navigator.nav(processedCommand.contents)
-                };
-                break;
+        for (const processedCommand of processedCommands) {
+            switch (processedCommand.type) {
+                case 'write':
+                    outputs.push({
+                        type: 'write',
+                        contents: this.language.writer.write(processedCommand.contents)
+                    });
+                    break;
+                case 'read':
+                    outputs.push({
+                        type: 'read',
+                        contents: this.language.reader.readLine(processedCommand.contents)
+                    });
+                    break;
+                case 'nav':
+                    outputs.push({
+                        type: 'nav',
+                        contents: this.language.navigator.nav(processedCommand.contents)
+                    });
+                    break;
+            }
         }
         // Write -> send code block
         // Read -> Send audio
         // Nav -> Send nav 
-        return output;
+        return outputs;
     }
 }
-export default new RunCommand();
+export default new CommandRunner();

@@ -1,43 +1,45 @@
 import { Language } from './languageRegistry';
-import NLP from './nlp';
-import nlp from './nlp';
+import NLP from './processing/nlp';
+import nlp from './processing/nlp';
 import { write } from 'fs';
 
-class RunCommand {
+class CommandRunner {
     language: Language;
 
-    runCommand(input: string): OutputCommand {
+    runCommand(input: string): OutputCommand[] {
         // Process Language
-        const processedCommand = nlp.processLine(input);
+        const processedCommands = nlp.processLine(input);
 
-        let output: OutputCommand;
+        let outputs: OutputCommand[];
         // Pipe command output
-        switch(processedCommand.type){
-            case 'write':
-                output = {
-                    type: 'write',
-                    contents: this.language.writer.write(processedCommand.contents)
-                }
-                break;
-            case 'read':
-                output = {
-                    type: 'read',
-                    contents: this.language.reader.readLine(processedCommand.contents)
-                }
-                break;
-            case 'nav':
-                output = {
-                    type: 'nav',
-                    contents: this.language.navigator.nav(processedCommand.contents)
-                }
-                break;
+        for (const processedCommand of processedCommands) {
+            switch (processedCommand.type) {
+                case 'write':
+                    outputs.push({
+                        type: 'write',
+                        contents: this.language.writer.write(processedCommand.contents)
+                    });
+                    break;
+                case 'read':
+                    outputs.push({
+                        type: 'read',
+                        contents: this.language.reader.readLine(processedCommand.contents)
+                    });
+                    break;
+                case 'nav':
+                    outputs.push({
+                        type: 'nav',
+                        contents: this.language.navigator.nav(processedCommand.contents)
+                    });
+                    break;
+            }
         }
         // Write -> send code block
 
         // Read -> Send audio
 
         // Nav -> Send nav 
-        return output;
+        return outputs;
     }
 }
 
@@ -48,4 +50,4 @@ export interface OutputCommand {
     contents: string;
 }
 
-export default new RunCommand();
+export default new CommandRunner();

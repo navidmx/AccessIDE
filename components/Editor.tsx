@@ -1,6 +1,6 @@
 let EditorStyle = {
-    'width': '100%',
-    'height': 'calc(100vh - 70px)'
+    width: '100%',
+    height: 'calc(100vh - 70px)'
 }
 
 const Editor = (props) => {

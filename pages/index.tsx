@@ -11,6 +11,7 @@ class Index extends React.Component {
     updateEditor(newValue : String) {
         console.log(newValue);
     }
+
     render() {
         return (
             <div>

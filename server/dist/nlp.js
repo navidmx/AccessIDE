@@ -1,9 +1,9 @@
 class NLP {
     processLine(input) {
-        return '';
-    }
-    parseLine(input) {
-        return [];
+        return {
+            type: 'write',
+            contents: ''
+        };
     }
 }
 export default new NLP();

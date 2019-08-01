@@ -29,9 +29,9 @@ class Command extends React.Component {
         return (
             <Form inline>
                 <InputGroup>
-                    <InputGroup.Prepend style={CommandPrefixStyle}>
-                        <InputGroup.Text>
-                            <FontAwesomeIcon icon={faCode}/>
+                    <InputGroup.Prepend>
+                        <InputGroup.Text style={CommandPrefixStyle}>
+                            <FontAwesomeIcon style={{margin: 'auto'}} icon={faCode}/>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control

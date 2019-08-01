@@ -27,5 +27,7 @@ class JSWrite {
     createBlock(tabs) {
         return `{\n${new String('\t').repeat(tabs + 1)}\n${'\t'.repeat(tabs)}}\n`;
     }
+    write() {
+    }
 }
 export default new JSWrite();

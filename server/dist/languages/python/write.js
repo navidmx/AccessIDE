@@ -1,4 +1,7 @@
 class PythonWrite {
+    write(input) {
+        throw new Error("Method not implemented.");
+    }
     createFunction(tabs, name, parameters) {
         throw new Error("Method not implemented.");
     }

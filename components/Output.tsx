@@ -1,10 +1,4 @@
-import {CSSProperties} from "react";
-
-let OutputStyle : CSSProperties;
-
-OutputStyle = {
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
+let OutputStyle = {
     backgroundColor: 'black',
     color: 'white',
     padding: '20px',

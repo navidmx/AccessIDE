@@ -14,16 +14,16 @@ class Index extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{backgroundColor: '#2a2a2a'}}>
                 <Head>
                     <title>AccessIDE</title>
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{
-                    padding: 0
-                }}>
-                    <Header/>
+                <Container fluid>
+                    <Row noGutters>
+                        <Header/>
+                    </Row>
                     <Row noGutters>
                         <Col md={9}>
                             <Editor

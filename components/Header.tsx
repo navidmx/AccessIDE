@@ -16,6 +16,7 @@ const defaultOption = languages[0];
 
 let HeaderStyle = {
     display: 'flex',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: '80px',

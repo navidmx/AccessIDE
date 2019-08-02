@@ -29,7 +29,7 @@ class Command extends React.Component {
         record: boolean;
     }
 
-    constructor(props) {
+    constructor(props : any) {
         super(props);
         this.state = {
             record: false
@@ -70,7 +70,8 @@ class Command extends React.Component {
         this.setState({record: false});
     }
 
-    saveAudio = audio => {
+    saveAudio = (audio) => {
+        console.log(typeof audio, audio);
         // BACKEND TODO
         console.log('File at: ', audio.blobURL);
     }

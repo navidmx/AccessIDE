@@ -10,46 +10,64 @@ import CommandRunner from "../runCommand";
 import speech from '@google-cloud/speech';
 import fs from 'fs';
 import ffmpeg from 'ffmpeg';
+import f_ffmpeg from 'fluent-ffmpeg';
 class AudioProcessor {
     constructor() {
         this.client = new speech.SpeechClient();
         this.config = {
-            encoding: 'OGG_OPUS',
-            sampleRateHertz: 16000,
+            encoding: 'LINEAR16',
+            sampleRateHertz: 44100,
             languageCode: 'en-US'
         };
     }
     processAudio(base64) {
         return __awaiter(this, void 0, void 0, function* () {
-            // console.log(base64);
             fs.writeFileSync('video.webm', base64, { encoding: 'base64' });
             try {
                 const process = new ffmpeg('video.webm');
-                process.then(function (video) {
-                    // Video metadata
-                    console.log(video.metadata);
-                    // FFmpeg configuration
-                    console.log(video.info_configuration);
-                    video.fnExtractSoundToMP3('audio.mp3', err => { console.log(err); });
-                }, function (err) {
-                    console.log('Error: ' + err);
+                const video = yield process;
+                video.fnExtractSoundToMP3('audio.mp3', err => {
+                    console.log(err);
                 });
+                let track = './audio.mp3';
+                const conversion = yield this.convert(track, 1, 'wav');
+                return yield this.transcribeAudio(track);
             }
             catch (e) {
                 console.log(e.code);
                 console.log(e.msg);
+                return 'errors';
             }
+        });
+    }
+    convert(track, channels, format) {
+        return new Promise((resolve, reject) => {
+            let trackConvert = f_ffmpeg(track)
+                .audioChannels(channels)
+                .toFormat(format)
+                .on('progress', (progress) => {
+                console.log('Processing: ' + progress.targetSize + ' KB converted');
+            })
+                .on('end', resolve())
+                .on('error', reject());
+        });
+    }
+    transcribeAudio(fileName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Reads a local audio file and converts it to base64
+            const file = fs.readFileSync(fileName);
+            const audioBytes = file.toString('base64');
             const request = {
                 audio: {
-                    content: base64
+                    content: audioBytes
                 },
                 config: this.config
             };
-            // console.log('transcribing');
+            console.log('transcribing');
             const responses = yield this
                 .client
                 .recognize(request);
-            // console.log(responses);
+            console.log(responses);
             const [response] = responses;
             const transcription = response
                 .results

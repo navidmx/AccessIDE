@@ -29,10 +29,11 @@ app.prepare()
     server.use(bodyParser.urlencoded({
         extended: true
     }));
-    server.post('/voiceCommand', (req, res) => {
+    server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.query);
-        res.send(AudioProcessor.processAudio(req.body.audio));
-    });
+        const text = yield AudioProcessor.processAudio(req.body.audio);
+        req.send(text);
+    }));
     server.get('/runCommand', (req, res) => {
         res.send(CommandRunner.runCommand(req.body.command));
     });

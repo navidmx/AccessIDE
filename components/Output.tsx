@@ -9,7 +9,7 @@ OutputStyle = {
     color: 'white',
     padding: '20px',
     fontSize: '18px',
-    height: 'calc(100vh - 70px)',
+    height: 'calc(100vh - 80px)',
     overflow: 'scroll'
 }
 

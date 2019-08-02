@@ -13,10 +13,15 @@ let CommandPrefixStyle = {
 
 let CommandStyle = {
     fontSize: '24px',
-    width: '400px',
+    width: 'calc(100% - 150px)',
     color: 'white',
     backgroundColor: '#131313',
     display: 'block'
+}
+
+let MaxWidth = {
+    width: '100%',
+    maxWidth: '700px'
 }
 
 class Command extends React.Component {
@@ -32,8 +37,8 @@ class Command extends React.Component {
     }
 
     voiceShortcut = (event : any) => {
-        // Toggle recording status
         if (event.keyCode === 27) {
+            // Toggle recording status with ESC
             this.state.record
                 ? this.stopRecording()
                 : this.startRecording();
@@ -44,14 +49,8 @@ class Command extends React.Component {
         if (target.charCode == 13) {
             // Enter key pressed in command bar
             target.preventDefault();
+            // BACKEND TODO
             console.log("Entered!");
-        }
-    }
-
-    refCallback = element => {
-        if (element) {
-            console.log(element.getBoundingClientRect());
-            // CommandStyle.width = element.getBoundingClientRect().width;
         }
     }
 
@@ -71,14 +70,15 @@ class Command extends React.Component {
         this.setState({record: false});
     }
 
-    saveAudio = recordedBlob => {
-        console.log('recordedBlob is: ', recordedBlob);
+    saveAudio = audio => {
+        // BACKEND TODO
+        console.log('File at: ', audio.blobURL);
     }
 
     render() {
         return (
-            <Form inline>
-                <InputGroup>
+            <Form inline style={MaxWidth}>
+                <InputGroup style={MaxWidth}>
                     <InputGroup.Prepend>
                         <InputGroup.Text style={CommandPrefixStyle}>
                             <FontAwesomeIcon
@@ -87,7 +87,6 @@ class Command extends React.Component {
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
-                        ref={this.refCallback}
                         style={CommandStyle}
                         className='command-bar'
                         onKeyPress={this.commandEntered}
@@ -97,7 +96,7 @@ class Command extends React.Component {
                         record={this.state.record}
                         className='sound-wave'
                         onStop={this.saveAudio}
-                        width={48}
+                        width={98}
                         height={48}
                         strokeColor="#CCC"
                         backgroundColor="#131313"/>

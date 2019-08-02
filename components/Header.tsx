@@ -31,7 +31,8 @@ let BrandTextStyle = {
 
 class Header extends React.Component {
     languageSelect = (language : any) => {
-        return null;
+        // BACKEND TODO
+        console.log('Selected language: ', language)
     }
 
     render() {

@@ -29,9 +29,13 @@ app.prepare()
 
         server.use('/static', express.static(join(__dirname + "/static")));
         server.use(bodyParser.json());
+        server.use(bodyParser.urlencoded({
+            extended: true
+        }));
 
         server.get('/voiceCommand', (req, res) => {
-            res.send(AudioProcessor.processAudio(req.body.audio));
+            console.log(req.query);
+            res.send(AudioProcessor.processAudio(req.query.audio));
         });
 
         server.get('/runCommand', (req, res) => {

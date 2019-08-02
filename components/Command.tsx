@@ -26,7 +26,8 @@ let MaxWidth = {
 }
 
 type RecordedBlob = {
-    blobURL: string
+    blob: Blob;
+    blobURL: string;
 }
 
 class Command extends React.Component {
@@ -76,10 +77,22 @@ class Command extends React.Component {
     }
 
     saveAudio = (audio : RecordedBlob) => {
-        console.log(typeof audio, audio);
-        fetch(`/voiceCommand?audio=${audio.blobURL}`).then(res => {console.log(res)});
-        console.log('File at: ', audio.blobURL);
-        
+        const reader = new FileReader();
+        reader.onload = function () {
+            const raw = reader.result;
+            const b64 = raw.toString().replace(/^data:.+;base64,/, '');
+            console.log(b64);
+            const body = {
+                audio: b64
+            }
+            fetch(`/voiceCommand`, {
+                method: 'post',
+                body:    JSON.stringify(body),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => {console.log(res)});
+        };
+        reader.readAsDataURL(audio.blob);
+        console.log(audio.blob);
     }
 
     render() {
@@ -103,6 +116,7 @@ class Command extends React.Component {
                         record={this.state.record}
                         className='sound-wave'
                         onStop={this.saveAudio}
+                        mimeType='video/webm'
                         width={98}
                         height={48}
                         strokeColor="#CCC"

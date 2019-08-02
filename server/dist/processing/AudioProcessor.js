@@ -8,33 +8,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import CommandRunner from "../runCommand";
 import speech from '@google-cloud/speech';
-import fetch from 'node-fetch';
+import fs from 'fs';
+import ffmpeg from 'ffmpeg';
 class AudioProcessor {
     constructor() {
         this.client = new speech.SpeechClient();
         this.config = {
-            encoding: 'LINEAR16',
-            sampleRateHertz: 128000,
-            languageCode: 'en-US',
+            encoding: 'OGG_OPUS',
+            sampleRateHertz: 16000,
+            languageCode: 'en-US'
         };
     }
-    processAudio(audioStream) {
+    processAudio(base64) {
         return __awaiter(this, void 0, void 0, function* () {
-            audioStream = audioStream.replace('blob:', '');
-            // console.log(audioStream);
-            // httprequest(audioStream);
-            // const file = fs.readFileSync('audio.mp3').toString('base64');
-            // console.log('Audio Content');
-            // console.log(file);
-            // console.log('end content');
-            const base64 = yield fetch(audioStream).then((res) => res.buffer()).then((buffer) => buffer.toString('base64'));
+            // console.log(base64);
+            fs.writeFileSync('video.webm', base64, { encoding: 'base64' });
+            try {
+                const process = new ffmpeg('video.webm');
+                process.then(function (video) {
+                    // Video metadata
+                    console.log(video.metadata);
+                    // FFmpeg configuration
+                    console.log(video.info_configuration);
+                    video.fnExtractSoundToMP3('audio.mp3', err => { console.log(err); });
+                }, function (err) {
+                    console.log('Error: ' + err);
+                });
+            }
+            catch (e) {
+                console.log(e.code);
+                console.log(e.msg);
+            }
             const request = {
-                audio: { content: base64 },
+                audio: {
+                    content: base64
+                },
                 config: this.config
             };
-            console.log('transcribing');
-            const [response] = yield this.client.recognize(request);
-            const transcription = response.results
+            // console.log('transcribing');
+            const responses = yield this
+                .client
+                .recognize(request);
+            // console.log(responses);
+            const [response] = responses;
+            const transcription = response
+                .results
                 .map((result) => result.alternatives[0].transcript)
                 .join('\n');
             CommandRunner.runCommand(transcription);

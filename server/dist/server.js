@@ -29,9 +29,9 @@ app.prepare()
     server.use(bodyParser.urlencoded({
         extended: true
     }));
-    server.get('/voiceCommand', (req, res) => {
+    server.post('/voiceCommand', (req, res) => {
         console.log(req.query);
-        res.send(AudioProcessor.processAudio(req.query.audio));
+        res.send(AudioProcessor.processAudio(req.body.audio));
     });
     server.get('/runCommand', (req, res) => {
         res.send(CommandRunner.runCommand(req.body.command));

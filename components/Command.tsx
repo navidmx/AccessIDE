@@ -24,6 +24,10 @@ let MaxWidth = {
     maxWidth: '700px'
 }
 
+type RecordedBlob = {
+    blobURL: string
+}
+
 class Command extends React.Component {
     public state : {
         record: boolean;
@@ -45,10 +49,10 @@ class Command extends React.Component {
         }
     }
 
-    commandEntered = (target : KeyboardEvent) => {
-        if (target.charCode == 13) {
+    commandEntered = (event : KeyboardEvent) => {
+        if (event.charCode == 13) {
             // Enter key pressed in command bar
-            target.preventDefault();
+            event.preventDefault();
             // BACKEND TODO
             console.log("Entered!");
         }
@@ -70,8 +74,7 @@ class Command extends React.Component {
         this.setState({record: false});
     }
 
-    saveAudio = (audio) => {
-        console.log(typeof audio, audio);
+    saveAudio = (audio : RecordedBlob) => {
         // BACKEND TODO
         console.log('File at: ', audio.blobURL);
     }

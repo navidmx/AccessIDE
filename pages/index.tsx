@@ -18,6 +18,7 @@ class Index extends React.Component {
                 <Head>
                     <title>AccessIDE</title>
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
+                    <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
                 <Container fluid style={{
                     padding: 0

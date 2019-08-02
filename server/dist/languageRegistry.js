@@ -14,15 +14,15 @@ export class LanguageRegistry {
     }
     findLanguages() {
         return __awaiter(this, void 0, void 0, function* () {
-            let languageDir = __dirname + '\\languages';
+            let languageDir = __dirname + '\/languages';
             let contents = fs.readdirSync(languageDir);
-            contents = contents.map(d => languageDir + '\\' + d);
+            contents = contents.map(d => languageDir + '\/' + d);
             console.log(contents);
             yield contents.forEach((dir) => __awaiter(this, void 0, void 0, function* () {
                 if (fs.statSync(dir).isDirectory()) {
-                    if (fs.existsSync(dir + '\\config.json')) {
+                    if (fs.existsSync(dir + '\/config.json')) {
                         console.log(dir);
-                        const contents = JSON.parse(fs.readFileSync(dir + '\\config.json', { encoding: 'UTF-8' }));
+                        const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
                         const languageDecoder = JsonDecoder.object({
                             language: JsonDecoder.string,
                             extension: JsonDecoder.string,
@@ -56,9 +56,9 @@ export class LanguageRegistry {
                                 version: languageInfo.version,
                                 exec: languageInfo.exec,
                                 display: languageInfo.display,
-                                writer: yield import(dir + '\\' + languageInfo.parsers.write),
-                                reader: yield import(dir + '\\' + languageInfo.parsers.read),
-                                navigator: yield import(dir + '\\' + languageInfo.parsers.nav)
+                                writer: yield import(dir + '\/' + languageInfo.parsers.write),
+                                reader: yield import(dir + '\/' + languageInfo.parsers.read),
+                                navigator: yield import(dir + '\/' + languageInfo.parsers.nav)
                             };
                         }
                         catch (e) {

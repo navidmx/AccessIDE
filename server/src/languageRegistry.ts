@@ -7,15 +7,15 @@ export class LanguageRegistry {
     private languages: Language[] = [];
 
     async findLanguages() {
-        let languageDir = __dirname + '\\languages';
+        let languageDir = __dirname + '\/languages';
         let contents = fs.readdirSync(languageDir);
-        contents = contents.map(d => languageDir + '\\' + d);
+        contents = contents.map(d => languageDir + '\/' + d);
         console.log(contents);
         await contents.forEach(async (dir) => {
             if (fs.statSync(dir).isDirectory()) {
-                if (fs.existsSync(dir + '\\config.json')) {
+                if (fs.existsSync(dir + '\/config.json')) {
                     console.log(dir);
-                    const contents = JSON.parse(fs.readFileSync(dir + '\\config.json', { encoding: 'UTF-8' }));
+                    const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
                     const languageDecoder = JsonDecoder.object<JSONConfig>({
                         language: JsonDecoder.string,
                         extension: JsonDecoder.string,
@@ -49,9 +49,9 @@ export class LanguageRegistry {
                             version: languageInfo.version,
                             exec: languageInfo.exec,
                             display: languageInfo.display,
-                            writer: await import(dir + '\\' + languageInfo.parsers.write),
-                            reader: await import(dir + '\\' + languageInfo.parsers.read),
-                            navigator: await import(dir + '\\' + languageInfo.parsers.nav)
+                            writer: await import(dir + '\/' + languageInfo.parsers.write),
+                            reader: await import(dir + '\/' + languageInfo.parsers.read),
+                            navigator: await import(dir + '\/' + languageInfo.parsers.nav)
                         }
                     } catch (e) {
                         console.log('language could not be loaded');

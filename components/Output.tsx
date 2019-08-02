@@ -1,15 +1,9 @@
-import {CSSProperties} from "react";
-
-let OutputStyle : CSSProperties;
-
-OutputStyle = {
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
+let OutputStyle = {
     backgroundColor: 'black',
     color: 'white',
     padding: '20px',
     fontSize: '18px',
-    height: 'calc(100vh - 70px)',
+    height: 'calc(100vh - 80px)',
     overflow: 'scroll'
 }
 

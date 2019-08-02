@@ -1,0 +1,46 @@
+.sound-wave {
+    border-top: 1px solid #ced4da !important;
+    border-right: 1px solid #ced4da !important;
+    border-bottom: 1px solid #ced4da !important;
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}
+
+.Dropdown-root {
+    align-self: start;
+    margin: 20px 20px 0 20px;
+    z-index: 1;
+}
+
+.Dropdown-option, .Dropdown-placeholder {
+    background-color: #131313;
+    border: 1px solid white;
+    border-radius: .25rem;
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Dropdown-option {
+    background-color: black;
+    border: 1px solid white;
+    color: white;
+    border-radius: 0;
+    border-top: 0;
+}
+
+.is-selected {
+    color: #f9ee98;
+}
+
+.Dropdown-option:last-of-type {
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+.is-open .Dropdown-placeholder{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

@@ -18,7 +18,7 @@ class AudioProcessor {
 
     async processAudio(audioStream: string) {
         const request = {
-            audio: audioStream,
+            audio: { content: audioStream },
             config: this.config
         }
         const [response] = await this.client.recognize(request);
@@ -26,6 +26,8 @@ class AudioProcessor {
             .map((result): string => result.alternatives[0].transcript)
             .join('\n');
         CommandRunner.runCommand(transcription);
+        console.log(transcription);
+        return transcription;
     }
 }
 

@@ -20,7 +20,7 @@ class AudioProcessor {
     processAudio(audioStream) {
         return __awaiter(this, void 0, void 0, function* () {
             const request = {
-                audio: audioStream,
+                audio: { content: audioStream },
                 config: this.config
             };
             const [response] = yield this.client.recognize(request);
@@ -28,6 +28,8 @@ class AudioProcessor {
                 .map((result) => result.alternatives[0].transcript)
                 .join('\n');
             CommandRunner.runCommand(transcription);
+            console.log(transcription);
+            return transcription;
         });
     }
 }

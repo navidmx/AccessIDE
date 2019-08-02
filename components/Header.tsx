@@ -1,23 +1,52 @@
-import Navbar from 'react-bootstrap/Navbar';
+import React from 'react';
+import Dropdown from 'react-dropdown';
 import Command from '../components/Command';
 
+let languages = [
+    {
+        value: 'javascript',
+        label: 'JavaScript (ES6)'
+    }, {
+        value: 'python',
+        label: 'Python 3'
+    }
+];
+
+const defaultOption = languages[0];
+
 let HeaderStyle = {
-    height: '70px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '80px',
     backgroundColor: '#2A2A2A'
 }
 
-let BrandText = {
+let BrandTextStyle = {
     color: '#f9ee98',
     fontSize: '32px',
     fontWeight: 800,
-    marginRight: '20px'
+    margin: '0 20px'
 }
 
-const Header = () => (
-    <Navbar style={HeaderStyle}>
-        <Navbar.Brand style={BrandText}>AccessIDE</Navbar.Brand>
-        <Command/>
-    </Navbar>
-);
+class Header extends React.Component {
+    languageSelect = (language : any) => {
+        return null;
+    }
+
+    render() {
+        return (
+            <div style={HeaderStyle}>
+                <h1 style={BrandTextStyle}>AccessIDE</h1>
+                <Command/>
+                <Dropdown
+                    options={languages}
+                    onChange={this.languageSelect}
+                    value={defaultOption}
+                    placeholder="Select an option"/>
+            </div>
+        );
+    }
+}
 
 export default Header;

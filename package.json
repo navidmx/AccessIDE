@@ -44,6 +44,8 @@
     "react-dom": "^16.8.6",
     "react-dropdown": "^1.6.4",
     "react-mic": "^12.4.1",
+    "request": "^2.88.0",
+    "rn-fetch-blob": "^0.10.16",
     "ts.data.json": "^0.2.0"
   },
   "devDependencies": {

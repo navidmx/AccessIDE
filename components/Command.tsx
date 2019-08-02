@@ -4,6 +4,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCode} from '@fortawesome/free-solid-svg-icons';
 import Recorder from '../components/Recorder';
+import fetch from 'node-fetch';
 
 let CommandPrefixStyle = {
     backgroundColor: '#272727',
@@ -72,8 +73,9 @@ class Command extends React.Component {
 
     saveAudio = (audio) => {
         console.log(typeof audio, audio);
-        // BACKEND TODO
+        fetch(`/voiceCommand?audio=${audio.blobURL}`).then(res => { console.log(res)});
         console.log('File at: ', audio.blobURL);
+        
     }
 
     render() {

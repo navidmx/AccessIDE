@@ -33,10 +33,9 @@ app.prepare()
             extended: true
         }));
 
-        server.post('/voiceCommand', (req, res) => {
-            console.log('body');
-            console.log(req.body);
-            res.send(AudioProcessor.processAudio(req.body.audio));
+        server.get('/voiceCommand', (req, res) => {
+            console.log(req.query);
+            res.send(AudioProcessor.processAudio(req.query.audio));
         });
 
         server.get('/runCommand', (req, res) => {

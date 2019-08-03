@@ -6,7 +6,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import CommandRunner from "../runCommand";
 import speech from '@google-cloud/speech';
 import fs from 'fs';
 import ffmpeg from 'ffmpeg';
@@ -22,6 +21,8 @@ class AudioProcessor {
     }
     processAudio(base64) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.cleanFiles();
+            let output;
             fs.writeFileSync('video.webm', base64, { encoding: 'base64' });
             try {
                 const process = new ffmpeg('video.webm');
@@ -30,26 +31,38 @@ class AudioProcessor {
                     console.log(err);
                 });
                 let track = './audio.mp3';
+                console.log('converting audio');
                 const conversion = yield this.convert(track, 1, 'wav');
-                return yield this.transcribeAudio(track);
+                console.log('conversion: ', conversion);
+                output = yield this.transcribeAudio(conversion);
             }
-            catch (e) {
-                console.log(e.code);
-                console.log(e.msg);
-                return 'errors';
+            catch (err) {
+                console.log(err);
+                output = 'error processing audio';
             }
+            console.log(output);
+            this.cleanFiles();
+            return output;
         });
     }
     convert(track, channels, format) {
         return new Promise((resolve, reject) => {
-            let trackConvert = f_ffmpeg(track)
+            f_ffmpeg(track)
                 .audioChannels(channels)
                 .toFormat(format)
+                .output(track.replace('.mp3', `.${format}`))
                 .on('progress', (progress) => {
                 console.log('Processing: ' + progress.targetSize + ' KB converted');
             })
-                .on('end', resolve())
-                .on('error', reject());
+                .on('end', () => {
+                console.log('audio resolved');
+                resolve(track.replace('.mp3', `.${format}`));
+            })
+                .on('error', (err) => {
+                console.log(err);
+                reject(err);
+            })
+                .run();
         });
     }
     transcribeAudio(fileName) {
@@ -73,10 +86,18 @@ class AudioProcessor {
                 .results
                 .map((result) => result.alternatives[0].transcript)
                 .join('\n');
-            CommandRunner.runCommand(transcription);
+            // .runCommand(transcription);
             console.log('transcription done');
             console.log(transcription);
             return transcription;
+        });
+    }
+    cleanFiles() {
+        const files = ['video.webm', 'audio.mp3', 'output.wav'];
+        files.forEach(file => {
+            if (fs.existsSync(file)) {
+                fs.unlinkSync(file);
+            }
         });
     }
 }

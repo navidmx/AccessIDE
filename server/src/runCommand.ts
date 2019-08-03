@@ -1,5 +1,4 @@
 import { Language } from './languageRegistry';
-import NLP from './processing/nlp';
 import nlp from './processing/nlp';
 import { write } from 'fs';
 

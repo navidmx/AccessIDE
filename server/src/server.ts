@@ -36,7 +36,9 @@ app.prepare()
         server.post('/voiceCommand', async (req, res) => {
             console.log(req.query);
             const text = await AudioProcessor.processAudio(req.body.audio);
-            req.send(text);
+            res.send({
+                transcribedAudio: text
+            });
         });
 
         server.get('/runCommand', (req, res) => {

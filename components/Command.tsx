@@ -1,8 +1,8 @@
-import React, {KeyboardEvent} from 'react';
+import React, { KeyboardEvent } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCode} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
 import Recorder from '../components/Recorder';
 import fetch from 'node-fetch';
 
@@ -31,18 +31,18 @@ type RecordedBlob = {
 }
 
 class Command extends React.Component {
-    public state : {
+    public state: {
         record: boolean;
     }
 
-    constructor(props : any) {
+    constructor(props: any) {
         super(props);
         this.state = {
             record: false
         }
     }
 
-    voiceShortcut = (event : any) => {
+    voiceShortcut = (event: any) => {
         if (event.keyCode === 27) {
             // Toggle recording status with ESC
             this.state.record
@@ -51,7 +51,7 @@ class Command extends React.Component {
         }
     }
 
-    commandEntered = (event : KeyboardEvent) => {
+    commandEntered = (event: KeyboardEvent) => {
         if (event.charCode == 13) {
             // Enter key pressed in command bar
             event.preventDefault();
@@ -69,30 +69,37 @@ class Command extends React.Component {
     }
 
     startRecording = () => {
-        this.setState({record: true});
+        this.setState({ record: true });
     }
 
     stopRecording = () => {
-        this.setState({record: false});
+        this.setState({ record: false });
     }
 
-    saveAudio = (audio : RecordedBlob) => {
+    saveAudio = async (audio: RecordedBlob) => {
         const reader = new FileReader();
-        reader.onload = function () {
-            const raw = reader.result;
-            const b64 = raw.toString().replace(/^data:.+;base64,/, '');
-            console.log(b64);
-            const body = {
-                audio: b64
-            }
-            fetch(`/voiceCommand`, {
-                method: 'post',
-                body:    JSON.stringify(body),
-                headers: { 'Content-Type': 'application/json' },
-            }).then(res => {console.log(res)});
-        };
-        reader.readAsDataURL(audio.blob);
-        console.log(audio.blob);
+        const res = await new Promise((resolve, reject) => {
+            reader.onload = async function () {
+                try {
+                    const raw = reader.result;
+                    const b64 = raw.toString().replace(/^data:.+;base64,/, '');
+                    const body = {
+                        audio: b64
+                    }
+                    const response = await fetch(`/voiceCommand`, {
+                        method: 'post',
+                        body: JSON.stringify(body),
+                        headers: { 'Content-Type': 'application/json' },
+                    }).then(res => res.json());
+                    resolve(response)
+                } catch (err) {
+                    reject(err);
+                }
+
+            };
+            reader.readAsDataURL(audio.blob);
+        });
+        console.log(res);
     }
 
     render() {
@@ -102,8 +109,8 @@ class Command extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text style={CommandPrefixStyle}>
                             <FontAwesomeIcon
-                                style={{margin: 'auto'}}
-                                icon={faCode}/>
+                                style={{ margin: 'auto' }}
+                                icon={faCode} />
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
@@ -120,7 +127,7 @@ class Command extends React.Component {
                         width={98}
                         height={48}
                         strokeColor="#CCC"
-                        backgroundColor="#131313"/>
+                        backgroundColor="#131313" />
                 </InputGroup>
             </Form>
         )

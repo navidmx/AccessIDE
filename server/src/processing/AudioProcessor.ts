@@ -6,11 +6,11 @@ import httprequest from 'request';
 import ffmpeg from 'ffmpeg';
 import path from 'path';
 import f_ffmpeg from 'fluent-ffmpeg';
-import {resolve} from "url";
+import { resolve } from "url";
 
 class AudioProcessor {
-    private client : any;
-    private config : {
+    private client: any;
+    private config: {
         encoding: string;
         sampleRateHertz: number;
         languageCode: string
@@ -26,8 +26,10 @@ class AudioProcessor {
         };
     }
 
-    async processAudio(base64 : string) { // console.log(base64);
-        fs.writeFileSync('video.webm', base64, {encoding: 'base64'});
+    async processAudio(base64: string): Promise<string> {
+        this.cleanFiles();
+        let output: string;
+        fs.writeFileSync('video.webm', base64, { encoding: 'base64' });
         try {
             const process = new ffmpeg('video.webm');
             const video = await process;
@@ -36,30 +38,40 @@ class AudioProcessor {
                 console.log(err)
             });
             let track = './audio.mp3';
-
+            console.log('converting audio');
             const conversion = await this.convert(track, 1, 'wav');
-            return await this.transcribeAudio(track)
-        } catch (e) {
-            console.log(e.code);
-            console.log(e.msg);
-            return 'errors'
+            console.log('conversion: ', conversion);
+            output = await this.transcribeAudio(conversion);
+        } catch (err) {
+            console.log(err);
+            output = 'error processing audio';
         }
-
+        console.log(output);
+        this.cleanFiles();
+        return output;
     }
-    convert(track, channels, format) {
+    private convert(track: string, channels: number, format: string): Promise<string> {
         return new Promise((resolve, reject) => {
-            let trackConvert = f_ffmpeg(track)
+            f_ffmpeg(track)
                 .audioChannels(channels)
                 .toFormat(format)
+                .output(track.replace('.mp3', `.${format}`))
                 .on('progress', (progress) => {
                     console.log('Processing: ' + progress.targetSize + ' KB converted');
                 })
-                .on('end', resolve())
-                .on('error', reject());
+                .on('end', () => {
+                    console.log('audio resolved');
+                    resolve(track.replace('.mp3', `.${format}`));
+                })
+                .on('error', (err) => {
+                    console.log(err);
+                    reject(err);
+                })
+                .run();
         })
     }
 
-    async transcribeAudio(fileName : string) {
+    private async transcribeAudio(fileName: string) {
         // Reads a local audio file and converts it to base64
         const file = fs.readFileSync(fileName);
         const audioBytes = file.toString('base64');
@@ -79,12 +91,21 @@ class AudioProcessor {
         const [response] = responses;
         const transcription = response
             .results
-            .map((result) : string => result.alternatives[0].transcript)
+            .map((result): string => result.alternatives[0].transcript)
             .join('\n');
-        CommandRunner.runCommand(transcription);
+        // .runCommand(transcription);
         console.log('transcription done');
         console.log(transcription);
         return transcription;
+    }
+
+    private cleanFiles() {
+        const files = ['video.webm', 'audio.mp3', 'audio.wav'];
+        files.forEach(file => {
+            if (fs.existsSync(file)) {
+                fs.unlinkSync(file);
+            }
+        });
     }
 
 }

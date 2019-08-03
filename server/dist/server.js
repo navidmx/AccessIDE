@@ -32,7 +32,9 @@ app.prepare()
     server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.query);
         const text = yield AudioProcessor.processAudio(req.body.audio);
-        req.send(text);
+        res.send({
+            transcribedAudio: text
+        });
     }));
     server.get('/runCommand', (req, res) => {
         res.send(CommandRunner.runCommand(req.body.command));

@@ -1,5 +1,5 @@
 import { Write, Read, Nav } from "./languages/language";
-import * as fs from 'fs';
+import fs from 'fs';
 import { JsonDecoder } from 'ts.data.json';
 
 

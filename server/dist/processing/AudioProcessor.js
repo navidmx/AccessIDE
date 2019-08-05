@@ -93,7 +93,7 @@ class AudioProcessor {
         });
     }
     cleanFiles() {
-        const files = ['video.webm', 'audio.mp3', 'output.wav'];
+        const files = ['video.webm', 'audio.mp3', 'audio.wav'];
         files.forEach(file => {
             if (fs.existsSync(file)) {
                 fs.unlinkSync(file);

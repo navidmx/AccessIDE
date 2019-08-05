@@ -95,7 +95,6 @@ class Command extends React.Component {
                 } catch (err) {
                     reject(err);
                 }
-
             };
             reader.readAsDataURL(audio.blob);
         });

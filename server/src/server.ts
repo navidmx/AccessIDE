@@ -49,7 +49,6 @@ app.prepare()
             res.send(languageRegistry.getLanguages());
         });
 
-
         server.get('*', (req, res) => {
             return handle(req, res)
         });

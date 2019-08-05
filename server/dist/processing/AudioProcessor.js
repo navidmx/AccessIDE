@@ -27,8 +27,13 @@ class AudioProcessor {
             try {
                 const process = new ffmpeg('video.webm');
                 const video = yield process;
-                video.fnExtractSoundToMP3('audio.mp3', err => {
-                    console.log(err);
+                yield new Promise((resolve, reject) => {
+                    video.fnExtractSoundToMP3('audio.mp3', (err, file) => {
+                        if (err)
+                            reject(err);
+                        if (file)
+                            resolve(file);
+                    });
                 });
                 let track = './audio.mp3';
                 console.log('converting audio');

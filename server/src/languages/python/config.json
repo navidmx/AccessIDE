@@ -1,0 +1,16 @@
+{
+    "language": "python",
+    "extension": ".py",
+    "version": "Python 3",
+    "exec": "python3",
+    "display": {
+        "name": "Python",
+        "version": "Python 3",
+        "runtime": "python"
+    },
+    "parsers": {
+        "write": "write.js",
+        "read": "read.js",
+        "nav": "nav.js"
+    }
+}

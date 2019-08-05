@@ -36,7 +36,6 @@ export class LanguageRegistry {
                     try {
                         languageInfo = await languageDecoder.decodePromise(contents);
                         console.log(languageInfo);
-
                     } catch (e) {
                         console.log(e);
                     }
@@ -54,7 +53,7 @@ export class LanguageRegistry {
                             navigator: await import(dir + '\/' + languageInfo.parsers.nav)
                         }
                     } catch (e) {
-                        console.log('language could not be loaded');
+                        console.log('Language could not be loaded:');
                         console.log(e);
                     }
                     console.log(language);
@@ -65,11 +64,7 @@ export class LanguageRegistry {
     }
 
     getLanguages() {
-        let langs = {};
-        this.languages.forEach((lang) => {
-            langs[lang.display.name] = lang;
-        });
-        return langs;
+        return this.languages;
     }
 }
 

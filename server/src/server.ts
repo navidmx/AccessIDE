@@ -1,11 +1,7 @@
 import express from 'express';
 import fs from 'fs';
-import {
-    exec
-} from 'child_process';
-import {
-    join
-} from 'path';
+import {exec} from 'child_process';
+import {join} from 'path';
 import bodyParser from 'body-parser';
 import next from 'next';
 import CommandRunner from './runCommand';
@@ -14,14 +10,12 @@ import AudioProcessor from './processing/AudioProcessor';
 import languageRegistry from './languageRegistry';
 
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({
-    dev
-})
+const app = next({dev})
 const handle = app.getRequestHandler();
 
-
-app.prepare()
-    .then(async () => {
+app
+    .prepare()
+    .then(async() => {
         const server = express();
         await Registry.findLanguages();
 
@@ -29,16 +23,13 @@ app.prepare()
 
         server.use('/static', express.static(join(__dirname + "/static")));
         server.use(bodyParser.json());
-        server.use(bodyParser.urlencoded({
-            extended: true
-        }));
+        server.use(bodyParser.urlencoded({extended: true}));
 
-        server.post('/voiceCommand', async (req, res) => {
+        server.post('/voiceCommand', async(req, res) => {
             console.log(req.query);
             const text = await AudioProcessor.processAudio(req.body.audio);
-            res.send({
-                transcribedAudio: text
-            });
+            const command = CommandRunner.runCommand(text);
+            res.send({originalText: text, finalCmd: command});
         });
 
         server.get('/runCommand', (req, res) => {
@@ -54,7 +45,8 @@ app.prepare()
         });
 
         server.listen(3000, (err) => {
-            if (err) throw err
+            if (err) 
+                throw err
             console.log('> Ready on http://localhost:3000')
         })
     })

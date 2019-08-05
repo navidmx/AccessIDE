@@ -1,18 +1,8 @@
 import React from 'react';
 import Dropdown from 'react-dropdown';
 import Command from '../components/Command';
-
-let languages = [
-    {
-        value: 'javascript',
-        label: 'JavaScript (ES6)'
-    }, {
-        value: 'python',
-        label: 'Python 3'
-    }
-];
-
-const defaultOption = languages[0];
+import fetch from 'node-fetch';
+import {Language} from '../server/src/languageRegistry';
 
 let HeaderStyle = {
     display: 'flex',
@@ -31,9 +21,33 @@ let BrandTextStyle = {
 }
 
 class Header extends React.Component {
-    languageSelect = (language : any) => {
+    public state : {
+        languages: string[];
+        default: string;
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            languages: [],
+            default: ''
+        }
+    }
+
+    languageSelect = (language) => {
         // BACKEND TODO
-        console.log('Selected language: ', language)
+        console.log('Selected language: ', language.value);
+    }
+
+    componentWillMount = async() => {
+        let languages = await fetch('/getLangs').then((res) => res.json());
+        let names = languages.map((lang : Language) => (
+            {
+                'value': lang.name,
+                'label': `${lang.display.name} (${lang.display.version})`
+            }
+        ));
+        this.setState({languages: names, default: names[0]});
     }
 
     render() {
@@ -42,9 +56,9 @@ class Header extends React.Component {
                 <h1 style={BrandTextStyle}>AccessIDE</h1>
                 <Command/>
                 <Dropdown
-                    options={languages}
+                    options={this.state.languages}
                     onChange={this.languageSelect}
-                    value={defaultOption}
+                    value={this.state.default}
                     placeholder="Select an option"/>
             </div>
         );

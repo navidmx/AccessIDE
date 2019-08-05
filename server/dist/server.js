@@ -15,26 +15,22 @@ import Registry from './languageRegistry';
 import AudioProcessor from './processing/AudioProcessor';
 import languageRegistry from './languageRegistry';
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({
-    dev
-});
+const app = next({ dev });
 const handle = app.getRequestHandler();
-app.prepare()
+app
+    .prepare()
     .then(() => __awaiter(this, void 0, void 0, function* () {
     const server = express();
     yield Registry.findLanguages();
     console.log();
     server.use('/static', express.static(join(__dirname + "/static")));
     server.use(bodyParser.json());
-    server.use(bodyParser.urlencoded({
-        extended: true
-    }));
+    server.use(bodyParser.urlencoded({ extended: true }));
     server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.query);
         const text = yield AudioProcessor.processAudio(req.body.audio);
-        res.send({
-            transcribedAudio: text
-        });
+        const command = CommandRunner.runCommand(text);
+        res.send({ originalText: text, finalCmd: command });
     }));
     server.get('/runCommand', (req, res) => {
         res.send(CommandRunner.runCommand(req.body.command));

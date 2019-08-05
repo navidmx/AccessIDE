@@ -1,12 +1,9 @@
 import CommandRunner from "../runCommand";
 import speech from '@google-cloud/speech';
 import fs from 'fs';
-import fetch from 'node-fetch';
-import httprequest from 'request';
 import ffmpeg from 'ffmpeg';
 import path from 'path';
 import f_ffmpeg from 'fluent-ffmpeg';
-import { resolve } from "url";
 
 class AudioProcessor {
     private client: any;
@@ -33,9 +30,11 @@ class AudioProcessor {
         try {
             const process = new ffmpeg('video.webm');
             const video = await process;
-
-            video.fnExtractSoundToMP3('audio.mp3', err => {
-                console.log(err)
+            await new Promise((resolve, reject) => {
+                video.fnExtractSoundToMP3('audio.mp3', (err, file) => {
+                   if(err) reject(err);
+                   if(file) resolve(file); 
+                });
             });
             let track = './audio.mp3';
             console.log('converting audio');

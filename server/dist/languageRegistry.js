@@ -62,7 +62,7 @@ export class LanguageRegistry {
                             };
                         }
                         catch (e) {
-                            console.log('language could not be loaded');
+                            console.log('Language could not be loaded:');
                             console.log(e);
                         }
                         console.log(language);
@@ -74,11 +74,7 @@ export class LanguageRegistry {
         });
     }
     getLanguages() {
-        let langs = {};
-        this.languages.forEach((lang) => {
-            langs[lang.display.name] = lang;
-        });
-        return langs;
+        return this.languages;
     }
 }
 export default new LanguageRegistry();

@@ -17,7 +17,8 @@ export class LanguageRegistry {
                     console.log(dir);
                     const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
                     const languageDecoder = JsonDecoder.object<JSONConfig>({
-                        language: JsonDecoder.string,
+                        id: JsonDecoder.string,
+                        syntax: JsonDecoder.string,
                         extension: JsonDecoder.string,
                         version: JsonDecoder.string,
                         exec: JsonDecoder.string,
@@ -43,7 +44,8 @@ export class LanguageRegistry {
                     try {
                         language = {
                             name: languageInfo.display.name,
-                            language: languageInfo.language,
+                            syntax: languageInfo.syntax,
+                            id: languageInfo.id,
                             extension: languageInfo.extension,
                             version: languageInfo.version,
                             exec: languageInfo.exec,
@@ -71,7 +73,8 @@ export class LanguageRegistry {
 export default new LanguageRegistry();
 
 export interface JSONConfig {
-    language: string;
+    id: string;
+    syntax: string;
     extension: string;
     version: string;
     exec: string;
@@ -89,7 +92,8 @@ export interface JSONConfig {
 
 export interface Language {
     name: string;
-    language: string;
+    id: string;
+    syntax: string;
     extension: string;
     version: string;
     exec: string;

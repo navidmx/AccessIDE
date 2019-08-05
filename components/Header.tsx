@@ -43,7 +43,7 @@ class Header extends React.Component {
         let languages = await fetch('/getLangs').then((res) => res.json());
         let names = languages.map((lang : Language) => (
             {
-                'value': lang.name,
+                'value': lang.id,
                 'label': `${lang.display.name} (${lang.display.version})`
             }
         ));

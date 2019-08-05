@@ -6,10 +6,28 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
+import {Language} from '../server/src/languageRegistry';
 
 class Index extends React.Component {
+    public state : {
+        language: Language
+    }
+
+    constructor(props : any) {
+        super(props);
+        this.state = {
+            language: null
+        }
+    }
+
     updateEditor(newValue : String) {
         console.log(newValue);
+    }
+
+    updateLanguage(newLang : Language) {
+        this.setState({
+            language: newLang
+        });
     }
 
     render() {
@@ -20,7 +38,9 @@ class Index extends React.Component {
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{padding: 0}}>
+                <Container fluid style={{
+                    padding: 0
+                }}>
                     <Row noGutters>
                         <Header/>
                     </Row>
@@ -28,7 +48,7 @@ class Index extends React.Component {
                         <Col md={9}>
                             <Editor
                                 id="editor"
-                                mode="javascript"
+                                mode={this.state.language.syntax}
                                 theme="twilight"
                                 fontSize="18px"
                                 value="const foo = 42;"

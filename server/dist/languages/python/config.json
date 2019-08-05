@@ -1,5 +1,6 @@
 {
-    "language": "python",
+    "id": "python-3",
+    "syntax": "python",
     "extension": ".py",
     "version": "Python 3",
     "exec": "python3",

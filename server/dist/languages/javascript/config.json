@@ -1,5 +1,6 @@
 {
-    "language": "javascript",
+    "id": "javascript-es6",
+    "syntax": "javascript",
     "extension": ".js",
     "version": "ECMAScript 2015",
     "exec": "node",

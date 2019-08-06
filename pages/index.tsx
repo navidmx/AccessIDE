@@ -6,40 +6,36 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
+import fetch from 'node-fetch';
 import {Language} from '../server/src/languageRegistry';
 
 class Index extends React.Component {
     public state : {
-        language: Language
+        languages: Language[],
+        curr: Language
     }
 
     constructor(props : any) {
         super(props);
         this.state = {
-            // Default language
-            language: {
-                name: 'JavaScript',
-                syntax: 'javascript',
-                id: 'javascript-es6',
-                extension: '.js',
-                version: 'ECMAScript 2015',
-                exec: 'node',
-                display: null,
-                writer: null,
-                reader: null,
-                navigator: null
-            }
+            languages: [],
+            curr: null
         }
     }
 
     updateEditor(newValue : string) {
         console.log(newValue);
+        return newValue;
     }
 
-    updateLanguage(newLang : Language) {
-        this.setState({
-            language: newLang
-        });
+    updateLanguage(newLang : any) {
+        console.log(this.state.languages);
+        this.setState({curr: newLang});
+    }
+
+    componentWillMount = async() => {
+        let list = await fetch('/getLangs').then((res) => res.json());
+        this.setState({languages: list, curr: list[0]});
     }
 
     render() {
@@ -54,17 +50,20 @@ class Index extends React.Component {
                     padding: 0
                 }}>
                     <Row noGutters>
-                        <Header/>
+                        <Header update={this.updateLanguage}/>
                     </Row>
                     <Row noGutters>
                         <Col md={9}>
                             <Editor
                                 id="editor"
-                                mode={this.state.language.syntax}
+                                mode={this.state.curr
+                                ? this.state.curr.syntax
+                                : null}
                                 theme="twilight"
                                 fontSize="18px"
                                 value="const foo = 42;"
-                                onChange={this.updateEditor}/>
+                                onChange={this.updateEditor}
+                                language={this.state.curr}/>
                         </Col>
                         <Col md={3}>
                             <Output/>

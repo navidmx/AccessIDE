@@ -17,6 +17,7 @@ class Index extends React.Component {
 
     constructor(props : any) {
         super(props);
+        this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
             languages: [],
             curr: null
@@ -24,18 +25,19 @@ class Index extends React.Component {
     }
 
     updateEditor(newValue : string) {
-        console.log(newValue);
         return newValue;
     }
 
     updateLanguage(newLang : any) {
-        console.log(this.state.languages);
+        newLang = this.state.languages.filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: newLang});
+        console.log(this.state);
     }
 
     componentWillMount = async() => {
         let list = await fetch('/getLangs').then((res) => res.json());
         this.setState({languages: list, curr: list[0]});
+        console.log(this.state.languages);
     }
 
     render() {
@@ -50,7 +52,7 @@ class Index extends React.Component {
                     padding: 0
                 }}>
                     <Row noGutters>
-                        <Header update={this.updateLanguage}/>
+                        <Header update={this.updateLanguage} languages={this.state.languages}/>
                     </Row>
                     <Row noGutters>
                         <Col md={9}>

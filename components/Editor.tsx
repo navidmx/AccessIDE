@@ -12,7 +12,11 @@ type EditorProps = {
     onChange: Function
 }
 
-const Editor = (props : EditorProps) => {
+class Editor extends React.Component {
+    public state : {
+        
+    }
+
     if (typeof window !== 'undefined') {
         const Ace = require('react-ace').default;
         require('brace');
@@ -22,6 +26,12 @@ const Editor = (props : EditorProps) => {
     }
 
     return null;
+
+    render() {
+        return (
+
+        )
+    }
 }
 
 export default Editor;

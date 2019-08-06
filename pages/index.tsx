@@ -16,11 +16,23 @@ class Index extends React.Component {
     constructor(props : any) {
         super(props);
         this.state = {
-            language: null
+            // Default language
+            language: {
+                name: 'JavaScript',
+                syntax: 'javascript',
+                id: 'javascript-es6',
+                extension: '.js',
+                version: 'ECMAScript 2015',
+                exec: 'node',
+                display: null,
+                writer: null,
+                reader: null,
+                navigator: null
+            }
         }
     }
 
-    updateEditor(newValue : String) {
+    updateEditor(newValue : string) {
         console.log(newValue);
     }
 

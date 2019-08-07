@@ -2,13 +2,14 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import {Option} from 'react-dropdown';
 import Head from 'next/head';
+import fetch from 'node-fetch';
+import {Language} from '../server/src/languageRegistry';
+import Config from '../server/src/config';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
-import fetch from 'node-fetch';
-import {Language} from '../server/src/languageRegistry';
-import { Option } from 'react-dropdown';
 
 type IndexProps = {}
 
@@ -21,7 +22,9 @@ class Index extends React.Component {
 
     constructor(props : IndexProps) {
         super(props);
-        this.updateLanguage = this.updateLanguage.bind(this);
+        this.updateLanguage = this
+            .updateLanguage
+            .bind(this);
         this.state = {
             languages: [],
             curr: null,
@@ -34,13 +37,20 @@ class Index extends React.Component {
     }
 
     updateLanguage(newLang : Option) {
-        let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
+        let selected = this
+            .state
+            .languages
+            .filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: selected});
     }
 
     componentWillMount = async() => {
-        let list = await fetch('/getLangs').then((res) => res.json());
-        this.setState({languages: list, curr: list[0]});
+        try {
+            let list = await fetch(`${Config.getURL()}/getLangs`).then((res) => res.json());
+            this.setState({languages: list, curr: list[0]});
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render() {
@@ -51,7 +61,9 @@ class Index extends React.Component {
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{padding: 0}}>
+                <Container fluid style={{
+                    padding: 0
+                }}>
                     <Row noGutters>
                         <Header update={this.updateLanguage} languages={this.state.languages}/>
                     </Row>

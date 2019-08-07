@@ -1,9 +1,10 @@
-import React, {KeyboardEvent, InputHTMLAttributes} from 'react';
+import React, {KeyboardEvent} from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import fetch from 'node-fetch';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCode} from '@fortawesome/free-solid-svg-icons';
+import Config from '../server/src/config';
 import Recorder from '../components/Recorder';
 
 let CommandPrefixStyle = {
@@ -52,6 +53,10 @@ class Command extends React.Component {
             event.preventDefault();
             console.log(this.command.current.value);
             // BACKEND: Use this.command.current.value to do something!
+            fetch(`${Config.getURL()}/runCommand`, {
+                method: 'POST',
+                body: JSON.stringify({command: this.command.current.value})
+            })
             this.command.current.value = '';
         }
     }
@@ -92,8 +97,8 @@ class Command extends React.Component {
                     const body = {
                         audio: b64
                     }
-                    const response = await fetch('/voiceCommand', {
-                        method: 'post',
+                    const response = await fetch(`${Config.getURL()}/voiceCommand`, {
+                        method: 'POST',
                         body: JSON.stringify(body),
                         headers: {
                             'Content-Type': 'application/json'

@@ -10,11 +10,9 @@ export class LanguageRegistry {
         let languageDir = __dirname + '\/languages';
         let contents = fs.readdirSync(languageDir);
         contents = contents.map(d => languageDir + '\/' + d);
-        console.log(contents);
         await contents.forEach(async (dir) => {
             if (fs.statSync(dir).isDirectory()) {
                 if (fs.existsSync(dir + '\/config.json')) {
-                    console.log(dir);
                     const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
                     const languageDecoder = JsonDecoder.object<JSONConfig>({
                         id: JsonDecoder.string,
@@ -36,7 +34,6 @@ export class LanguageRegistry {
                     let languageInfo: JSONConfig;
                     try {
                         languageInfo = await languageDecoder.decodePromise(contents);
-                        console.log(languageInfo);
                     } catch (e) {
                         console.log(e);
                     }
@@ -58,7 +55,6 @@ export class LanguageRegistry {
                         console.log('Language could not be loaded:');
                         console.log(e);
                     }
-                    console.log(language);
                     this.languages.push(language);
                 };
             }

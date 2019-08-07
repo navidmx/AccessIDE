@@ -14,9 +14,12 @@ import CommandRunner from './runCommand';
 import Registry from './languageRegistry';
 import AudioProcessor from './processing/AudioProcessor';
 import languageRegistry from './languageRegistry';
+import Config from './config';
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const reqURL = dev ? 'http://localhost:3000' : '';
+Config.setURL(reqURL);
 app
     .prepare()
     .then(() => __awaiter(this, void 0, void 0, function* () {

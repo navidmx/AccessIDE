@@ -1,9 +1,15 @@
+import languageRegistry from './languageRegistry';
 import nlp from './processing/nlp';
 class CommandRunner {
+    constructor() {
+        this.language = languageRegistry.getLanguages()[0];
+    }
     runCommand(input) {
         // Process Language
         const processedCommands = nlp.processLine(input);
-        let outputs;
+        console.log(processedCommands);
+        console.log(this.language);
+        let outputs = [];
         // Pipe command output
         for (const processedCommand of processedCommands) {
             switch (processedCommand.type) {

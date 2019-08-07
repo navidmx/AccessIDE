@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown, { Option } from 'react-dropdown';
+import Dropdown, {Option} from 'react-dropdown';
 import Command from '../components/Command';
 import fetch from 'node-fetch';
 import {Language} from '../server/src/languageRegistry';
@@ -21,29 +21,30 @@ let BrandTextStyle = {
 }
 
 type HeaderProps = {
-    update: any
+    update: any,
+    languages: Language[]
 }
 
-class Header extends React.Component <HeaderProps> {
+class Header extends React.Component < HeaderProps > {
     public state : {
-        languages: Language[];
         options: Option[];
         default: string;
     }
 
-    constructor(props) {
+    constructor(props : HeaderProps) {
         super(props);
         this.state = {
-            languages: [],
             options: [],
             default: ''
         }
     }
 
-    componentWillMount = async() => {
-        let languages = await fetch('/getLangs').then((res) => res.json());
-        let options = languages.map((lang : Language) => ({'value': lang.id, 'label': `${lang.display.name} (${lang.display.version})`}));
-        this.setState({languages: languages, options: options, default: options[0]});
+    componentWillMount = () => {
+        let options = this.props.languages.map((lang : Language) => ({
+            'value': lang.id,
+            'label': `${lang.display.name} (${lang.display.version})`
+        }));
+        this.setState({options: options, default: options[0]});
     }
 
     render() {
@@ -55,7 +56,7 @@ class Header extends React.Component <HeaderProps> {
                     options={this.state.options}
                     onChange={this.props.update}
                     value={this.state.default}
-                    placeholder="Select an option"/>
+                    placeholder='Select an option'/>
             </div>
         );
     }

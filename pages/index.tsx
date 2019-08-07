@@ -8,29 +8,34 @@ import Editor from '../components/Editor';
 import Output from '../components/Output';
 import fetch from 'node-fetch';
 import {Language} from '../server/src/languageRegistry';
+import { Option } from 'react-dropdown';
+
+type IndexProps = {}
 
 class Index extends React.Component {
     public state : {
         languages: Language[],
-        curr: Language
+        curr: Language,
+        code: string
     }
 
-    constructor(props : any) {
+    constructor(props : IndexProps) {
         super(props);
+        this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
             languages: [],
-            curr: null
+            curr: null,
+            code: ''
         }
     }
 
     updateEditor(newValue : string) {
-        console.log(newValue);
-        return newValue;
+        this.setState({code: newValue});
     }
 
-    updateLanguage(newLang : any) {
-        console.log(this.state.languages);
-        this.setState({curr: newLang});
+    updateLanguage(newLang : Option) {
+        let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
+        this.setState({curr: selected});
     }
 
     componentWillMount = async() => {
@@ -46,11 +51,9 @@ class Index extends React.Component {
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{
-                    padding: 0
-                }}>
+                <Container fluid style={{padding: 0}}>
                     <Row noGutters>
-                        <Header update={this.updateLanguage}/>
+                        <Header update={this.updateLanguage} languages={this.state.languages}/>
                     </Row>
                     <Row noGutters>
                         <Col md={9}>

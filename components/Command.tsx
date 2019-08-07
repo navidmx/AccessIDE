@@ -1,10 +1,10 @@
-import React, { KeyboardEvent } from 'react';
+import React, {KeyboardEvent, InputHTMLAttributes} from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
-import Recorder from '../components/Recorder';
 import fetch from 'node-fetch';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCode} from '@fortawesome/free-solid-svg-icons';
+import Recorder from '../components/Recorder';
 
 let CommandPrefixStyle = {
     backgroundColor: '#272727',
@@ -30,33 +30,37 @@ type RecordedBlob = {
     blobURL: string;
 }
 
+type CommandProps = {}
+
 class Command extends React.Component {
-    public state: {
+    private command : any;
+
+    public state : {
         record: boolean;
     }
 
-    constructor(props: any) {
+    constructor(props : CommandProps) {
         super(props);
+        this.command = React.createRef();
         this.state = {
             record: false
         }
     }
 
-    voiceShortcut = (event: any) => {
-        if (event.keyCode === 27) {
-            // Toggle recording status with ESC
-            this.state.record
-                ? this.stopRecording()
-                : this.startRecording();
+    commandEntered = (event : KeyboardEvent) => {
+        if (event.charCode == 13) {
+            event.preventDefault();
+            console.log(this.command.current.value);
+            // BACKEND: Use this.command.current.value to do something!
+            this.command.current.value = '';
         }
     }
 
-    commandEntered = (event: KeyboardEvent) => {
-        if (event.charCode == 13) {
-            // Enter key pressed in command bar
-            event.preventDefault();
-            // BACKEND TODO
-            console.log("Entered!");
+    voiceShortcut = (event : any) => {
+        if (event.keyCode === 27) {
+            this.state.record
+                ? this.stopRecording()
+                : this.startRecording();
         }
     }
 
@@ -69,27 +73,31 @@ class Command extends React.Component {
     }
 
     startRecording = () => {
-        this.setState({ record: true });
+        this.setState({record: true});
     }
 
     stopRecording = () => {
-        this.setState({ record: false });
+        this.setState({record: false});
     }
 
-    saveAudio = async (audio: RecordedBlob) => {
+    saveAudio = async(audio : RecordedBlob) => {
         const reader = new FileReader();
         const res = await new Promise((resolve, reject) => {
             reader.onload = async function () {
                 try {
                     const raw = reader.result;
-                    const b64 = raw.toString().replace(/^data:.+;base64,/, '');
+                    const b64 = raw
+                        .toString()
+                        .replace(/^data:.+;base64,/, '');
                     const body = {
                         audio: b64
                     }
-                    const response = await fetch(`/voiceCommand`, {
+                    const response = await fetch('/voiceCommand', {
                         method: 'post',
                         body: JSON.stringify(body),
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }).then(res => res.json());
                     resolve(response)
                 } catch (err) {
@@ -108,16 +116,19 @@ class Command extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text style={CommandPrefixStyle}>
                             <FontAwesomeIcon
-                                style={{ margin: 'auto' }}
-                                icon={faCode} />
+                                style={{
+                                margin: 'auto'
+                            }}
+                                icon={faCode}/>
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
                         style={CommandStyle}
                         className='command-bar'
                         onKeyPress={this.commandEntered}
-                        placeholder="Enter a command..."
-                        type="text"></Form.Control>
+                        placeholder='Enter a command...'
+                        type="text"
+                        ref={this.command}></Form.Control>
                     <Recorder
                         record={this.state.record}
                         className='sound-wave'
@@ -125,8 +136,8 @@ class Command extends React.Component {
                         mimeType='video/webm'
                         width={98}
                         height={48}
-                        strokeColor="#CCC"
-                        backgroundColor="#131313" />
+                        strokeColor='#CCC'
+                        backgroundColor='#131313'/>
                 </InputGroup>
             </Form>
         )

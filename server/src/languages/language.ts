@@ -7,15 +7,15 @@ export interface Write {
     createIfStatement(tabs: number, condition: string): string;
     createElseIfStatement(tabs: number, condition: string): string;
     createElseStatement(tabs: number): string;
-    write(input:string);
+    write(input: string): string;
 }
 
 export interface Read {
-    readLine(line: string);
+    readLine(line: string): string;
 }
 
 export interface Nav {
     findFunction(line: string);
-    nav(input:string);
+    nav(input: string): string;
 }
 

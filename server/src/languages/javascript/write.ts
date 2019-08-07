@@ -1,6 +1,15 @@
 import { Write } from '../language';
+import FormCheckInput from 'react-bootstrap/FormCheckInput';
+import { create } from 'domain';
 
 class JSWrite implements Write {
+    write(input: string): string {
+        if (input.match(/function/)) {
+
+        }
+        return '';
+    }
+
     createFunction(tabs: number, name: string, parameters: string[]): string {
         return `function ${name}(${parameters.join}) ${this.createBlock(tabs)}`;
     }
@@ -38,8 +47,12 @@ class JSWrite implements Write {
         return `{\n${new String('\t').repeat(tabs + 1)}\n${'\t'.repeat(tabs)}}\n`;
     }
 
-    write(){
-        
+    private createTokens(input: string): { [key: string]: string } {
+        const keyWords = [
+
+        ]
+
+        return null;
     }
 }
 

@@ -1,3 +1,6 @@
 .next/
 .DS_Store
 node_modules/
+*.mp3
+*.webm
+*.wav

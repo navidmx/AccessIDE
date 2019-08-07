@@ -31,7 +31,7 @@ class Header extends React.Component < HeaderProps > {
         default: string;
     }
 
-    constructor(props) {
+    constructor(props : HeaderProps) {
         super(props);
         this.state = {
             options: [],
@@ -39,10 +39,9 @@ class Header extends React.Component < HeaderProps > {
         }
     }
 
-    componentWillMount = async() => {
-        let languages = await fetch('/getLangs').then((res) => res.json());
-        let options = languages.map((lang : Language) => (
-            {'value': lang.id,
+    componentWillMount = () => {
+        let options = this.props.languages.map((lang : Language) => ({
+            'value': lang.id,
             'label': `${lang.display.name} (${lang.display.version})`
         }));
         this.setState({options: options, default: options[0]});
@@ -57,7 +56,7 @@ class Header extends React.Component < HeaderProps > {
                     options={this.state.options}
                     onChange={this.props.update}
                     value={this.state.default}
-                    placeholder="Select an option"/>
+                    placeholder='Select an option'/>
             </div>
         );
     }

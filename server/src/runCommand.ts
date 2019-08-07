@@ -5,6 +5,7 @@ class CommandRunner {
     language: Language;
 
     constructor(){
+        // Starting language
         this.language = languageRegistry.getLanguages()[0];
     }
 

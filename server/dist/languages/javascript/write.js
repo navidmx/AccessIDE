@@ -1,4 +1,9 @@
 class JSWrite {
+    write(input) {
+        if (input.match(/function/)) {
+        }
+        return '';
+    }
     createFunction(tabs, name, parameters) {
         return `function ${name}(${parameters.join}) ${this.createBlock(tabs)}`;
     }
@@ -27,7 +32,9 @@ class JSWrite {
     createBlock(tabs) {
         return `{\n${new String('\t').repeat(tabs + 1)}\n${'\t'.repeat(tabs)}}\n`;
     }
-    write() {
+    createTokens(input) {
+        const keyWords = [];
+        return null;
     }
 }
 export default new JSWrite();

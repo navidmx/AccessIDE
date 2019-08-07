@@ -6,8 +6,8 @@ import path from 'path';
 import f_ffmpeg from 'fluent-ffmpeg';
 
 class AudioProcessor {
-    private client: any;
-    private config: {
+    private client : any;
+    private config : {
         encoding: string;
         sampleRateHertz: number;
         languageCode: string
@@ -15,7 +15,6 @@ class AudioProcessor {
 
     constructor() {
         this.client = new speech.SpeechClient();
-
         this.config = {
             encoding: 'LINEAR16',
             sampleRateHertz: 44100,
@@ -23,18 +22,21 @@ class AudioProcessor {
         };
     }
 
-    async processAudio(base64: string): Promise<string> {
+    async processAudio(base64 : string) : Promise < string > {
         this.cleanFiles();
         let output: string;
-        fs.writeFileSync('video.webm', base64, { encoding: 'base64' });
+        fs.writeFileSync('video.webm', base64, {encoding: 'base64'});
         try {
             const process = new ffmpeg('video.webm');
             const video = await process;
             await new Promise((resolve, reject) => {
                 video.fnExtractSoundToMP3('audio.mp3', (err, file) => {
-                   if(err) reject(err);
-                   if(file) resolve(file); 
-                });
+                    if (err) 
+                        reject(err);
+                    if (file) 
+                        resolve(file);
+                    }
+                );
             });
             let track = './audio.mp3';
             console.log('converting audio');
@@ -49,7 +51,8 @@ class AudioProcessor {
         this.cleanFiles();
         return output;
     }
-    private convert(track: string, channels: number, format: string): Promise<string> {
+
+    private convert(track : string, channels : number, format : string) : Promise < string > {
         return new Promise((resolve, reject) => {
             f_ffmpeg(track)
                 .audioChannels(channels)
@@ -70,7 +73,7 @@ class AudioProcessor {
         })
     }
 
-    private async transcribeAudio(fileName: string) {
+    private async transcribeAudio(fileName : string) {
         // Reads a local audio file and converts it to base64
         const file = fs.readFileSync(fileName);
         const audioBytes = file.toString('base64');
@@ -90,7 +93,7 @@ class AudioProcessor {
         const [response] = responses;
         const transcription = response
             .results
-            .map((result): string => result.alternatives[0].transcript)
+            .map((result) : string => result.alternatives[0].transcript)
             .join('\n');
         // .runCommand(transcription);
         console.log('transcription done');

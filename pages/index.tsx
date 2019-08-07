@@ -37,10 +37,8 @@ class Index extends React.Component {
     }
 
     updateLanguage(newLang : Option) {
-        let selected = this
-            .state
-            .languages
-            .filter(lang => lang.id == newLang.value)[0];
+        // BACKEND - Send POST request with newLang.value to update language ID
+        let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: selected});
     }
 
@@ -54,6 +52,7 @@ class Index extends React.Component {
     }
 
     render() {
+        console.log(this.state.languages);
         return (
             <div>
                 <Head>

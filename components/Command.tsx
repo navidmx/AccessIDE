@@ -49,14 +49,15 @@ class Command extends React.Component {
     }
 
     commandEntered = (event : KeyboardEvent) => {
+        // SEE IF THIS WORKS LATER
+        // this.stopRecording();
         if (event.charCode == 13) {
             event.preventDefault();
             console.log(this.command.current.value);
-            // BACKEND: Use this.command.current.value to do something!
             fetch(`${Config.getURL()}/runCommand`, {
                 method: 'POST',
                 body: JSON.stringify({command: this.command.current.value})
-            })
+            });
             this.command.current.value = '';
         }
     }

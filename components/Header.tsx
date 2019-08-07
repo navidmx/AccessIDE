@@ -39,6 +39,7 @@ class Header extends React.Component < HeaderProps > {
         }
     }
 
+    // Try componentDidMount
     componentWillMount = () => {
         let options = this.props.languages.map((lang : Language) => ({
             'value': lang.id,

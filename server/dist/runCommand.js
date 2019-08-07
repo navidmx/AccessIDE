@@ -2,6 +2,7 @@ import languageRegistry from './languageRegistry';
 import nlp from './processing/nlp';
 class CommandRunner {
     constructor() {
+        // Starting language
         this.language = languageRegistry.getLanguages()[0];
     }
     runCommand(input) {

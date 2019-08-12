@@ -1,6 +1,7 @@
-class PythonWrite {
+class PYWrite {
     write(input) {
         throw new Error("Method not implemented.");
+        return "";
     }
     createFunction(tabs, name, parameters) {
         throw new Error("Method not implemented.");
@@ -27,4 +28,4 @@ class PythonWrite {
         throw new Error("Method not implemented.");
     }
 }
-export default new PythonWrite();
+export default new PYWrite();

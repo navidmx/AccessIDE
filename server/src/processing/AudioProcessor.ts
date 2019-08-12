@@ -39,15 +39,12 @@ class AudioProcessor {
                 );
             });
             let track = './audio.mp3';
-            console.log('converting audio');
             const conversion = await this.convert(track, 1, 'wav');
-            console.log('conversion: ', conversion);
             output = await this.transcribeAudio(conversion);
         } catch (err) {
             console.log(err);
             output = 'error processing audio';
         }
-        console.log(output);
         this.cleanFiles();
         return output;
     }
@@ -59,7 +56,6 @@ class AudioProcessor {
                 .toFormat(format)
                 .output(track.replace('.mp3', `.${format}`))
                 .on('progress', (progress) => {
-                    console.log('Processing: ' + progress.targetSize + ' KB converted');
                 })
                 .on('end', () => {
                     console.log('audio resolved');
@@ -85,18 +81,15 @@ class AudioProcessor {
             config: this.config
         }
 
-        console.log('transcribing');
         const responses = await this
             .client
             .recognize(request);
-        console.log(responses);
         const [response] = responses;
         const transcription = response
             .results
             .map((result) : string => result.alternatives[0].transcript)
             .join('\n');
         // .runCommand(transcription);
-        console.log('transcription done');
         console.log(transcription);
         return transcription;
     }

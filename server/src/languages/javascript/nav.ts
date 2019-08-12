@@ -5,8 +5,8 @@ class JSNav implements Nav {
         throw new Error("Method not implemented.");
     }
 
-    nav(){
-
+    nav(): string {
+        return "";
     }
 }
 

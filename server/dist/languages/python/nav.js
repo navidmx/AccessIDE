@@ -1,8 +1,9 @@
-class JSNav {
+class PYNav {
     findFunction() {
         throw new Error("Method not implemented.");
     }
     nav() {
+        return "";
     }
 }
-export default new JSNav();
+export default new PYNav();

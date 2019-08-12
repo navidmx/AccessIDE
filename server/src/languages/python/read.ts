@@ -1,9 +1,9 @@
 import { Read } from "../language";
 
-class JSRead implements Read{
-    readLine(line: string) {
-        
+class PYRead implements Read {
+    readLine(line: string): string {
+        return "";
     }
 }
 
-export default new JSRead();
+export default new PYRead();

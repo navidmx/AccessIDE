@@ -1,5 +1,6 @@
-class JSRead {
+class PYRead {
     readLine(line) {
+        return "";
     }
 }
-export default new JSRead();
+export default new PYRead();

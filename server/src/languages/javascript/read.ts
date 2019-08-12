@@ -1,8 +1,8 @@
 import { Read } from "../language";
 
-class JSRead implements Read{
-    readLine(line: string) {
-        
+class JSRead implements Read {
+    readLine(line: string): string {
+        return "";
     }
 }
 

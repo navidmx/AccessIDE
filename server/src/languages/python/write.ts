@@ -1,8 +1,9 @@
 import { Write, Read, Nav } from '../language';
 
-class PythonWrite implements Write {
-    write(input: string) {
+class PYWrite implements Write {
+    write(input: string): string {
         throw new Error("Method not implemented.");
+        return "";
     }
     createFunction(tabs: number, name: string, parameters: string[]): string {
         throw new Error("Method not implemented.");
@@ -37,4 +38,4 @@ class PythonWrite implements Write {
     }
 }
 
-export default new PythonWrite();
+export default new PYWrite();

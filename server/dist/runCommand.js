@@ -4,6 +4,8 @@ class CommandRunner {
     constructor() {
         // Starting language
         this.language = languageRegistry.getLanguages()[0];
+        console.log('current language');
+        console.log(this.language);
     }
     runCommand(input) {
         // Process Language

@@ -1,8 +1,9 @@
 import React from 'react';
-import Dropdown, {Option} from 'react-dropdown';
+import Dropdown, { Option } from 'react-dropdown';
 import Command from '../components/Command';
 import fetch from 'node-fetch';
-import {Language} from '../server/src/languageRegistry';
+import { Language } from '../server/src/languageRegistry';
+import Config from '../server/src/config';
 
 let HeaderStyle = {
     display: 'flex',
@@ -25,13 +26,13 @@ type HeaderProps = {
     languages: Language[]
 }
 
-class Header extends React.Component < HeaderProps > {
-    public state : {
+class Header extends React.Component<HeaderProps> {
+    public state: {
         options: Option[];
         default: string;
     }
 
-    constructor(props : HeaderProps) {
+    constructor(props: HeaderProps) {
         super(props);
         this.state = {
             options: [],
@@ -40,24 +41,25 @@ class Header extends React.Component < HeaderProps > {
     }
 
     // Try componentDidMount
-    componentWillMount = () => {
-        let options = this.props.languages.map((lang : Language) => ({
+    componentWillMount = async () => {
+        let languages = await fetch(`${Config.getURL()}/getLangs`).then((res) => res.json());
+        let options = languages.map((lang: Language) => ({
             'value': lang.id,
             'label': `${lang.display.name} (${lang.display.version})`
         }));
-        this.setState({options: options, default: options[0]});
+        this.setState({ options: options, default: options[0] });
     }
 
     render() {
         return (
             <div style={HeaderStyle}>
                 <h1 style={BrandTextStyle}>AccessIDE</h1>
-                <Command/>
+                <Command />
                 <Dropdown
                     options={this.state.options}
                     onChange={this.props.update}
                     value={this.state.default}
-                    placeholder='Select an option'/>
+                    placeholder='Select an option' />
             </div>
         );
     }

@@ -4,9 +4,11 @@ import nlp from './processing/nlp';
 class CommandRunner {
     language: Language;
 
-    constructor(){
+    constructor() {
         // Starting language
         this.language = languageRegistry.getLanguages()[0];
+        console.log('current language')
+        console.log(this.language);
     }
 
     runCommand(input: string): OutputCommand[] {

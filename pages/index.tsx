@@ -33,7 +33,7 @@ class Index extends React.Component {
     }
 
     updateEditor(newValue : string) {
-        this.setState({code: newValue});
+        console.log(newValue);
     }
 
     updateLanguage(newLang : Option) {

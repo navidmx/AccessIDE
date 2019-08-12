@@ -25,6 +25,8 @@ app
     .then(() => __awaiter(this, void 0, void 0, function* () {
     const server = express();
     yield Registry.findLanguages();
+    // console.log(Registry.getLanguages());
+    CommandRunner.setLanguage(Registry.getLanguages()[0]);
     console.log();
     server.use('/static', express.static(join(__dirname + "/static")));
     server.use(bodyParser.json());

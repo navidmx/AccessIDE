@@ -10,55 +10,57 @@ export class LanguageRegistry {
         let languageDir = __dirname + '\/languages';
         let contents = fs.readdirSync(languageDir);
         contents = contents.map(d => languageDir + '\/' + d);
-        await contents.forEach(async (dir) => {
-            if (fs.statSync(dir).isDirectory()) {
-                if (fs.existsSync(dir + '\/config.json')) {
-                    const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
-                    const languageDecoder = JsonDecoder.object<JSONConfig>({
-                        id: JsonDecoder.string,
-                        syntax: JsonDecoder.string,
-                        extension: JsonDecoder.string,
-                        version: JsonDecoder.string,
-                        exec: JsonDecoder.string,
-                        display: JsonDecoder.object<Display>({
-                            name: JsonDecoder.string,
+        for (const dir of contents) {
+            if (fs.existsSync(dir)) {
+                if (fs.statSync(dir).isDirectory()) {
+                    if (fs.existsSync(dir + '\/config.json')) {
+                        const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
+                        const languageDecoder = JsonDecoder.object<JSONConfig>({
+                            id: JsonDecoder.string,
+                            syntax: JsonDecoder.string,
+                            extension: JsonDecoder.string,
                             version: JsonDecoder.string,
-                            runtime: JsonDecoder.string
-                        }, 'display'),
-                        parsers: JsonDecoder.object<Parsers>({
-                            write: JsonDecoder.string,
-                            read: JsonDecoder.string,
-                            nav: JsonDecoder.string
-                        }, 'parser')
-                    }, 'language');
-                    let languageInfo: JSONConfig;
-                    try {
-                        languageInfo = await languageDecoder.decodePromise(contents);
-                    } catch (e) {
-                        console.log(e);
-                    }
-                    let language: Language;
-                    try {
-                        language = {
-                            name: languageInfo.display.name,
-                            syntax: languageInfo.syntax,
-                            id: languageInfo.id,
-                            extension: languageInfo.extension,
-                            version: languageInfo.version,
-                            exec: languageInfo.exec,
-                            display: languageInfo.display,
-                            writer: await import(dir + '\/' + languageInfo.parsers.write),
-                            reader: await import(dir + '\/' + languageInfo.parsers.read),
-                            navigator: await import(dir + '\/' + languageInfo.parsers.nav)
+                            exec: JsonDecoder.string,
+                            display: JsonDecoder.object<Display>({
+                                name: JsonDecoder.string,
+                                version: JsonDecoder.string,
+                                runtime: JsonDecoder.string
+                            }, 'display'),
+                            parsers: JsonDecoder.object<Parsers>({
+                                write: JsonDecoder.string,
+                                read: JsonDecoder.string,
+                                nav: JsonDecoder.string
+                            }, 'parser')
+                        }, 'language');
+                        let languageInfo: JSONConfig;
+                        try {
+                            languageInfo = await languageDecoder.decodePromise(contents);
+                        } catch (e) {
+                            console.log(e);
                         }
-                    } catch (e) {
-                        console.log('Language could not be loaded:');
-                        console.log(e);
-                    }
-                    this.languages.push(language);
-                };
+                        let language: Language;
+                        try {
+                            language = {
+                                name: languageInfo.display.name,
+                                syntax: languageInfo.syntax,
+                                id: languageInfo.id,
+                                extension: languageInfo.extension,
+                                version: languageInfo.version,
+                                exec: languageInfo.exec,
+                                display: languageInfo.display,
+                                writer: await import(dir + '\/' + languageInfo.parsers.write),
+                                reader: await import(dir + '\/' + languageInfo.parsers.read),
+                                navigator: await import(dir + '\/' + languageInfo.parsers.nav)
+                            }
+                        } catch (e) {
+                            console.log('Language could not be loaded:');
+                            console.log(e);
+                        }
+                        this.languages.push(language);
+                    };
+                }
             }
-        });
+        }
     }
 
     getLanguages() {
@@ -94,9 +96,9 @@ export interface Language {
     version: string;
     exec: string;
     display: Display;
-    writer: Write;
-    reader: Read;
-    navigator: Nav;
+    writer: { default: Write };
+    reader: { default: Read };
+    navigator: { default: Nav };
 }
 
 interface Display {

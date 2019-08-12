@@ -4,18 +4,15 @@ import nlp from './processing/nlp';
 class CommandRunner {
     language: Language;
 
-    constructor() {
-        // Starting language
-        this.language = languageRegistry.getLanguages()[0];
-        console.log('current language')
-        console.log(this.language);
+    setLanguage(l: Language) {
+        this.language = l;
     }
 
     runCommand(input: string): OutputCommand[] {
         // Process Language
         const processedCommands = nlp.processLine(input);
+        console.log(this.language.writer.default.write);
         console.log(processedCommands);
-        console.log(this.language);
         let outputs: OutputCommand[] = [];
         // Pipe command output
         for (const processedCommand of processedCommands) {
@@ -23,19 +20,19 @@ class CommandRunner {
                 case 'write':
                     outputs.push({
                         type: 'write',
-                        contents: this.language.writer.write(processedCommand.contents)
+                        contents: this.language.writer.default.write(processedCommand.contents)
                     });
                     break;
                 case 'read':
                     outputs.push({
                         type: 'read',
-                        contents: this.language.reader.readLine(processedCommand.contents)
+                        contents: this.language.reader.default.readLine(processedCommand.contents)
                     });
                     break;
                 case 'nav':
                     outputs.push({
                         type: 'nav',
-                        contents: this.language.navigator.nav(processedCommand.contents)
+                        contents: this.language.navigator.default.nav(processedCommand.contents)
                     });
                     break;
             }

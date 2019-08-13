@@ -29,8 +29,9 @@ app
     CommandRunner.setLanguage(Registry.getLanguages()[0]);
     console.log();
     server.use('/static', express.static(join(__dirname + "/static")));
-    server.use(bodyParser.json());
-    server.use(bodyParser.urlencoded({ extended: true }));
+    server.use(bodyParser.json({ limit: '50mb' }));
+    server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+    server.use(bodyParser.raw({ limit: '5mb' }));
     server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.query);
         const text = yield AudioProcessor.processAudio(req.body.audio);

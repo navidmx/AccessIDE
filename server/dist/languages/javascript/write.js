@@ -1,11 +1,9 @@
 class JSWrite {
     write(input) {
-        if (input.match(/function/)) {
-        }
-        return '';
+        return '' + this.createFunction(0, 'testFunction', [], input);
     }
-    createFunction(tabs, name, parameters) {
-        return `function ${name}(${parameters.join}) ${this.createBlock(tabs)}`;
+    createFunction(tabs, name, parameters, content) {
+        return `function ${name}(${parameters.join()}) ${this.createBlock(tabs, content)}`;
     }
     createVariable(name, value) {
         return `let ${name}${value ? ' = ' + value : ''};`;
@@ -29,11 +27,13 @@ class JSWrite {
         return `else ${this.createBlock(tabs)}`;
     }
     /* Helper function for creating code blocks */
-    createBlock(tabs) {
-        return `{\n${new String('\t').repeat(tabs + 1)}\n${'\t'.repeat(tabs)}}\n`;
+    createBlock(tabs, contents) {
+        return `{\n${new String('\t').repeat(tabs + 1)}${contents || ''}\n${'\t'.repeat(tabs)}}\n`;
     }
     createTokens(input) {
-        const keyWords = [];
+        // const keyWords = [
+        //     'parameter'
+        // ]
         return null;
     }
 }

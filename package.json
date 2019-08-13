@@ -5,11 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "next-build": "next build",
-    "next-start": "next start",
     "dev:node": "nodemon -r esm server/dist/server.js",
     "dev:typescript": "gulp dev",
-    "build:next": "run-s next-build next-start",
+    "build:next": "next build",
     "build:typescript": "gulp",
     "build:server": "node -r esm server/dist/server.js",
     "dev": "run-p dev:*",

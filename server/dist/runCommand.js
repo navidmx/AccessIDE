@@ -6,7 +6,6 @@ class CommandRunner {
     runCommand(input) {
         // Process Language
         const processedCommands = nlp.processLine(input);
-        console.log(this.language.writer.default.write);
         console.log(processedCommands);
         let outputs = [];
         // Pipe command output
@@ -28,6 +27,12 @@ class CommandRunner {
                     outputs.push({
                         type: 'nav',
                         contents: this.language.navigator.default.nav(processedCommand.contents)
+                    });
+                    break;
+                default:
+                    outputs.push({
+                        type: 'err',
+                        contents: processedCommand.contents
                     });
                     break;
             }

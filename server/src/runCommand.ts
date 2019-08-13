@@ -11,10 +11,9 @@ class CommandRunner {
     runCommand(input: string): OutputCommand[] {
         // Process Language
         const processedCommands = nlp.processLine(input);
-        console.log(this.language.writer.default.write);
         console.log(processedCommands);
         let outputs: OutputCommand[] = [];
-        
+
         // Pipe command output
         for (const processedCommand of processedCommands) {
             switch (processedCommand.type) {
@@ -36,6 +35,12 @@ class CommandRunner {
                         contents: this.language.navigator.default.nav(processedCommand.contents)
                     });
                     break;
+                default:
+                    outputs.push({
+                        type: 'err',
+                        contents: processedCommand.contents
+                    });
+                    break;
             }
         }
         // Write -> send code block
@@ -47,7 +52,7 @@ class CommandRunner {
     }
 }
 
-export type outputType = "write" | "read" | "nav";
+export type outputType = "write" | "read" | "nav" | "err";
 
 export interface OutputCommand {
     type: outputType;

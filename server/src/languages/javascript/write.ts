@@ -4,7 +4,6 @@ import { create } from 'domain';
 import { string } from 'prop-types';
 
 class JSWrite implements Write {
-
     write(input: string): string {
         return this.commandMake(input, 0);
     }
@@ -69,7 +68,7 @@ class JSWrite implements Write {
             }
         } else if (includes(cmd, 'loop')) {
             let line = cmd.substring(cmd.indexOf('loop') + 5).split(' ');
-            let counter, start, end, step;
+            let counter: string, start: number, end: number, step: number;
             if (includes(cmd, 'length')) {
                 let index = line.indexOf('length');
                 line.splice(parseInt(line[index]), 2);
@@ -85,7 +84,7 @@ class JSWrite implements Write {
                 end = parseInt(line[line.indexOf('to') + 1]);
             }
             if (line.includes('step')) {
-                step = parseInt(line[line.indexOf(step) + 1]);
+                step = parseInt(line[line.indexOf(step.toString()) + 1]);
             }
             return this.createForLoop(tabs, start, end, step, counter)
         } else if (includes(cmd, 'function')) {

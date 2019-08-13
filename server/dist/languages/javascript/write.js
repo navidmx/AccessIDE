@@ -69,7 +69,7 @@ class JSWrite {
                 end = parseInt(line[line.indexOf('to') + 1]);
             }
             if (line.includes('step')) {
-                step = parseInt(line[line.indexOf(step) + 1]);
+                step = parseInt(line[line.indexOf(step.toString()) + 1]);
             }
             return this.createForLoop(tabs, start, end, step, counter);
         }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactAce from 'react-ace/lib/ace';
+import { AceEditorClass } from 'react-ace/lib/AceEditorClass';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,7 +13,6 @@ import {OutputCommand} from '../server/src/runCommand';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
-import { AceEditorClass } from 'react-ace/lib/AceEditorClass';
 
 type IndexProps = {}
 
@@ -38,7 +38,7 @@ class Index extends React.Component {
     }
 
     runCommand(commands : OutputCommand[]) {
-        console.log(commands);
+        console.log('Commands: ' + commands);
         for (const cmd of commands) {
             if (cmd.type == 'write') {
                 console.log(this.editor);

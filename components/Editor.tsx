@@ -12,6 +12,7 @@ type EditorProps = {
     theme: string,
     fontSize: string,
     value: string,
+    onLoad: Function,
     onChange: Function,
     language: Language
 }

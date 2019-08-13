@@ -14,6 +14,8 @@ import Output from '../components/Output';
 type IndexProps = {}
 
 class Index extends React.Component {
+    editor: Editor;
+
     public state : {
         languages: Language[],
         curr: Language,
@@ -22,14 +24,16 @@ class Index extends React.Component {
 
     constructor(props : IndexProps) {
         super(props);
-        this.updateLanguage = this
-            .updateLanguage
-            .bind(this);
+        this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
             languages: [],
             curr: null,
             code: ''
         }
+    }
+
+    saveEditor(instance : Editor) {
+        this.editor = instance;
     }
 
     updateEditor(newValue : string) {
@@ -38,7 +42,10 @@ class Index extends React.Component {
 
     updateLanguage(newLang : Option) {
         // BACKEND - Send POST request with newLang.value to update language ID
-        let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
+        let selected = this
+            .state
+            .languages
+            .filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: selected});
     }
 
@@ -76,6 +83,7 @@ class Index extends React.Component {
                                 theme="twilight"
                                 fontSize="18px"
                                 value="const foo = 42;"
+                                onLoad={this.saveEditor}
                                 onChange={this.updateEditor}
                                 language={this.state.curr}/>
                         </Col>

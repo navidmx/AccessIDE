@@ -49,8 +49,7 @@ class Command extends React.Component {
     }
 
     commandEntered = (event : KeyboardEvent) => {
-        // SEE IF THIS WORKS LATER
-        // this.stopRecording();
+        // SEE IF THIS WORKS LATER this.stopRecording();
         if (event.charCode == 13) {
             event.preventDefault();
             console.log(this.command.current.value);

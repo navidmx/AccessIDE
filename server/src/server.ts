@@ -27,8 +27,9 @@ app
         console.log();
 
         server.use('/static', express.static(join(__dirname + "/static")));
-        server.use(bodyParser.json());
-        server.use(bodyParser.urlencoded({ extended: true }));
+        server.use(bodyParser.json({ limit: '50mb' }));
+        server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+        server.use(bodyParser.raw({ limit: '5mb' }))
 
         server.post('/voiceCommand', async (req, res) => {
             console.log(req.query);

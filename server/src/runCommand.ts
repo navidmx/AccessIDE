@@ -14,6 +14,7 @@ class CommandRunner {
         console.log(this.language.writer.default.write);
         console.log(processedCommands);
         let outputs: OutputCommand[] = [];
+        
         // Pipe command output
         for (const processedCommand of processedCommands) {
             switch (processedCommand.type) {

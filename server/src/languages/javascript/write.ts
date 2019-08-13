@@ -4,14 +4,11 @@ import { create } from 'domain';
 
 class JSWrite implements Write {
     write(input: string): string {
-        if (input.match(/function/)) {
-
-        }
-        return '';
+        return '' + this.createFunction(0, 'testFunction', [], input);
     }
 
-    createFunction(tabs: number, name: string, parameters: string[]): string {
-        return `function ${name}(${parameters.join}) ${this.createBlock(tabs)}`;
+    createFunction(tabs: number, name: string, parameters: string[], content?: string): string {
+        return `function ${name}(${parameters.join()}) ${this.createBlock(tabs, content)}`;
     }
 
     createVariable(name: string, value: any): string {
@@ -43,15 +40,14 @@ class JSWrite implements Write {
     }
 
     /* Helper function for creating code blocks */
-    private createBlock(tabs: number): string {
-        return `{\n${new String('\t').repeat(tabs + 1)}\n${'\t'.repeat(tabs)}}\n`;
+    private createBlock(tabs: number, contents?: string): string {
+        return `{\n${new String('\t').repeat(tabs + 1)}${contents || ''}\n${'\t'.repeat(tabs)}}\n`;
     }
 
     private createTokens(input: string): { [key: string]: string } {
-        const keyWords = [
-
-        ]
-
+        // const keyWords = [
+        //     'parameter'
+        // ]
         return null;
     }
 }

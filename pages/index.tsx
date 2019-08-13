@@ -84,7 +84,6 @@ class Index extends React.Component {
     }
 
     render() {
-        console.log(this.state.languages);
         return (
             <div>
                 <Head>
@@ -92,14 +91,13 @@ class Index extends React.Component {
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{
-                    padding: 0
-                }}>
+                <Container fluid style={{padding: 0}}>
                     <Row noGutters>
                         <Header
                             run={this.runCommand}
                             tabs={this.editor.getCursorPositionScreen().column / 4}
-                            line={this.editor.getCursorPosition().row + 1}
+                            currLine={this.editor.getCursorPosition().row + 1}
+                            lines={this.editor.session.doc.getAllLines()}
                             update={this.updateLanguage}
                             languages={this.state.languages}
                             />

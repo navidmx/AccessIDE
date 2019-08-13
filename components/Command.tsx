@@ -35,7 +35,8 @@ type RecordedBlob = {
 type CommandProps = {
     run: (commands : OutputCommand[]) => void,
     tabs: number,
-    line: number
+    currLine: number,
+    lines: string[]
 }
 
 class Command extends React.Component < CommandProps > {
@@ -63,7 +64,8 @@ class Command extends React.Component < CommandProps > {
                 body: JSON.stringify({
                     command: this.command.current.value,
                     tabs: this.props.tabs,
-                    line: this.props.line
+                    line: this.props.currLine,
+                    editor: this.props.lines
                 })
             });
             this.command.current.value = '';
@@ -104,7 +106,8 @@ class Command extends React.Component < CommandProps > {
                     const body = {
                         audio: b64,
                         tabs: this.props.tabs,
-                        line: this.props.line
+                        line: this.props.currLine,
+                        editor: this.props.lines
                     }
                     const response = await fetch(`${Config.getURL()}/voiceCommand`, {
                         method: 'POST',

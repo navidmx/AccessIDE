@@ -25,7 +25,8 @@ let BrandTextStyle = {
 type HeaderProps = {
     run: (commands : OutputCommand[]) => void,
     tabs: number,
-    line: number,
+    currLine: number,
+    lines: string[],
     update: (newLang : Option) => void,
     languages: Language[]
 }
@@ -58,7 +59,8 @@ class Header extends React.Component < HeaderProps > {
                 <Command
                     run={this.props.run}
                     tabs={this.props.tabs}
-                    line={this.props.line}
+                    currLine={this.props.currLine}
+                    lines={this.props.lines}
                     />
                 <Dropdown
                     options={this.state.options}

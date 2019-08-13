@@ -6,15 +6,18 @@ class NLP {
             .split(' then ');
         audioList.forEach((c) => {
             c = this.cleanseLine(c);
+            const write = (/(make|new|create|write)/g);
             if (c.indexOf('go to') !== -1) {
                 commands.push({ type: 'nav', contents: c });
             }
-            if (c.indexOf('read') !== -1) {
+            else if (c.indexOf('read') !== -1) {
                 commands.push({ type: 'read', contents: c });
             }
-            const write = (/(make|new|create|write)/g);
-            if (write.test(c)) {
+            else if (write.test(c)) {
                 commands.push({ type: 'write', contents: c });
+            }
+            else {
+                commands.push({ type: 'err', contents: c });
             }
         });
         return commands;

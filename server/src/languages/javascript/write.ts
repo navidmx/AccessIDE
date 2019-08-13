@@ -1,7 +1,4 @@
 import { Write } from '../language';
-import FormCheckInput from 'react-bootstrap/FormCheckInput';
-import { create } from 'domain';
-import { string } from 'prop-types';
 
 class JSWrite implements Write {
     write(input: string): string {

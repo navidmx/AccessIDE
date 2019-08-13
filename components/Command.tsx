@@ -4,6 +4,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import fetch from 'node-fetch';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCode} from '@fortawesome/free-solid-svg-icons';
+import {OutputCommand} from '../server/src/runCommand';
 import Config from '../server/src/config';
 import Recorder from '../components/Recorder';
 
@@ -31,9 +32,11 @@ type RecordedBlob = {
     blobURL: string;
 }
 
-type CommandProps = {}
+type CommandProps = {
+    run: (commands : OutputCommand[]) => void
+}
 
-class Command extends React.Component {
+class Command extends React.Component < CommandProps > {
     private command : any;
 
     public state : {
@@ -87,7 +90,7 @@ class Command extends React.Component {
 
     saveAudio = async(audio : RecordedBlob) => {
         const reader = new FileReader();
-        const res = await new Promise((resolve, reject) => {
+        const res : {finalCmd: OutputCommand[], originalText: string} = await new Promise((resolve, reject) => {
             reader.onload = async function () {
                 try {
                     const raw = reader.result;
@@ -111,7 +114,7 @@ class Command extends React.Component {
             };
             reader.readAsDataURL(audio.blob);
         });
-        console.log(res);
+        this.props.run(res.finalCmd);
     }
 
     render() {

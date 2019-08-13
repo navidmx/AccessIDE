@@ -28,7 +28,7 @@ class NLP {
     cleanseLine(input : string) : string {return input;}
 }
 
-interface Command {
+export interface Command {
     type : outputType,
     contents : string
 }

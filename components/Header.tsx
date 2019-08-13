@@ -24,6 +24,8 @@ let BrandTextStyle = {
 
 type HeaderProps = {
     run: (commands : OutputCommand[]) => void,
+    tabs: number,
+    line: number,
     update: (newLang : Option) => void,
     languages: Language[]
 }
@@ -53,7 +55,11 @@ class Header extends React.Component < HeaderProps > {
         return (
             <div style={HeaderStyle}>
                 <h1 style={BrandTextStyle}>AccessIDE</h1>
-                <Command run={this.props.run}/>
+                <Command
+                    run={this.props.run}
+                    tabs={this.props.tabs}
+                    line={this.props.line}
+                    />
                 <Dropdown
                     options={this.state.options}
                     onChange={this.props.update}

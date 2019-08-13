@@ -33,7 +33,9 @@ type RecordedBlob = {
 }
 
 type CommandProps = {
-    run: (commands : OutputCommand[]) => void
+    run: (commands : OutputCommand[]) => void,
+    tabs: number,
+    line: number
 }
 
 class Command extends React.Component < CommandProps > {
@@ -58,7 +60,11 @@ class Command extends React.Component < CommandProps > {
             console.log(this.command.current.value);
             fetch(`${Config.getURL()}/runCommand`, {
                 method: 'POST',
-                body: JSON.stringify({command: this.command.current.value})
+                body: JSON.stringify({
+                    command: this.command.current.value,
+                    tabs: this.props.tabs,
+                    line: this.props.line
+                })
             });
             this.command.current.value = '';
         }
@@ -91,14 +97,14 @@ class Command extends React.Component < CommandProps > {
     saveAudio = async(audio : RecordedBlob) => {
         const reader = new FileReader();
         const res : {finalCmd: OutputCommand[], originalText: string} = await new Promise((resolve, reject) => {
-            reader.onload = async function () {
+            reader.onload = async () => {
                 try {
                     const raw = reader.result;
-                    const b64 = raw
-                        .toString()
-                        .replace(/^data:.+;base64,/, '');
+                    const b64 = raw.toString().replace(/^data:.+;base64,/, '');
                     const body = {
-                        audio: b64
+                        audio: b64,
+                        tabs: this.props.tabs,
+                        line: this.props.line
                     }
                     const response = await fetch(`${Config.getURL()}/voiceCommand`, {
                         method: 'POST',

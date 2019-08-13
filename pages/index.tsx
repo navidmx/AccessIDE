@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactAce from 'react-ace/lib/ace';
-import { AceEditorClass } from 'react-ace/lib/AceEditorClass';
+import {AceEditorClass} from 'react-ace/lib/AceEditorClass';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -38,12 +38,20 @@ class Index extends React.Component {
     }
 
     runCommand(commands : OutputCommand[]) {
-        console.log('Commands: ' + commands);
         for (const cmd of commands) {
-            if (cmd.type == 'write') {
-                console.log(this.editor);
-                console.log(cmd.contents);
-                this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
+            switch(cmd.type) {
+                case 'write':
+                    console.log('Write:', cmd.contents);
+                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
+                    break;
+                case 'read':
+                    console.log('Read:', cmd.contents);
+                    break;
+                case 'nav':
+                    console.log('Nav:', cmd.contents);
+                    break;
+                default:
+                    console.log('Error:', cmd.contents);
             }
         }
     }
@@ -90,8 +98,11 @@ class Index extends React.Component {
                     <Row noGutters>
                         <Header
                             run={this.runCommand}
+                            tabs={this.editor.getCursorPositionScreen().column / 4}
+                            line={this.editor.getCursorPosition().row + 1}
                             update={this.updateLanguage}
-                            languages={this.state.languages}/>
+                            languages={this.state.languages}
+                            />
                     </Row>
                     <Row noGutters>
                         <Col md={9}>

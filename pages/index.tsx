@@ -25,6 +25,7 @@ class Index extends React.Component {
     constructor(props: IndexProps) {
         super(props);
         this.updateLanguage = this.updateLanguage.bind(this);
+        this.saveEditor = this.saveEditor.bind(this);
         this.state = {
             languages: [],
             curr: null,

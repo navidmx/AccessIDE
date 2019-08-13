@@ -16,7 +16,8 @@ class NLP {
             if (c.indexOf('read') !== -1) {
                 commands.push({type: 'read', contents: c});
             }
-            if (c.indexOf('create') !== -1) {
+            const write = (/(make|new|create|write)/g);
+            if (write.test(c)){
                 commands.push({type: 'write', contents: c});
             }
         });

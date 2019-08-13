@@ -36,5 +36,7 @@ class JSWrite {
         // ]
         return null;
     }
+    commandMake(cmd) {
+    }
 }
 export default new JSWrite();

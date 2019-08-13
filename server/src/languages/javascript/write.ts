@@ -3,6 +3,10 @@ import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import { create } from 'domain';
 
 class JSWrite implements Write {
+
+    
+
+
     write(input: string): string {
         return '' + this.createFunction(0, 'testFunction', [], input);
     }
@@ -49,6 +53,10 @@ class JSWrite implements Write {
         //     'parameter'
         // ]
         return null;
+    }
+
+    commandMake(cmd) {
+        
     }
 }
 

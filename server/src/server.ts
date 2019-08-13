@@ -34,12 +34,12 @@ app
         server.post('/voiceCommand', async (req, res) => {
             console.log(req.query);
             const text = await AudioProcessor.processAudio(req.body.audio);
-            const command = CommandRunner.runCommand(text);
+            const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line);
             res.send({ originalText: text, finalCmd: command });
         });
 
         server.get('/runCommand', (req, res) => {
-            res.send(CommandRunner.runCommand(req.body.command));
+            res.send(CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line));
         });
 
         server.get('/getLangs', (req, res) => {

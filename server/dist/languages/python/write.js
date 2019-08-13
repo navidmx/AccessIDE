@@ -1,7 +1,7 @@
 class PYWrite {
-    write(input) {
+    write(input, tabs, line) {
         throw new Error("Method not implemented.");
-        return "";
+        return null;
     }
     createFunction(tabs, name, parameters) {
         throw new Error("Method not implemented.");

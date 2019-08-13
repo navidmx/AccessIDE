@@ -1,9 +1,9 @@
 import { Write, Read, Nav } from '../language';
 
 class PYWrite implements Write {
-    write(input: string): string {
+    write(input: string, tabs: number, line: number): { cmd: string, audio: string } {
         throw new Error("Method not implemented.");
-        return "";
+        return null;
     }
     createFunction(tabs: number, name: string, parameters: string[]): string {
         throw new Error("Method not implemented.");

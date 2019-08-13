@@ -43,7 +43,7 @@ class Index extends React.Component {
             if (cmd.type == 'write') {
                 console.log(this.editor);
                 console.log(cmd.contents);
-                this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
+                this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
             }
         }
     }

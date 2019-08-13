@@ -8,7 +8,7 @@ class CommandRunner {
         this.language = l;
     }
 
-    runCommand(input: string): OutputCommand[] {
+    runCommand(input: string, tabs: number, line: number): OutputCommand[] {
         // Process Language
         const processedCommands = nlp.processLine(input);
         console.log(processedCommands);
@@ -20,25 +20,34 @@ class CommandRunner {
                 case 'write':
                     outputs.push({
                         type: 'write',
-                        contents: this.language.writer.default.write(processedCommand.contents)
+                        contents: this.language.writer.default.write(processedCommand.contents, tabs, line)
                     });
                     break;
                 case 'read':
                     outputs.push({
                         type: 'read',
-                        contents: this.language.reader.default.readLine(processedCommand.contents)
+                        contents: {
+                            cmd: this.language.reader.default.readLine(processedCommand.contents),
+                            audio: this.language.reader.default.readLine(processedCommand.contents)
+                        }
                     });
                     break;
                 case 'nav':
                     outputs.push({
                         type: 'nav',
-                        contents: this.language.navigator.default.nav(processedCommand.contents)
+                        contents: {
+                            cmd: this.language.navigator.default.nav(processedCommand.contents),
+                            audio: `went to line ${this.language.navigator.default.nav(processedCommand.contents)}`
+                        }
                     });
                     break;
                 default:
                     outputs.push({
                         type: 'err',
-                        contents: processedCommand.contents
+                        contents: {
+                            audio: 'command not recognized',
+                            cmd: processedCommand.contents
+                        }
                     });
                     break;
             }
@@ -56,7 +65,10 @@ export type outputType = "write" | "read" | "nav" | "err";
 
 export interface OutputCommand {
     type: outputType;
-    contents: string;
+    contents: {
+        cmd: string,
+        audio: string
+    }
 }
 
 export default new CommandRunner();

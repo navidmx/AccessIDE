@@ -7,7 +7,7 @@ export interface Write {
     createIfStatement(tabs: number, condition: string): string;
     createElseIfStatement(tabs: number, condition: string): string;
     createElseStatement(tabs: number): string;
-    write(input: string): string;
+    write(input: string, tabs: number, line: number): { cmd: string, audio: string };
 }
 
 export interface Read {

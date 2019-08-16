@@ -1,62 +1,62 @@
 {
-  "name": "accesside",
-  "version": "1.0.0",
-  "description": "A web based IDE to aid Blind and Visually impared developers write code",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:node": "nodemon -r esm server/dist/server.js",
-    "dev:typescript": "gulp dev",
-    "build:next": "next build",
-    "build:typescript": "gulp",
-    "build:server": "node -r esm server/dist/server.js",
-    "dev": "run-p dev:*",
-    "start": "run-s build:*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/navidmx/AccessIDE.git"
-  },
-  "author": "Navid Mamoon and Garrett Burroughs",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/navidmx/AccessIDE/issues"
-  },
-  "homepage": "https://github.com/navidmx/AccessIDE#readme",
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.20",
-    "@fortawesome/free-solid-svg-icons": "^5.10.0",
-    "@fortawesome/react-fontawesome": "^0.1.4",
-    "@google-cloud/speech": "^3.2.4",
-    "@types/body-parser": "^1.17.0",
-    "bootstrap": "^4.3.1",
-    "brace": "^0.11.1",
-    "child-process": "^1.0.2",
-    "express": "^4.17.1",
-    "ffmpeg": "0.0.4",
-    "fluent-ffmpeg": "^2.1.2",
-    "gulp-typescript": "^5.0.1",
-    "jquery": "^3.4.1",
-    "next": "^9.0.2",
-    "npm-run-all": "^4.1.5",
-    "react": "^16.8.6",
-    "react-ace": "^7.0.2",
-    "react-bootstrap": "^1.0.0-beta.10",
-    "react-dom": "^16.8.6",
-    "react-dropdown": "^1.6.4",
-    "react-mic": "^12.4.1",
-    "request": "^2.88.0",
-    "ts.data.json": "^0.2.0"
-  },
-  "devDependencies": {
-    "@types/jquery": "^3.3.30",
-    "@types/node-fetch": "^2.5.0",
-    "@types/react": "^16.8.23",
-    "@types/react-dom": "^16.8.5",
-    "esm": "^3.2.25",
-    "gulp": "^4.0.2",
-    "gulp-rimraf": "^1.0.0",
-    "nodemon": "^1.19.1",
-    "typescript": "^3.5.3"
-  }
+    "name": "accesside",
+    "version": "1.0.0",
+    "description": "A web based IDE to aid Blind and Visually impared developers write code",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev:node": "nodemon -r esm server/dist/server.js",
+        "dev:typescript": "gulp dev",
+        "build:next": "next build",
+        "build:typescript": "gulp",
+        "build:server": "node -r esm server/dist/server.js",
+        "dev": "run-p dev:*",
+        "start": "run-s build:*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/navidmx/AccessIDE.git"
+    },
+    "author": "Navid Mamoon and Garrett Burroughs",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/navidmx/AccessIDE/issues"
+    },
+    "homepage": "https://github.com/navidmx/AccessIDE#readme",
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.20",
+        "@fortawesome/free-solid-svg-icons": "^5.10.0",
+        "@fortawesome/react-fontawesome": "^0.1.4",
+        "@google-cloud/speech": "^3.2.4",
+        "@types/body-parser": "^1.17.0",
+        "bootstrap": "^4.3.1",
+        "brace": "^0.11.1",
+        "child-process": "^1.0.2",
+        "express": "^4.17.1",
+        "ffmpeg": "0.0.4",
+        "fluent-ffmpeg": "^2.1.2",
+        "gulp-typescript": "^5.0.1",
+        "jquery": "^3.4.1",
+        "next": "^9.0.2",
+        "npm-run-all": "^4.1.5",
+        "react": "^16.8.6",
+        "react-ace": "^7.0.2",
+        "react-bootstrap": "^1.0.0-beta.10",
+        "react-dom": "^16.8.6",
+        "react-dropdown": "^1.6.4",
+        "react-mic": "^12.4.1",
+        "request": "^2.88.0",
+        "ts.data.json": "^0.2.0"
+    },
+    "devDependencies": {
+        "@types/jquery": "^3.3.30",
+        "@types/node-fetch": "^2.5.0",
+        "@types/react": "^16.8.23",
+        "@types/react-dom": "^16.8.5",
+        "esm": "^3.2.25",
+        "gulp": "^4.0.2",
+        "gulp-rimraf": "^1.0.0",
+        "nodemon": "^1.19.1",
+        "typescript": "^3.5.3"
+    }
 }

@@ -6,10 +6,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import speech from '@google-cloud/speech';
 import fs from 'fs';
 import ffmpeg from 'ffmpeg';
 import f_ffmpeg from 'fluent-ffmpeg';
+import speech from '@google-cloud/speech';
 class AudioProcessor {
     constructor() {
         this.client = new speech.SpeechClient();

@@ -1,7 +1,5 @@
 import express from 'express';
-import fs from 'fs';
-import { exec } from 'child_process';
-import { join } from 'path';
+import {join} from 'path';
 import bodyParser from 'body-parser';
 import next from 'next';
 import CommandRunner from './runCommand';
@@ -11,14 +9,16 @@ import languageRegistry from './languageRegistry';
 import Config from './config';
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const app = next({dev});
 const handle = app.getRequestHandler();
-const reqURL = dev ? 'http://localhost:3000' : 'http://localhost:3000';
+const reqURL = dev
+    ? 'http://localhost:3000'
+    : 'http://localhost:3000';
 Config.setURL(reqURL);
 
 app
     .prepare()
-    .then(async () => {
+    .then(async() => {
         const server = express();
         await Registry.findLanguages();
         // console.log(Registry.getLanguages());
@@ -27,15 +27,15 @@ app
         console.log();
 
         server.use('/static', express.static(join(__dirname + "/static")));
-        server.use(bodyParser.json({ limit: '50mb' }));
-        server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-        server.use(bodyParser.raw({ limit: '5mb' }))
+        server.use(bodyParser.json({limit: '50mb'}));
+        server.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
+        server.use(bodyParser.raw({limit: '5mb'}))
 
-        server.post('/voiceCommand', async (req, res) => {
+        server.post('/voiceCommand', async(req, res) => {
             console.log(req.query);
             const text = await AudioProcessor.processAudio(req.body.audio);
             const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line);
-            res.send({ originalText: text, finalCmd: command });
+            res.send({originalText: text, finalCmd: command});
         });
 
         server.get('/runCommand', (req, res) => {
@@ -51,7 +51,7 @@ app
         });
 
         server.listen(3000, (err) => {
-            if (err)
+            if (err) 
                 throw err
             console.log('> Ready on http://localhost:3000')
         })

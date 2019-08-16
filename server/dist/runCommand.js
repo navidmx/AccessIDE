@@ -14,15 +14,27 @@ class CommandRunner {
                 case 'write':
                     outputs.push({
                         type: 'write',
-                        contents: this.language.writer.default.write(processedCommand.contents, tabs, line)
+                        contents: this
+                            .language
+                            .writer
+                            .default
+                            .write(processedCommand.contents, tabs, line)
                     });
                     break;
                 case 'read':
                     outputs.push({
                         type: 'read',
                         contents: {
-                            cmd: this.language.reader.default.readLine(processedCommand.contents),
-                            audio: this.language.reader.default.readLine(processedCommand.contents)
+                            cmd: this
+                                .language
+                                .reader
+                                .default
+                                .readLine(processedCommand.contents),
+                            audio: this
+                                .language
+                                .reader
+                                .default
+                                .readLine(processedCommand.contents)
                         }
                     });
                     break;
@@ -30,8 +42,16 @@ class CommandRunner {
                     outputs.push({
                         type: 'nav',
                         contents: {
-                            cmd: this.language.navigator.default.nav(processedCommand.contents),
-                            audio: `went to line ${this.language.navigator.default.nav(processedCommand.contents)}`
+                            cmd: this
+                                .language
+                                .navigator
+                                .default
+                                .nav(processedCommand.contents),
+                            audio: `went to line ${this
+                                .language
+                                .navigator
+                                .default
+                                .nav(processedCommand.contents)}`
                         }
                     });
                     break;
@@ -46,9 +66,7 @@ class CommandRunner {
                     break;
             }
         }
-        // Write -> send code block
-        // Read -> Send audio
-        // Nav -> Send nav 
+        // Write -> send code block Read -> Send audio Nav -> Send nav
         return outputs;
     }
 }

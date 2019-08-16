@@ -1,19 +1,11 @@
-const {
-    series,
-    parallel,
-    src,
-    dest,
-    watch
-} = require('gulp');
+const {series, src, dest, watch} = require('gulp');
 const ts = require('gulp-typescript');
 const tsProject = ts.createProject('tsconfig.json');
 const rimraf = require('gulp-rimraf')
 
 function clean() {
     console.log("Clean all files in build folder");
-    return src("server/dist/*", {
-        read: false
-    }).pipe(rimraf());
+    return src("server/dist/*", {read: false}).pipe(rimraf());
 }
 
 function typescript(cb) {
@@ -25,8 +17,7 @@ function typescript(cb) {
 
 function serverFiles(cb) {
     console.log('copying files in /server/src/')
-    return src(['./server/src/**/*', '!./server/src/**/*.ts'])
-        .pipe(dest('./server/dist'));
+    return src(['./server/src/**/*', '!./server/src/**/*.ts']).pipe(dest('./server/dist'));
 }
 
 const build = series(clean, serverFiles, typescript)

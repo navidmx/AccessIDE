@@ -27,9 +27,15 @@ class Index extends React.Component {
 
     constructor(props : IndexProps) {
         super(props);
-        this.runCommand = this.runCommand.bind(this);
-        this.saveEditor = this.saveEditor.bind(this);
-        this.updateLanguage = this.updateLanguage.bind(this);
+        this.runCommand = this
+            .runCommand
+            .bind(this);
+        this.saveEditor = this
+            .saveEditor
+            .bind(this);
+        this.updateLanguage = this
+            .updateLanguage
+            .bind(this);
         this.state = {
             languages: [],
             curr: null,
@@ -39,10 +45,13 @@ class Index extends React.Component {
 
     runCommand(commands : OutputCommand[]) {
         for (const cmd of commands) {
-            switch(cmd.type) {
+            switch (cmd.type) {
                 case 'write':
                     console.log('Write:', cmd.contents);
-                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
+                    this
+                        .editor
+                        .session
+                        .insert(this.editor.getCursorPosition(), cmd.contents);
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
@@ -91,16 +100,23 @@ class Index extends React.Component {
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{padding: 0}}>
+                <Container fluid style={{
+                    padding: 0
+                }}>
                     <Row noGutters>
                         <Header
                             run={this.runCommand}
-                            tabs={this.editor.getCursorPositionScreen().column / 4}
-                            currLine={this.editor.getCursorPosition().row + 1}
-                            lines={this.editor.session.doc.getAllLines()}
+                            tabs={this.editor
+                            ? this.editor.getCursorPositionScreen().column / 4
+                            : null}
+                            currLine={this.editor
+                            ? this.editor.getCursorPosition().row + 1
+                            : null}
+                            lines={this.editor
+                            ? this.editor.session.doc.getAllLines()
+                            : null}
                             update={this.updateLanguage}
-                            languages={this.state.languages}
-                            />
+                            languages={this.state.languages}/>
                     </Row>
                     <Row noGutters>
                         <Col md={9}>

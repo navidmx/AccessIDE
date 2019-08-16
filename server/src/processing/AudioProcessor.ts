@@ -1,9 +1,7 @@
-import CommandRunner from "../runCommand";
-import speech from '@google-cloud/speech';
 import fs from 'fs';
 import ffmpeg from 'ffmpeg';
-import path from 'path';
 import f_ffmpeg from 'fluent-ffmpeg';
+import speech from '@google-cloud/speech';
 
 class AudioProcessor {
     private client : any;
@@ -102,7 +100,6 @@ class AudioProcessor {
             }
         });
     }
-
 }
 
 export default new AudioProcessor();

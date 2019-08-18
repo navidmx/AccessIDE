@@ -51,7 +51,7 @@ class Index extends React.Component {
             switch (cmd.type) {
                 case 'write':
                     console.log('Write:', cmd);
-                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
+                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
                     this.speakAudio(cmd.contents.audio);
                     break;
                 case 'read':

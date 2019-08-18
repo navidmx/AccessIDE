@@ -1,10 +1,10 @@
-import React, {KeyboardEvent} from 'react';
+import React, { KeyboardEvent } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import fetch from 'node-fetch';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCode} from '@fortawesome/free-solid-svg-icons';
-import {OutputCommand} from '../server/src/runCommand';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { OutputCommand } from '../server/src/runCommand';
 import Config from '../server/src/config';
 import Recorder from '../components/Recorder';
 
@@ -33,22 +33,22 @@ type RecordedBlob = {
 }
 
 type CommandProps = {
-    run: (commands : OutputCommand[]) => void,
+    run: (commands: OutputCommand[]) => void,
     tabs: number,
     currLine: number,
     lines: string[],
     recording: boolean
 }
 
-class Command extends React.Component < CommandProps > {
-    private command : any;
+class Command extends React.Component<CommandProps> {
+    private command: any;
 
-    constructor(props : CommandProps) {
+    constructor(props: CommandProps) {
         super(props);
         this.command = React.createRef();
     }
 
-    commandEntered = (event : KeyboardEvent) => {
+    commandEntered = (event: KeyboardEvent) => {
         if (event.charCode == 13) {
             event.preventDefault();
             console.log(this.command.current.value);
@@ -65,9 +65,9 @@ class Command extends React.Component < CommandProps > {
         }
     }
 
-    saveAudio = async(audio : RecordedBlob) => {
+    saveAudio = async (audio: RecordedBlob) => {
         const reader = new FileReader();
-        const res : {finalCmd: OutputCommand[], originalText: string} = await new Promise((resolve, reject) => {
+        const res: { finalCmd: OutputCommand[], originalText: string } = await new Promise((resolve, reject) => {
             reader.onload = async () => {
                 try {
                     const raw = reader.result;
@@ -102,8 +102,8 @@ class Command extends React.Component < CommandProps > {
                     <InputGroup.Prepend>
                         <InputGroup.Text style={CommandPrefixStyle}>
                             <FontAwesomeIcon
-                                style={{margin: 'auto'}}
-                                icon={faCode}/>
+                                style={{ margin: 'auto' }}
+                                icon={faCode} />
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
@@ -121,7 +121,7 @@ class Command extends React.Component < CommandProps > {
                         width={98}
                         height={48}
                         strokeColor='#CCC'
-                        backgroundColor='#131313'/>
+                        backgroundColor='#131313' />
                 </InputGroup>
             </Form>
         )

@@ -28,7 +28,8 @@ type HeaderProps = {
     currLine: number,
     lines: string[],
     update: (newLang : Option) => void,
-    languages: Language[]
+    languages: Language[],
+    recording: boolean
 }
 
 class Header extends React.Component < HeaderProps > {
@@ -61,6 +62,7 @@ class Header extends React.Component < HeaderProps > {
                     tabs={this.props.tabs}
                     currLine={this.props.currLine}
                     lines={this.props.lines}
+                    recording={this.props.recording}
                     />
                 <Dropdown
                     options={this.state.options}

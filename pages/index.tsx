@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactAce from 'react-ace/lib/ace';
 import {AceEditorClass} from 'react-ace/lib/AceEditorClass';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -20,6 +19,7 @@ class Index extends React.Component {
     editor : AceEditorClass;
 
     public state : {
+        recording: boolean,
         languages: Language[],
         curr: Language,
         code: string
@@ -31,6 +31,7 @@ class Index extends React.Component {
         this.saveEditor = this.saveEditor.bind(this);
         this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
+            recording: false,
             languages: [],
             curr: null,
             code: ''
@@ -56,19 +57,35 @@ class Index extends React.Component {
         }
     }
 
-    saveEditor(instance : ReactAce) {
+    saveEditor(instance : AceEditorClass) {
         this.editor = instance;
     }
 
     updateEditor(newValue : string) {
-        console.log(newValue);
+        // console.log(newValue);
         // this.setState({ code: newValue });
     }
 
     updateLanguage(newLang : Option) {
-        // BACKEND - Send POST request with newLang.value to update language ID
+        // BACKEND - Send POST request with newLang.value to update language ID for compiler
         let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: selected});
+    }
+
+    voiceShortcut = (event : any) => {
+        if (event.keyCode === 27) {
+            this.state.recording
+                ? this.stopRecording()
+                : this.startRecording();
+        }
+    }
+
+    startRecording = () => {
+        this.setState({recording: true});
+    }
+
+    stopRecording = () => {
+        this.setState({recording: false});
     }
 
     componentWillMount = async() => {
@@ -80,6 +97,14 @@ class Index extends React.Component {
         }
     }
 
+    componentDidMount = () => {
+        document.addEventListener('keydown', this.voiceShortcut, false);
+    }
+
+    componentWillUnmount = () => {
+        document.removeEventListener('keydown', this.voiceShortcut, false);
+    }
+
     render() {
         return (
             <div>
@@ -88,9 +113,7 @@ class Index extends React.Component {
                     <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
                     <link href="/static/assets/style.css" rel="stylesheet"/>
                 </Head>
-                <Container fluid style={{
-                    padding: 0
-                }}>
+                <Container fluid style={{padding: 0}}>
                     <Row noGutters>
                         <Header
                             run={this.runCommand}
@@ -104,7 +127,8 @@ class Index extends React.Component {
                             ? this.editor.session.doc.getAllLines()
                             : null}
                             update={this.updateLanguage}
-                            languages={this.state.languages}/>
+                            languages={this.state.languages}
+                            recording={this.state.recording}/>
                     </Row>
                     <Row noGutters>
                         <Col md={9}>

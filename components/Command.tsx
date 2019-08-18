@@ -36,26 +36,19 @@ type CommandProps = {
     run: (commands : OutputCommand[]) => void,
     tabs: number,
     currLine: number,
-    lines: string[]
+    lines: string[],
+    recording: boolean
 }
 
 class Command extends React.Component < CommandProps > {
     private command : any;
 
-    public state : {
-        record: boolean;
-    }
-
     constructor(props : CommandProps) {
         super(props);
         this.command = React.createRef();
-        this.state = {
-            record: false
-        }
     }
 
     commandEntered = (event : KeyboardEvent) => {
-        // SEE IF THIS WORKS LATER this.stopRecording();
         if (event.charCode == 13) {
             event.preventDefault();
             console.log(this.command.current.value);
@@ -70,30 +63,6 @@ class Command extends React.Component < CommandProps > {
             });
             this.command.current.value = '';
         }
-    }
-
-    voiceShortcut = (event : any) => {
-        if (event.keyCode === 27) {
-            this.state.record
-                ? this.stopRecording()
-                : this.startRecording();
-        }
-    }
-
-    componentDidMount = () => {
-        document.addEventListener('keydown', this.voiceShortcut, false);
-    }
-
-    componentWillUnmount = () => {
-        document.removeEventListener('keydown', this.voiceShortcut, false);
-    }
-
-    startRecording = () => {
-        this.setState({record: true});
-    }
-
-    stopRecording = () => {
-        this.setState({record: false});
     }
 
     saveAudio = async(audio : RecordedBlob) => {
@@ -147,7 +116,7 @@ class Command extends React.Component < CommandProps > {
                         type="text"
                         ref={this.command}></Form.Control>
                     <Recorder
-                        record={this.state.record}
+                        record={this.props.recording}
                         className='sound-wave'
                         onStop={this.saveAudio}
                         mimeType='video/webm'

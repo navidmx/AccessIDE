@@ -7,8 +7,8 @@ import Col from 'react-bootstrap/Col';
 import {Option} from 'react-dropdown';
 import Head from 'next/head';
 import fetch from 'node-fetch';
-import {Language} from '../server/src/languageRegistry';
 import Config from '../server/src/config';
+import {Language} from '../server/src/languageRegistry';
 import {OutputCommand} from '../server/src/runCommand';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
@@ -27,15 +27,9 @@ class Index extends React.Component {
 
     constructor(props : IndexProps) {
         super(props);
-        this.runCommand = this
-            .runCommand
-            .bind(this);
-        this.saveEditor = this
-            .saveEditor
-            .bind(this);
-        this.updateLanguage = this
-            .updateLanguage
-            .bind(this);
+        this.runCommand = this.runCommand.bind(this);
+        this.saveEditor = this.saveEditor.bind(this);
+        this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
             languages: [],
             curr: null,
@@ -48,10 +42,7 @@ class Index extends React.Component {
             switch (cmd.type) {
                 case 'write':
                     console.log('Write:', cmd.contents);
-                    this
-                        .editor
-                        .session
-                        .insert(this.editor.getCursorPosition(), cmd.contents);
+                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
@@ -76,10 +67,7 @@ class Index extends React.Component {
 
     updateLanguage(newLang : Option) {
         // BACKEND - Send POST request with newLang.value to update language ID
-        let selected = this
-            .state
-            .languages
-            .filter(lang => lang.id == newLang.value)[0];
+        let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: selected});
     }
 
@@ -124,7 +112,7 @@ class Index extends React.Component {
                                 id="editor"
                                 mode={this.state.curr
                                 ? this.state.curr.syntax
-                                : null}
+                                : "javascript"}
                                 theme="twilight"
                                 fontSize="18px"
                                 value="const foo = 42;"

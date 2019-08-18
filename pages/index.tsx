@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {Option} from 'react-dropdown';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import fetch from 'node-fetch';
 import Config from '../server/src/config';
 import {Language} from '../server/src/languageRegistry';
@@ -15,11 +16,17 @@ import Output from '../components/Output';
 
 type IndexProps = {}
 
+const Speech = dynamic(
+    () => import('../components/Speech'),
+    { ssr: false }
+)
+
 class Index extends React.Component {
     editor : AceEditorClass;
 
     public state : {
         recording: boolean,
+        audio: string,
         languages: Language[],
         curr: Language,
         code: string
@@ -32,6 +39,7 @@ class Index extends React.Component {
         this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
             recording: false,
+            audio: 'Editor loaded.',
             languages: [],
             curr: null,
             code: ''
@@ -42,8 +50,9 @@ class Index extends React.Component {
         for (const cmd of commands) {
             switch (cmd.type) {
                 case 'write':
-                    console.log('Write:', cmd.contents);
+                    console.log('Write:', cmd);
                     this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents);
+                    this.speakAudio(cmd.contents.audio);
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
@@ -78,6 +87,10 @@ class Index extends React.Component {
                 ? this.stopRecording()
                 : this.startRecording();
         }
+    }
+
+    speakAudio = (text : string) => {
+        this.setState({audio: text})
     }
 
     startRecording = () => {
@@ -149,6 +162,7 @@ class Index extends React.Component {
                         </Col>
                     </Row>
                 </Container>
+                <Speech audio={this.state.audio}/>
             </div>
         );
     }

@@ -102,9 +102,7 @@ class Command extends React.Component < CommandProps > {
                     <InputGroup.Prepend>
                         <InputGroup.Text style={CommandPrefixStyle}>
                             <FontAwesomeIcon
-                                style={{
-                                margin: 'auto'
-                            }}
+                                style={{margin: 'auto'}}
                                 icon={faCode}/>
                         </InputGroup.Text>
                     </InputGroup.Prepend>

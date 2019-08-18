@@ -1,0 +1,31 @@
+import React from 'react';
+
+type SpeechProps = {
+    audio: string
+}
+
+const synth = window.speechSynthesis;
+
+class Speech extends React.Component < SpeechProps > {
+    private command : any;
+
+    constructor(props : SpeechProps) {
+        super(props);
+    }
+
+    speakAudio(text : SpeechSynthesisUtterance) {
+        synth.speak(text);
+    }
+
+    componentDidMount() {
+        this.speakAudio(new SpeechSynthesisUtterance(this.props.audio));
+    }
+
+    render() {
+        return (
+            <div></div>
+        )
+    }
+};
+
+export default Speech;

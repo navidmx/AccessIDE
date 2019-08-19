@@ -33,7 +33,7 @@ type RecordedBlob = {
 }
 
 type CommandProps = {
-    run: (commands: OutputCommand[]) => void,
+    run: (commands : OutputCommand[]) => void,
     tabs: number,
     currLine: number,
     lines: string[],
@@ -41,10 +41,10 @@ type CommandProps = {
     onEnter: () => void
 }
 
-class Command extends React.Component<CommandProps> {
-    private command: any;
+class Command extends React.Component < CommandProps > {
+    private command : any;
 
-    constructor(props: CommandProps) {
+    constructor(props : CommandProps) {
         super(props);
         this.command = React.createRef();
     }

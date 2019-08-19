@@ -39,11 +39,15 @@ app
         res.send({ originalText: text, finalCmd: command });
     }));
     server.post('/runCommand', (req, res) => {
+<<<<<<< HEAD
         console.log(req);
         res.send({
             originalText: req.body.command,
             finalCmd: CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line)
         });
+=======
+        res.send(CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line));
+>>>>>>> 9e0c294c960ea6821c196d10cdee1e16638d17d7
     });
     server.get('/getLangs', (req, res) => {
         res.send(languageRegistry.getLanguages());

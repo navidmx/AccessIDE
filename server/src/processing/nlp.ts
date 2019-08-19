@@ -4,19 +4,21 @@ class NLP {
     processLine(input : string) : Command[] {
         const commands : Command[] = [];
         const audioList = input
+            .trim()
+            .toLowerCase()
             .replace(/\w*(greater|less) then/, 'than')
             .split(' then ');
-        audioList.forEach((c) => {
-            c = this.cleanseLine(c);
+        audioList.forEach((line) => {
+            line = this.cleanseLine(line);
             const write = (/(make|new|create|write)/g);
-            if (c.indexOf('go to') !== -1) {
-                commands.push({type: 'nav', contents: c});
-            } else if (c.indexOf('read') !== -1) {
-                commands.push({type: 'read', contents: c});
-            } else if (write.test(c)) {
-                commands.push({type: 'write', contents: c});
+            if (line.indexOf('go to') !== -1) {
+                commands.push({type: 'nav', contents: line});
+            } else if (line.indexOf('read') !== -1) {
+                commands.push({type: 'read', contents: line});
+            } else if (write.test(line)) {
+                commands.push({type: 'write', contents: line});
             } else {
-                commands.push({type: 'err', contents: c});
+                commands.push({type: 'err', contents: line});
             }
         });
         return commands;

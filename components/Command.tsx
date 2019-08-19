@@ -49,18 +49,22 @@ class Command extends React.Component<CommandProps> {
         this.command = React.createRef();
     }
 
-    commandEntered = (event: KeyboardEvent) => {
+    commandEntered = async (event: KeyboardEvent) => {
         if (event.charCode == 13) {
             event.preventDefault();
-            fetch(`${Config.getURL()}/runCommand`, {
+            const response = fetch(`${Config.getURL()}/runCommand`, {
                 method: 'POST',
                 body: JSON.stringify({
                     command: this.command.current.value,
                     tabs: this.props.tabs,
                     line: this.props.currLine,
                     editor: this.props.lines
-                })
-            });
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json());;
+            console.log(this.command.current.value);
             this.command.current.value = '';
             this.props.onEnter();
         }

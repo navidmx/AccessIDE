@@ -10,6 +10,7 @@ class CommandRunner {
 
     runCommand(input : string, tabs : number, line : number) : OutputCommand[] {
         // Process Language
+        console.log(input);
         const processedCommands = nlp.processLine(input);
         console.log(processedCommands);
         let outputs : OutputCommand[] = [];

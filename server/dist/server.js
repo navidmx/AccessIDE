@@ -29,19 +29,21 @@ app
     yield Registry.findLanguages();
     // console.log(Registry.getLanguages());
     CommandRunner.setLanguage(Registry.getLanguages()[0]);
-    console.log();
     server.use('/static', express.static(join(__dirname + "/static")));
     server.use(bodyParser.json({ limit: '50mb' }));
     server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
     server.use(bodyParser.raw({ limit: '5mb' }));
     server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
-        console.log(req.query);
         const text = yield AudioProcessor.processAudio(req.body.audio);
         const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line);
         res.send({ originalText: text, finalCmd: command });
     }));
-    server.get('/runCommand', (req, res) => {
-        res.send(CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line));
+    server.post('/runCommand', (req, res) => {
+        console.log(req);
+        res.send({
+            originalText: req.body.command,
+            finalCmd: CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line)
+        });
     });
     server.get('/getLangs', (req, res) => {
         res.send(languageRegistry.getLanguages());

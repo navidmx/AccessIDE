@@ -87,7 +87,7 @@ class Command extends React.Component<CommandProps> {
                     }).then(res => res.json());
                     resolve(response)
                 } catch (err) {
-                    reject(err);
+                    console.log(err);
                 }
             };
             reader.readAsDataURL(audio.blob);

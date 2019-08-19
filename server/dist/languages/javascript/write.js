@@ -37,7 +37,7 @@ class JSWrite {
             }
             return {
                 cmd: this.createForLoop(tabs, start, end, step, counter),
-                audio: `created a loop from ${start} to ${end}`
+                audio: `Created a for loop from ${start} to ${end}`
             };
         }
         else if (includes(cmd, 'function')) {
@@ -52,7 +52,7 @@ class JSWrite {
             }
             return {
                 cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)),
-                audio: `created function ${line.join(' ')} ${!!parameters ? 'with parameters ' + parameters.filter(Boolean).join(' ') : ''}`
+                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameters ' + parameters.filter(Boolean).join(' ') : ''}`
             };
         }
         else if (/(constant|variable)/g.test(cmd)) {
@@ -82,6 +82,12 @@ class JSWrite {
                     audio: `Created a variable named ${name} ${!!name ? 'with value ' + value : ''}`
                 };
             }
+        }
+        else {
+            return {
+                cmd: '',
+                audio: 'No writable object found'
+            };
         }
     }
     createFunction(tabs, name, parameters, content) {

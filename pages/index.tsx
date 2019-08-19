@@ -36,6 +36,7 @@ class Index extends React.Component {
         super(props);
         this.runCommand = this.runCommand.bind(this);
         this.saveEditor = this.saveEditor.bind(this);
+        this.updateEditor = this.updateEditor.bind(this);
         this.updateLanguage = this.updateLanguage.bind(this);
         this.state = {
             recording: false,
@@ -50,9 +51,9 @@ class Index extends React.Component {
         for (const cmd of commands) {
             switch (cmd.type) {
                 case 'write':
-                    console.log('Write:', cmd);
-                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
+                    console.log('Write:', cmd.contents);
                     this.speakAudio(cmd.contents.audio);
+                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
@@ -71,8 +72,7 @@ class Index extends React.Component {
     }
 
     updateEditor(newValue : string) {
-        // console.log(newValue);
-        // this.setState({ code: newValue });
+        this.setState({code: newValue});
     }
 
     updateLanguage(newLang : Option) {
@@ -152,10 +152,11 @@ class Index extends React.Component {
                                 : "javascript"}
                                 theme="twilight"
                                 fontSize="18px"
-                                value="const foo = 42;"
+                                value={this.state.code}
                                 onLoad={this.saveEditor}
                                 onChange={this.updateEditor}
-                                language={this.state.curr}/>
+                                language={this.state.curr}
+                                editorProps={{$blockScrolling: true}}/>
                         </Col>
                         <Col md={3}>
                             <Output/>

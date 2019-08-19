@@ -39,7 +39,7 @@ class JSWrite implements Write {
             }
             return {
                 cmd: this.createForLoop(tabs, start, end, step, counter),
-                audio: `created a loop from ${start} to ${end}`
+                audio: `Created a for loop from ${start} to ${end}`
             }
         } else if (includes(cmd, 'function')) {
             cmd = cmd.replace(/(parameter|parameters)/g, '');
@@ -52,7 +52,7 @@ class JSWrite implements Write {
             }
             return {
                 cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)),
-                audio: `created function ${line.join(' ')} ${!!parameters ? 'with parameters ' + parameters.filter(Boolean).join(' ') : ''}`
+                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameters ' + parameters.filter(Boolean).join(' ') : ''}`
             }
         } else if (/(constant|variable)/g.test(cmd)) {
             let type, name, value;
@@ -79,6 +79,11 @@ class JSWrite implements Write {
                     cmd: this.createVariable(name, value),
                     audio: `Created a variable named ${name} ${!!name ? 'with value ' + value : ''}`
                 }
+            }
+        } else {
+            return {
+                cmd: '',
+                audio: 'No writable object found'
             }
         }
     }
@@ -128,8 +133,6 @@ class JSWrite implements Write {
         // ]
         return null;
     }
-
-
 
     private toCamel(s) {
         return s.replace(/([ ]([a-z]|[0-9]))/ig, ($1) => {

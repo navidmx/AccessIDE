@@ -14,7 +14,10 @@ type EditorProps = {
     value: string,
     onLoad: Function,
     onChange: Function,
-    language: Language
+    language: Language,
+    editorProps: {
+        $blockScrolling: boolean
+    }
 }
 
 class Editor extends React.Component < EditorProps > {

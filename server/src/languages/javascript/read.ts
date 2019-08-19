@@ -2,7 +2,7 @@ import { Read } from "../language";
 
 class JSRead implements Read {
     readLine(line: string): string {
-        return "";
+        return line;
     }
 }
 

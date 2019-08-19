@@ -58,6 +58,7 @@ class Index extends React.Component {
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
+                    this.setState({audio: this.readCommand(cmd.contents.cmd)});
                     break;
                 case 'nav':
                     console.log('Nav:', cmd.contents);
@@ -68,15 +69,30 @@ class Index extends React.Component {
         }
     }
 
-    saveEditor(instance : AceEditorClass) {
+    readCommand = (cmd : string) => {
+        let session = this.editor.getSession();
+        if (/(this|current) line/.test(cmd)) {
+            let row = this.editor.getCursorPosition().row;
+            this.setState({audio: session.getLine(row)});
+        } else if (/line [0-9]+/.test(cmd)) {
+            let row = cmd.substring(cmd.indexOf('line') + 5);
+            this.setState({audio: session.getLine(row)});
+        }
+    }
+
+    read = (cmd : string) => {
+
+    }
+
+    saveEditor = (instance : AceEditorClass) => {
         this.editor = instance;
     }
 
-    updateEditor(newValue : string) {
+    updateEditor = (newValue : string) => {
         this.setState({code: newValue});
     }
 
-    updateLanguage(newLang : Option) {
+    updateLanguage = (newLang : Option) => {
         // BACKEND - Send POST request with newLang.value to update language ID for compiler
         let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
         this.setState({curr: selected});
@@ -84,9 +100,7 @@ class Index extends React.Component {
 
     voiceShortcut = (event : any) => {
         if (event.keyCode === 27) {
-            this.state.recording
-                ? this.stopRecording()
-                : this.startRecording();
+            this.state.recording ? this.stopRecording() : this.startRecording();
         }
     }
 

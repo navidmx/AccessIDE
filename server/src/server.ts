@@ -38,7 +38,7 @@ app
             res.send({originalText: text, finalCmd: command});
         });
 
-        server.get('/runCommand', (req, res) => {
+        server.post('/runCommand', (req, res) => {
             res.send(CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line));
         });
 

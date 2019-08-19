@@ -33,7 +33,7 @@ type RecordedBlob = {
 }
 
 type CommandProps = {
-    run: (commands: OutputCommand[]) => void,
+    run: (commands : OutputCommand[]) => void,
     tabs: number,
     currLine: number,
     lines: string[],
@@ -41,18 +41,18 @@ type CommandProps = {
     onEnter: () => void
 }
 
-class Command extends React.Component<CommandProps> {
-    private command: any;
+class Command extends React.Component < CommandProps > {
+    private command : any;
 
-    constructor(props: CommandProps) {
+    constructor(props : CommandProps) {
         super(props);
         this.command = React.createRef();
     }
 
-    commandEntered = (event: KeyboardEvent) => {
+    commandEntered = async (event : KeyboardEvent) => {
         if (event.charCode == 13) {
             event.preventDefault();
-            fetch(`${Config.getURL()}/runCommand`, {
+            const response = await fetch(`${Config.getURL()}/runCommand`, {
                 method: 'POST',
                 body: JSON.stringify({
                     command: this.command.current.value,
@@ -60,7 +60,9 @@ class Command extends React.Component<CommandProps> {
                     line: this.props.currLine,
                     editor: this.props.lines
                 })
-            });
+            }).then(res => res.json());
+            console.log(response);
+            this.props.run(response.finalCmd);
             this.command.current.value = '';
             this.props.onEnter();
         }

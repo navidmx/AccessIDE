@@ -1,6 +1,6 @@
 class JSRead {
     readLine(line) {
-        return "";
+        return line;
     }
 }
 export default new JSRead();

@@ -52,7 +52,7 @@ class Command extends React.Component < CommandProps > {
     commandEntered = async (event: KeyboardEvent) => {
         if (event.charCode == 13) {
             event.preventDefault();
-            const response = fetch(`${Config.getURL()}/runCommand`, {
+            const response = await fetch(`${Config.getURL()}/runCommand`, {
                 method: 'POST',
                 body: JSON.stringify({
                     command: this.command.current.value,
@@ -63,8 +63,9 @@ class Command extends React.Component < CommandProps > {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then(res => res.json());;
+            }).then(res => res.json());
             console.log(this.command.current.value);
+            this.props.run(response.finalCmd)
             this.command.current.value = '';
             this.props.onEnter();
         }

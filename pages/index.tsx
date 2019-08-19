@@ -73,15 +73,23 @@ class Index extends React.Component {
         let session = this.editor.getSession();
         if (/(this|current) line/.test(cmd)) {
             let row = this.editor.getCursorPosition().row;
-            this.setState({audio: session.getLine(row)});
+            this.setState(
+                {
+                    audio: this.read(session.getLine(row))
+                }
+            );
         } else if (/line [0-9]+/.test(cmd)) {
             let row = cmd.substring(cmd.indexOf('line') + 5);
-            this.setState({audio: session.getLine(row)});
+            this.setState(
+                {
+                    audio: this.read(session.getLine(row))
+                }
+            );
         }
     }
 
     read = (cmd : string) => {
-
+        return cmd;
     }
 
     saveEditor = (instance : AceEditorClass) => {

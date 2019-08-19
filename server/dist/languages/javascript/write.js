@@ -17,7 +17,7 @@ class JSWrite {
         }
         else if (includes(cmd, 'loop')) {
             let line = cmd.substring(cmd.indexOf('loop') + 5).split(' ');
-            let counter, start, end, step;
+            let counter = 'i', start = 0, end = 10, step = 1;
             if (includes(cmd, 'length')) {
                 let index = line.indexOf('length');
                 line.splice(parseInt(line[index]), 2);
@@ -33,7 +33,7 @@ class JSWrite {
                 end = parseInt(line[line.indexOf('to') + 1]);
             }
             if (line.includes('step')) {
-                step = parseInt(line[line.indexOf(step.toString()) + 1]);
+                step = parseInt(line[line.indexOf('step') + 1]);
             }
             return {
                 cmd: this.createForLoop(tabs, start, end, step, counter),
@@ -100,9 +100,7 @@ class JSWrite {
         return `const ${name}${value ? ' = ' + value : ''};`;
     }
     createForLoop(tabs, start, end, step, flag) {
-        flag = flag || 'i';
-        step = step || 1;
-        return `for(let ${flag || 'i'} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} += ${step}) ${this.createBlock(tabs)}`;
+        return `for(let ${flag} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} ${start > end ? '-' : '+'}= ${step}) ${this.createBlock(tabs)}`;
     }
     createWhileLoop(tabs, condition) {
         return `while(${condition}) ${this.createBlock(tabs)}`;

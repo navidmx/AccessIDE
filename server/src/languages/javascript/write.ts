@@ -1,7 +1,6 @@
 import { Write } from '../language';
 
 class JSWrite implements Write {
-
     write(cmd: string, tabs: number, line: number): { cmd: string, audio: string } {
         const includes = (src: string, str: string) => {
             return src.indexOf(str) !== -1;
@@ -19,7 +18,10 @@ class JSWrite implements Write {
             }
         } else if (includes(cmd, 'loop')) {
             let line = cmd.substring(cmd.indexOf('loop') + 5).split(' ');
-            let counter: string, start: number, end: number, step: number;
+            let counter: string = 'i',
+                start: number = 0,
+                end: number = 10,
+                step: number = 1;
             if (includes(cmd, 'length')) {
                 let index = line.indexOf('length');
                 line.splice(parseInt(line[index]), 2);
@@ -35,7 +37,7 @@ class JSWrite implements Write {
                 end = parseInt(line[line.indexOf('to') + 1]);
             }
             if (line.includes('step')) {
-                step = parseInt(line[line.indexOf(step.toString()) + 1]);
+                step = parseInt(line[line.indexOf('step') + 1]);
             }
             return {
                 cmd: this.createForLoop(tabs, start, end, step, counter),
@@ -101,9 +103,7 @@ class JSWrite implements Write {
     }
 
     createForLoop(tabs: number, start: number, end: number, step: number, flag: string): string {
-        flag = flag || 'i';
-        step = step || 1;
-        return `for(let ${flag || 'i'} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} += ${step}) ${this.createBlock(tabs)}`;
+        return `for(let ${flag} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} ${start > end ? '-' : '+'}= ${step}) ${this.createBlock(tabs)}`;
     }
 
     createWhileLoop(tabs: number, condition: string): string {

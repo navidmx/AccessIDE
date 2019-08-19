@@ -52,10 +52,10 @@ class JSWrite implements Write {
             }
             return {
                 cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)),
-                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameters ' + parameters.filter(Boolean).join(' ') : ''}`
+                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameter ' + parameters.filter(Boolean).join(' ') : ''}`
             }
         } else if (/(constant|variable)/g.test(cmd)) {
-            let type, name, value;
+            let type: string, name: string, value: string;
             if (cmd.includes('constant')) {
                 type = 'const';
                 cmd = cmd.replace('variable', '');
@@ -89,7 +89,7 @@ class JSWrite implements Write {
     }
 
     createFunction(tabs: number, name: string, parameters: string[], content?: string): string {
-        return `function ${name}(${parameters.join()}) ${this.createBlock(tabs, content)}`;
+        return `function ${name}(${parameters.join(', ')}) ${this.createBlock(tabs, content)}`;
     }
 
     createVariable(name: string, value: any): string {

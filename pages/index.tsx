@@ -38,9 +38,10 @@ class Index extends React.Component {
         this.saveEditor = this.saveEditor.bind(this);
         this.updateEditor = this.updateEditor.bind(this);
         this.updateLanguage = this.updateLanguage.bind(this);
+        this.clearAudio = this.clearAudio.bind(this);
         this.state = {
             recording: false,
-            audio: 'Editor loaded.',
+            audio: 'Editor loaded',
             languages: [],
             curr: null,
             code: ''
@@ -52,7 +53,7 @@ class Index extends React.Component {
             switch (cmd.type) {
                 case 'write':
                     console.log('Write:', cmd.contents);
-                    this.speakAudio(cmd.contents.audio);
+                    this.setState({audio: cmd.contents.audio})
                     this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
                     break;
                 case 'read':
@@ -89,16 +90,19 @@ class Index extends React.Component {
         }
     }
 
-    speakAudio = (text : string) => {
-        this.setState({audio: text})
-    }
-
     startRecording = () => {
         this.setState({recording: true});
     }
 
     stopRecording = () => {
         this.setState({recording: false});
+        this.editor.focus();
+    }
+
+    clearAudio = () => {
+        if (this.state.audio != '') {
+            this.setState({audio: ''});
+        }
     }
 
     componentWillMount = async() => {
@@ -141,7 +145,8 @@ class Index extends React.Component {
                             : null}
                             update={this.updateLanguage}
                             languages={this.state.languages}
-                            recording={this.state.recording}/>
+                            recording={this.state.recording}
+                            onEnter={this.stopRecording}/>
                     </Row>
                     <Row noGutters>
                         <Col md={9}>
@@ -163,7 +168,9 @@ class Index extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-                <Speech audio={this.state.audio}/>
+                <Speech
+                    audio={this.state.audio}
+                    clear={this.clearAudio}/>
             </div>
         );
     }

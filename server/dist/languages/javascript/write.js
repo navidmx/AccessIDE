@@ -52,7 +52,7 @@ class JSWrite {
             }
             return {
                 cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)),
-                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameters ' + parameters.filter(Boolean).join(' ') : ''}`
+                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameter ' + parameters.filter(Boolean).join(' ') : ''}`
             };
         }
         else if (/(constant|variable)/g.test(cmd)) {
@@ -91,7 +91,7 @@ class JSWrite {
         }
     }
     createFunction(tabs, name, parameters, content) {
-        return `function ${name}(${parameters.join()}) ${this.createBlock(tabs, content)}`;
+        return `function ${name}(${parameters.join(', ')}) ${this.createBlock(tabs, content)}`;
     }
     createVariable(name, value) {
         return `let ${name}${value ? ' = ' + value : ''};`;

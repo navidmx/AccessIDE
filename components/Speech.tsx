@@ -1,7 +1,8 @@
 import React from 'react';
 
 type SpeechProps = {
-    audio: string
+    audio: string,
+    clear: Function
 }
 
 const synth = window.speechSynthesis;
@@ -13,11 +14,16 @@ class Speech extends React.Component < SpeechProps > {
         super(props);
     }
 
-    speakAudio(text : SpeechSynthesisUtterance) {
+    speakAudio = (text : SpeechSynthesisUtterance) => {
         synth.speak(text);
+        this.props.clear();
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
+        this.speakAudio(new SpeechSynthesisUtterance(this.props.audio));
+    }
+
+    componentDidUpdate = () => {
         this.speakAudio(new SpeechSynthesisUtterance(this.props.audio));
     }
 

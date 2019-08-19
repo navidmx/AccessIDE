@@ -29,7 +29,8 @@ type HeaderProps = {
     lines: string[],
     update: (newLang : Option) => void,
     languages: Language[],
-    recording: boolean
+    recording: boolean,
+    onEnter: () => void
 }
 
 class Header extends React.Component < HeaderProps > {
@@ -63,6 +64,7 @@ class Header extends React.Component < HeaderProps > {
                     currLine={this.props.currLine}
                     lines={this.props.lines}
                     recording={this.props.recording}
+                    onEnter={this.props.onEnter}
                     />
                 <Dropdown
                     options={this.state.options}

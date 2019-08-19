@@ -37,7 +37,8 @@ type CommandProps = {
     tabs: number,
     currLine: number,
     lines: string[],
-    recording: boolean
+    recording: boolean,
+    onEnter: () => void
 }
 
 class Command extends React.Component<CommandProps> {
@@ -51,7 +52,6 @@ class Command extends React.Component<CommandProps> {
     commandEntered = (event: KeyboardEvent) => {
         if (event.charCode == 13) {
             event.preventDefault();
-            console.log(this.command.current.value);
             fetch(`${Config.getURL()}/runCommand`, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -62,6 +62,7 @@ class Command extends React.Component<CommandProps> {
                 })
             });
             this.command.current.value = '';
+            this.props.onEnter();
         }
     }
 
@@ -95,12 +96,19 @@ class Command extends React.Component<CommandProps> {
         this.props.run(res.finalCmd);
     }
 
+    componentDidUpdate = () => {
+        if (this.props.recording) {
+            this.command.current.focus();
+        }
+    }
+
     render() {
         return (
             <Form inline style={MaxWidth}>
                 <InputGroup style={MaxWidth}>
                     <InputGroup.Prepend>
-                        <InputGroup.Text style={CommandPrefixStyle}>
+                        <InputGroup.Text
+                            style={CommandPrefixStyle}>
                             <FontAwesomeIcon
                                 style={{ margin: 'auto' }}
                                 icon={faCode} />

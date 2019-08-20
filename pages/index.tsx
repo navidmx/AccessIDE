@@ -53,7 +53,7 @@ class Index extends React.Component {
             switch (cmd.type) {
                 case 'write':
                     console.log('Write:', cmd.contents);
-                    this.setState({audio: cmd.contents.audio})
+                    this.setState({audio: cmd.contents.audio});
                     this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
                     break;
                 case 'read':
@@ -73,18 +73,10 @@ class Index extends React.Component {
         let session = this.editor.getSession();
         if (/(this|current) line/.test(cmd)) {
             let row = this.editor.getCursorPosition().row;
-            this.setState(
-                {
-                    audio: this.read(session.getLine(row))
-                }
-            );
+            this.setState({audio: this.read(session.getLine(row))});
         } else if (/line [0-9]+/.test(cmd)) {
             let row = cmd.substring(cmd.indexOf('line') + 5);
-            this.setState(
-                {
-                    audio: this.read(session.getLine(row))
-                }
-            );
+            this.setState({audio: this.read(session.getLine(row))});
         }
     }
 

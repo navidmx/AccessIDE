@@ -70,14 +70,17 @@ class Index extends React.Component {
     }
 
     readCommand = (cmd : string) => {
-        let session = this.editor.getSession();
+        let row : number,
+            audio = '',
+            session = this.editor.getSession();
         if (/(this|current) line/.test(cmd)) {
-            let row = this.editor.getCursorPosition().row;
-            this.setState({audio: this.read(session.getLine(row))});
+            row = this.editor.getCursorPosition().row;
+            audio = this.read(session.getLine(row));
         } else if (/line [0-9]+/.test(cmd)) {
-            let row = cmd.substring(cmd.indexOf('line') + 5);
-            this.setState({audio: this.read(session.getLine(row))});
+            row = parseInt(cmd.substring(cmd.indexOf('line') + 5));
+            audio = this.read(session.getLine(row));
         }
+        return audio;
     }
 
     read = (cmd : string) => {

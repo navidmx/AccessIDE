@@ -24,7 +24,6 @@ app
         // console.log(Registry.getLanguages());
         CommandRunner.setLanguage(Registry.getLanguages()[0]);
 
-
         server.use('/static', express.static(join(__dirname + "/static")));
         server.use(bodyParser.json({limit: '50mb'}));
         server.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));

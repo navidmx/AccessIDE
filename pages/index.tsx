@@ -73,10 +73,10 @@ class Index extends React.Component {
         let session = this.editor.getSession();
         if (/(this|current) line/.test(cmd)) {
             let row = this.editor.getCursorPosition().row;
-            this.setState({audio: this.read(session.getLine(row))});
+            return this.read(session.getLine(row));
         } else if (/line [0-9]+/.test(cmd)) {
             let row = cmd.substring(cmd.indexOf('line') + 5);
-            this.setState({audio: this.read(session.getLine(row))});
+            return this.read(session.getLine(row));
         }
     }
 

@@ -37,22 +37,23 @@ class JSWrite {
             }
             return {
                 cmd: this.createForLoop(tabs, start, end, step, counter),
-                audio: `Created a for loop from ${start} to ${end}`
+                audio: `Created a for loop from ${start} to ${end}${step != 1 ? ` with step ${step}` : ''}`
             };
         }
         else if (includes(cmd, 'function')) {
-            cmd = cmd.replace(/(parameter|parameters)/g, '');
+            cmd = cmd.replace(/parameters?/g, '');
             let line = cmd.substring(cmd.indexOf('function') + 9).split(' ');
             let parameters = [];
             if (line[0] == 'named' || line[0] == 'called')
                 line.shift();
             if (line.includes('with')) {
                 parameters = line.splice(line.indexOf('with') + 1);
+                console.log(parameters);
                 line.pop();
             }
             return {
                 cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)),
-                audio: `Created function ${line.join(' ')} ${!!parameters ? 'with parameter ' + parameters.filter(Boolean).join(' ') : ''}`
+                audio: `Created function ${line.join(' ')}${(parameters.length > 0) ? ` with parameter${parameters.length > 1 ? 's' : ''} ` + parameters.filter(Boolean).join(' ') : ''}`
             };
         }
         else if (/(constant|variable)/g.test(cmd)) {
@@ -73,13 +74,13 @@ class JSWrite {
             if (type === 'const') {
                 return {
                     cmd: this.createConstant(name, value),
-                    audio: `Created a constant named ${name} ${!!name ? 'with value ' + value : ''}`
+                    audio: `Created a constant named ${name}${!!name ? ' with value ' + value : ''}`
                 };
             }
             else {
                 return {
                     cmd: this.createVariable(name, value),
-                    audio: `Created a variable named ${name} ${!!name ? 'with value ' + value : ''}`
+                    audio: `Created a variable named ${name}${!!name ? ' with value ' + value : ''}`
                 };
             }
         }

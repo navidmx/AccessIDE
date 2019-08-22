@@ -18,7 +18,7 @@ Triggered with `create/make/write` keywords
 - `create a variable called (name) [with value (value)]`
 
 ### Reading
-- `read (this|current) line`
+- `read line`
 - `read line (line number)`
 
 ### Navigating

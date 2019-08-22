@@ -34,8 +34,7 @@ const Speech = dynamic(
 )
 
 class Index extends React.Component {
-    editor : AceEditorClass;
-
+    private editor : AceEditorClass;
     public state : IndexState;
 
     constructor(props : IndexProps) {

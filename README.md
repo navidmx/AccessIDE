@@ -13,13 +13,15 @@ The following commands can be run by hitting the `ESC` key to activate voice inp
 
 ### Creation
 Triggered with `create/make/write` keywords
-
-`create a function called (name) [with parameters (parameters)]`
-`create a for loop [from (start)] to (end) [with (flag)]`
-`create a variable called (name) [with value (value)]`
+- `create a function called (name) [with parameters (parameters)]`
+- `create a for loop [from (start)] to (end) [with (flag)]`
+- `create a variable called (name) [with value (value)]`
 
 ### Reading
+- `read (this|current) line`
+- `read line (line number)`
 
-
-### Writing
-
+### Navigating
+- `go to last line`
+- `go to line (line number)`
+- `go to function (function name)`

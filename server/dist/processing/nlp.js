@@ -24,6 +24,8 @@ class NLP {
         });
         return commands;
     }
-    cleanseLine(input) { return input; }
+    cleanseLine(input) {
+        return input;
+    }
 }
 export default new NLP();

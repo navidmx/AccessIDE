@@ -3,7 +3,7 @@ class PYNav {
         throw new Error("Method not implemented.");
     }
     nav() {
-        return "";
+        return null;
     }
 }
 export default new PYNav();

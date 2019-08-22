@@ -18,5 +18,13 @@ export interface Read {
 }
 
 export interface Nav {
-    nav(command: string, lines: string[]): string;
+    nav(command: string, lines: string[]): {
+        cmd: string,
+        audio: string
+    };
+}
+
+export interface point {
+    name: string,
+    line: number
 }

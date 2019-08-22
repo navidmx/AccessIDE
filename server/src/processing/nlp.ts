@@ -23,7 +23,9 @@ class NLP {
         });
         return commands;
     }
-    cleanseLine(input : string) : string {return input;}
+    cleanseLine(input: string): string {
+        return input;
+    }
 }
 
 interface Command {

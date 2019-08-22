@@ -36,10 +36,7 @@ class CommandRunner {
                 case 'nav':
                     outputs.push({
                         type: 'nav',
-                        contents: {
-                            cmd: this.language.navigator.default.nav(processedCommand.contents, editor),
-                            audio: `went to line ${this.language.navigator.default.nav(processedCommand.contents, editor)}`
-                        }
+                        contents:  this.language.navigator.default.nav(processedCommand.contents, editor)
                     });
                     break;
                 default:

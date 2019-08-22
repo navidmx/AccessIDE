@@ -35,15 +35,13 @@ app
     server.use(bodyParser.raw({ limit: '5mb' }));
     server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const text = yield AudioProcessor.processAudio(req.body.audio);
-        const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line);
+        const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line, req.body.editor);
         res.send({ originalText: text, finalCmd: command });
     }));
     server.post('/runCommand', (req, res) => {
-        console.log(req);
-        res.send({
-            originalText: req.body.command,
-            finalCmd: CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line)
-        });
+        const text = req.body.command;
+        const command = CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line, req.body.editor);
+        res.send({ originalText: text, finalCmd: command });
     });
     server.get('/getLangs', (req, res) => {
         res.send(languageRegistry.getLanguages());

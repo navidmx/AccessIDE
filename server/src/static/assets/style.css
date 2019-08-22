@@ -31,6 +31,10 @@
     border-top: 0;
 }
 
+.Dropdown-placeholder:hover, .Dropdown-option:not(.is-selected):hover {
+    cursor: pointer;
+}
+
 .is-selected {
     color: #f9ee98;
 }

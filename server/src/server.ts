@@ -31,16 +31,14 @@ app
 
         server.post('/voiceCommand', async(req, res) => {
             const text = await AudioProcessor.processAudio(req.body.audio);
-            const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line);
+            const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line, req.body.editor);
             res.send({originalText: text, finalCmd: command});
         });
 
         server.post('/runCommand', (req, res) => {
-            console.log(req);
-            res.send({
-                originalText: req.body.command,
-                finalCmd: CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line)
-            });
+            const text = req.body.command;
+            const command = CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line, req.body.editor)
+            res.send({originalText: text, finalCmd: command});
         });
 
         server.get('/getLangs', (req, res) => {

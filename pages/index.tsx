@@ -29,7 +29,11 @@ class Index extends React.Component {
         audio: string,
         languages: Language[],
         curr: Language,
-        code: string
+        code: string,
+        dropdown: {
+            options: Option[],
+            selected: Option
+        }
     }
 
     constructor(props : IndexProps) {
@@ -44,7 +48,11 @@ class Index extends React.Component {
             audio: 'Editor loaded',
             languages: [],
             curr: null,
-            code: ''
+            code: '',
+            dropdown: {
+                options: [],
+                selected: null
+            }
         }
     }
 
@@ -64,7 +72,10 @@ class Index extends React.Component {
                     console.log('Nav:', cmd.contents);
                     break;
                 default:
-                    console.log('Error:', cmd.contents);
+                    if (cmd.contents.cmd.length != 0) {
+                        console.log('Error:', cmd.contents);
+                        this.setState({audio: cmd.contents.audio});
+                    }
             }
         }
     }
@@ -96,14 +107,21 @@ class Index extends React.Component {
     }
 
     updateLanguage = (newLang : Option) => {
-        // BACKEND - Send POST request with newLang.value to update language ID for compiler
+        // BACKEND - Send POST request with newLang.value to update language ID for runtime
         let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
-        this.setState({curr: selected});
+        this.setState((prevState : {dropdown: {}}) => ({
+            curr: selected,
+            dropdown: {
+                ...prevState.dropdown,
+                selected: newLang
+            },
+            audio: `Language set to ${newLang.label}`
+        }));
     }
 
     voiceShortcut = (event : any) => {
         if (event.keyCode === 27) {
-            this.state.recording ? this.stopRecording() : this.startRecording();
+            this.state.recording ? this.stopRecording(true) : this.startRecording();
         }
     }
 
@@ -111,21 +129,31 @@ class Index extends React.Component {
         this.setState({recording: true});
     }
 
-    stopRecording = () => {
+    stopRecording = (returnToEditor : boolean) => {
         this.setState({recording: false});
-        this.editor.focus();
+        if (returnToEditor) this.editor.focus();
     }
 
     clearAudio = () => {
-        if (this.state.audio != '') {
-            this.setState({audio: ''});
-        }
+        if (this.state.audio != '') this.setState({audio: ''});
     }
 
     componentWillMount = async() => {
         try {
             let list = await fetch(`${Config.getURL()}/getLangs`).then((res) => res.json());
-            this.setState({languages: list, curr: list[0]});
+            let options = list.map((lang : Language) => ({
+                'value': lang.id,
+                'label': `${lang.display.name} (${lang.display.version})`
+            }));
+            let selected = options[0];
+            this.setState({
+                languages: list,
+                curr: list[0],
+                dropdown: {
+                    options: options,
+                    selected: selected
+                }
+            });
         } catch (e) {
             console.log(e);
         }
@@ -150,7 +178,7 @@ class Index extends React.Component {
                 <Container fluid style={{padding: 0}}>
                     <Row noGutters>
                         <Header
-                            run={this.runCommand}
+                            recording={this.state.recording}
                             tabs={this.editor
                             ? this.editor.getCursorPositionScreen().column / 4
                             : null}
@@ -160,9 +188,9 @@ class Index extends React.Component {
                             lines={this.editor
                             ? this.editor.session.doc.getAllLines()
                             : null}
+                            dropdown={this.state.dropdown}
+                            run={this.runCommand}
                             update={this.updateLanguage}
-                            languages={this.state.languages}
-                            recording={this.state.recording}
                             onEnter={this.stopRecording}/>
                     </Row>
                     <Row noGutters>

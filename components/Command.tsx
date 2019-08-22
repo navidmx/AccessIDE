@@ -38,7 +38,7 @@ type CommandProps = {
     currLine: number,
     lines: string[],
     recording: boolean,
-    onEnter: () => void
+    onEnter: (returnToEditor : boolean) => void
 }
 
 class Command extends React.Component < CommandProps > {
@@ -50,6 +50,7 @@ class Command extends React.Component < CommandProps > {
     }
 
     commandEntered = async (event: KeyboardEvent) => {
+        if (this.props.recording) this.props.onEnter(false);
         if (event.charCode == 13) {
             event.preventDefault();
             const response = await fetch(`${Config.getURL()}/runCommand`, {
@@ -64,10 +65,9 @@ class Command extends React.Component < CommandProps > {
                     'Content-Type': 'application/json'
                 }
             }).then(res => res.json());
-            console.log(this.command.current.value);
             this.props.run(response.finalCmd)
             this.command.current.value = '';
-            this.props.onEnter();
+            this.props.onEnter(true);
         }
     }
 

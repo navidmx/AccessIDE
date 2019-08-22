@@ -85,7 +85,7 @@ class Index extends React.Component {
         let row : number,
             audio = '',
             session = this.editor.getSession();
-        if (/(this|current) line/.test(cmd)) {
+        if (/((read|this|current) line)$/.test(cmd)) {
             row = this.editor.getCursorPosition().row;
             audio = this.read(session.getLine(row));
         } else if (/line [0-9]+/.test(cmd)) {

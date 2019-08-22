@@ -27,15 +27,13 @@ class NLP {
     processLine(input : string) : Command[] {
         const commands : Command[] = [];
         input = this.cleanseLine(input);
-        const audioList = input
-            .split(' then ');
+        const audioList = input.split(' then ');
         audioList.forEach((line) => {
-            const write = (/(make|new|create|write)/g);
             if (line.indexOf('go to') !== -1) {
                 commands.push({type: 'nav', contents: line});
             } else if (line.indexOf('read') !== -1) {
                 commands.push({type: 'read', contents: line});
-            } else if (write.test(line)) {
+            } else if (/(make|new|create|write)/.test(line)) {
                 commands.push({type: 'write', contents: line});
             } else {
                 commands.push({type: 'err', contents: line});

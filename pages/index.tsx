@@ -16,6 +16,18 @@ import Output from '../components/Output';
 
 type IndexProps = {}
 
+type IndexState = {
+    recording: boolean,
+    audio: string,
+    languages: Language[],
+    curr: Language,
+    code: string,
+    dropdown: {
+        options: Option[],
+        selected: Option
+    }
+}
+
 const Speech = dynamic(
     () => import('../components/Speech'),
     { ssr: false }
@@ -24,17 +36,7 @@ const Speech = dynamic(
 class Index extends React.Component {
     editor : AceEditorClass;
 
-    public state : {
-        recording: boolean,
-        audio: string,
-        languages: Language[],
-        curr: Language,
-        code: string,
-        dropdown: {
-            options: Option[],
-            selected: Option
-        }
-    }
+    public state : IndexState;
 
     constructor(props : IndexProps) {
         super(props);
@@ -109,7 +111,7 @@ class Index extends React.Component {
     updateLanguage = (newLang : Option) => {
         // BACKEND - Send POST request with newLang.value to update language ID for runtime
         let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
-        this.setState((prevState : {dropdown: {}}) => ({
+        this.setState((prevState : IndexState) => ({
             curr: selected,
             dropdown: {
                 ...prevState.dropdown,

@@ -15,7 +15,7 @@ The following commands can be run by hitting the `ESC` key to activate voice inp
 Triggered with `create/make/write` keywords
 - `create a function called (name) [with parameters (parameters)]`
 - `create a for loop [from (start)] to (end) [with (flag)]`
-- `create a variable called (name) [with value (value)]`
+- `create a variable/constant called (name) [with value (value)]`
 
 ### Reading
 - `read line`

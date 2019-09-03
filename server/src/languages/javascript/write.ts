@@ -5,14 +5,13 @@ class JSWrite implements Write {
         const includes = (src: string, str: string) => {
             return src.indexOf(str) !== -1;
         }
-
         if (includes(cmd, 'checkpoint')) {
             let index = cmd.indexOf('checkpoint');
             if (cmd.length > index + 10) {
                 let line = cmd.substring(index + 11).split(' ');
                 if (line[0] == 'named' || line[0] == 'called') line.shift();
                 return {
-                    cmd: this.makeCheckpoint('checkpoint', this.toCamel(line.join(' '))),
+                    cmd: this.makeCheckpoint('checkpoint', this.toCamel(line.join(' '))) + '|line',
                     audio: `Created checkpoint ${line.join(' ')}`
                 }
             }
@@ -40,7 +39,7 @@ class JSWrite implements Write {
                 step = parseInt(line[line.indexOf('step') + 1]);
             }
             return {
-                cmd: this.createForLoop(tabs, start, end, step, counter),
+                cmd: this.createForLoop(tabs, start, end, step, counter) + '|block',
                 audio: `Created a for loop from ${start} to ${end}${step!=1 ? ` with step ${step}` : ''}`
             }
         } else if (includes(cmd, 'function')) {
@@ -50,11 +49,10 @@ class JSWrite implements Write {
             if (line[0] == 'named' || line[0] == 'called') line.shift();
             if (line.includes('with')) {
                 parameters = line.splice(line.indexOf('with') + 1);
-                console.log(parameters);
                 line.pop();
             }
             return {
-                cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)),
+                cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)) + '|block',
                 audio: `Created function ${line.join(' ')}${(parameters.length > 0) ? ` with parameter${parameters.length > 1 ? 's' : ''} `  + parameters.filter(Boolean).join(' ') : ''}`
             }
         } else if (/(constant|variable)/g.test(cmd)) {
@@ -74,12 +72,12 @@ class JSWrite implements Write {
             name = this.toCamel(cmdArr.filter(Boolean).join(' '));
             if (type === 'const') {
                 return {
-                    cmd: this.createConstant(name, value),
+                    cmd: this.createConstant(name, value) + '|line',
                     audio: `Created a constant named ${name}${!!name ? ' with value ' + value : ''}`
                 }
             } else {
                 return {
-                    cmd: this.createVariable(name, value),
+                    cmd: this.createVariable(name, value) + '|line',
                     audio: `Created a variable named ${name}${!!name ? ' with value ' + value : ''}`
                 }
             }

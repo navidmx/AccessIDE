@@ -26,5 +26,6 @@ export interface Nav {
 
 export interface point {
     name: string,
-    line: number
+    row: number,
+    col: number
 }

@@ -1,15 +1,15 @@
 import React from 'react';
-import {AceEditorClass} from 'react-ace/lib/AceEditorClass';
+import { AceEditorClass } from 'react-ace/lib/AceEditorClass';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import {Option} from 'react-dropdown';
+import { Option } from 'react-dropdown';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import fetch from 'node-fetch';
 import Config from '../server/src/config';
-import {Language} from '../server/src/languageRegistry';
-import {OutputCommand} from '../server/src/runCommand';
+import { Language } from '../server/src/languageRegistry';
+import { OutputCommand } from '../server/src/runCommand';
 import Header from '../components/Header';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
@@ -34,10 +34,10 @@ const Speech = dynamic(
 )
 
 class Index extends React.Component {
-    private editor : AceEditorClass;
-    public state : IndexState;
+    private editor: AceEditorClass;
+    public state: IndexState;
 
-    constructor(props : IndexProps) {
+    constructor(props: IndexProps) {
         super(props);
         this.runCommand = this.runCommand.bind(this);
         this.saveEditor = this.saveEditor.bind(this);
@@ -57,32 +57,34 @@ class Index extends React.Component {
         }
     }
 
-    runCommand(commands : OutputCommand[]) {
+    runCommand(commands: OutputCommand[]) {
         for (const cmd of commands) {
             switch (cmd.type) {
                 case 'write':
                     console.log('Write:', cmd.contents);
-                    this.setState({audio: cmd.contents.audio});
+                    this.setState({ audio: cmd.contents.audio });
                     this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
-                    this.setState({audio: this.readCommand(cmd.contents.cmd)});
+                    this.setState({ audio: this.readCommand(cmd.contents.cmd) });
                     break;
                 case 'nav':
-                    console.log('Nav:', cmd.contents);
+                    this.editor.gotoLine(cmd.contents.cmd, 0);
+                    this.setState({ audio: cmd.contents.audio });
+                    console.log('Nav:', cmd.contents.cmd);
                     break;
                 default:
                     if (cmd.contents.cmd.length != 0) {
                         console.log('Error:', cmd.contents);
-                        this.setState({audio: cmd.contents.audio});
+                        this.setState({ audio: cmd.contents.audio });
                     }
             }
         }
     }
 
-    readCommand = (cmd : string) => {
-        let row : number,
+    readCommand = (cmd: string) => {
+        let row: number,
             audio = '',
             session = this.editor.getSession();
         if (/((read|this|current) line)$/.test(cmd)) {
@@ -95,22 +97,22 @@ class Index extends React.Component {
         return audio;
     }
 
-    read = (cmd : string) => {
+    read = (cmd: string) => {
         return cmd;
     }
 
-    saveEditor = (instance : AceEditorClass) => {
+    saveEditor = (instance: AceEditorClass) => {
         this.editor = instance;
     }
 
-    updateEditor = (newValue : string) => {
-        this.setState({code: newValue});
+    updateEditor = (newValue: string) => {
+        this.setState({ code: newValue });
     }
 
-    updateLanguage = (newLang : Option) => {
+    updateLanguage = (newLang: Option) => {
         // BACKEND - Send POST request with newLang.value to update language ID for runtime
         let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
-        this.setState((prevState : IndexState) => ({
+        this.setState((prevState: IndexState) => ({
             curr: selected,
             dropdown: {
                 ...prevState.dropdown,
@@ -120,29 +122,29 @@ class Index extends React.Component {
         }));
     }
 
-    voiceShortcut = (event : any) => {
+    voiceShortcut = (event: any) => {
         if (event.keyCode === 27) {
             this.state.recording ? this.stopRecording(true) : this.startRecording();
         }
     }
 
     startRecording = () => {
-        this.setState({recording: true});
+        this.setState({ recording: true });
     }
 
-    stopRecording = (returnToEditor : boolean) => {
-        this.setState({recording: false});
+    stopRecording = (returnToEditor: boolean) => {
+        this.setState({ recording: false });
         if (returnToEditor) this.editor.focus();
     }
 
     clearAudio = () => {
-        if (this.state.audio != '') this.setState({audio: ''});
+        if (this.state.audio != '') this.setState({ audio: '' });
     }
 
-    componentWillMount = async() => {
+    componentWillMount = async () => {
         try {
             let list = await fetch(`${Config.getURL()}/getLangs`).then((res) => res.json());
-            let options = list.map((lang : Language) => ({
+            let options = list.map((lang: Language) => ({
                 'value': lang.id,
                 'label': `${lang.display.name} (${lang.display.version})`
             }));
@@ -173,50 +175,50 @@ class Index extends React.Component {
             <div>
                 <Head>
                     <title>AccessIDE</title>
-                    <link href="/static/assets/bootstrap.min.css" rel="stylesheet"/>
-                    <link href="/static/assets/style.css" rel="stylesheet"/>
+                    <link href="/static/assets/bootstrap.min.css" rel="stylesheet" />
+                    <link href="/static/assets/style.css" rel="stylesheet" />
                 </Head>
-                <Container fluid style={{padding: 0}}>
+                <Container fluid style={{ padding: 0 }}>
                     <Row noGutters>
                         <Header
                             recording={this.state.recording}
                             tabs={this.editor
-                            ? this.editor.getCursorPositionScreen().column / 4
-                            : null}
+                                ? this.editor.getCursorPositionScreen().column / 4
+                                : null}
                             currLine={this.editor
-                            ? this.editor.getCursorPosition().row + 1
-                            : null}
+                                ? this.editor.getCursorPosition().row + 1
+                                : null}
                             lines={this.editor
-                            ? this.editor.session.doc.getAllLines()
-                            : null}
+                                ? this.editor.session.doc.getAllLines()
+                                : null}
                             dropdown={this.state.dropdown}
                             run={this.runCommand}
                             update={this.updateLanguage}
-                            onEnter={this.stopRecording}/>
+                            onEnter={this.stopRecording} />
                     </Row>
                     <Row noGutters>
                         <Col md={9}>
                             <Editor
                                 id="editor"
                                 mode={this.state.curr
-                                ? this.state.curr.syntax
-                                : "javascript"}
+                                    ? this.state.curr.syntax
+                                    : "javascript"}
                                 theme="twilight"
                                 fontSize="18px"
                                 value={this.state.code}
                                 onLoad={this.saveEditor}
                                 onChange={this.updateEditor}
                                 language={this.state.curr}
-                                editorProps={{$blockScrolling: true}}/>
+                                editorProps={{ $blockScrolling: true }} />
                         </Col>
                         <Col md={3}>
-                            <Output/>
+                            <Output />
                         </Col>
                     </Row>
                 </Container>
                 <Speech
                     audio={this.state.audio}
-                    clear={this.clearAudio}/>
+                    clear={this.clearAudio} />
             </div>
         );
     }

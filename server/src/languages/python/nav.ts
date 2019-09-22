@@ -9,9 +9,19 @@ class PYNav implements Nav {
         const functions: point[] = [];
 
         for (let i = 0; i < lines.length; i++) {
-            if (lines[i].includes('// ~ checkpoint: ')) checkpoints.push({ name: lines[i].replace('// ~ checkpoint: ', ''), line: i + 1 });
+            if (lines[i].includes('// ~ checkpoint: ')) {
+                checkpoints.push({
+                    name: lines[i].replace('// ~ checkpoint: ', ''),
+                    row: i + 1,
+                    col: lines[i].indexOf('checkpoint')
+                });
+            }
             if (lines[i].includes('def')) {
-                functions.push({ name: lines[i].split(' ')[1].split('(')[0], line: i + 1 });
+                functions.push({
+                    name: lines[i].split(' ')[1].split('(')[0],
+                    row: i + 1,
+                    col: 0
+                });
             }
         }
 
@@ -20,28 +30,29 @@ class PYNav implements Nav {
             for (const checkpoint of checkpoints) {
                 if (checkpoint.name.includes(keyword)) {
                     return {
-                        cmd: checkpoint.line.toString(),
-                        audio: `Went to checkpoint ${keyword}`
+                        cmd: `${checkpoint.row},${checkpoint.col}`,
+                        audio: `Now at checkpoint ${keyword}`
                     };
                 }
             }
         }
+
         if (command.includes('line')) {
-            const lineNumber = parseInt(command.substring(command.indexOf('line') + 5));
+            const row = parseInt(command.substring(command.indexOf('line') + 5));
+            const col = command.includes('end') ? lines[row - 1].length : 0;
             return {
-                cmd: lineNumber.toString(),
-                audio: `Went to line ${lineNumber}`
+                cmd: `${row},${col}`,
+                audio: `Now at ${col != 0 ? 'end of' : ''} line ${row}`
             };
         }
+
         if (command.includes('function')) {
             const keyword = this.toCamel(command.substring(command.indexOf('function') + 9));
-            console.log(keyword)
             for (const func of functions) {
-                console.log(func)
                 if (func.name.includes(keyword)) {
                     return {
-                        cmd: func.line.toString(),
-                        audio: `Went to function ${keyword}`
+                        cmd: `${func.row},${func.col}`,
+                        audio: `Now at function ${keyword}`
                     };
                 }
             }

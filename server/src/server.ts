@@ -21,7 +21,7 @@ app
     .then(async () => {
         const server = express();
         await Registry.findLanguages();
-        CommandRunner.setLanguage(Registry.getLanguages()[0]);
+        CommandRunner.setLanguage(Registry.getLanguages()[1]);
 
         server.use('/static', express.static(join(__dirname + "/static")));
         server.use(bodyParser.json({ limit: '50mb' }));
@@ -30,12 +30,14 @@ app
 
         server.post('/voiceCommand', async (req, res) => {
             const text = await AudioProcessor.processAudio(req.body.audio);
+            CommandRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
             const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line, req.body.editor);
             res.send({ originalText: text, finalCmd: command });
         });
 
         server.post('/runCommand', (req, res) => {
             const text = req.body.command;
+            CommandRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
             const command = CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line, req.body.editor)
             res.send({ originalText: text, finalCmd: command });
         });

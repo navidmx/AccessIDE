@@ -1,8 +1,8 @@
 import React from 'react';
-import Dropdown, {Option} from 'react-dropdown';
+import Dropdown, { Option } from 'react-dropdown';
 import Command from '../components/Command';
-import {Language} from '../server/src/languageRegistry';
-import {OutputCommand} from '../server/src/runCommand';
+import { Language } from '../server/src/languageRegistry';
+import { OutputCommand } from '../server/src/runCommand';
 
 let HeaderStyle = {
     display: 'flex',
@@ -25,17 +25,18 @@ type HeaderProps = {
     recording: boolean,
     currLine: number,
     lines: string[],
+    languageIdx: Number,
     dropdown: {
         options: Option[],
         selected: Option
     }
-    update: (newLang : Option) => void,
-    run: (commands : OutputCommand[]) => void,
-    onEnter: (returnToEditor : boolean) => void
+    update: (newLang: Option) => void,
+    run: (commands: OutputCommand[]) => void,
+    onEnter: (returnToEditor: boolean) => void
 }
 
-class Header extends React.Component < HeaderProps > {
-    constructor(props : HeaderProps) {
+class Header extends React.Component<HeaderProps> {
+    constructor(props: HeaderProps) {
         super(props);
     }
 
@@ -49,12 +50,13 @@ class Header extends React.Component < HeaderProps > {
                     lines={this.props.lines}
                     currLine={this.props.currLine}
                     recording={this.props.recording}
-                    onEnter={this.props.onEnter}/>
+                    onEnter={this.props.onEnter}
+                    languageIdx={this.props.languageIdx} />
                 <Dropdown
                     onChange={this.props.update}
                     options={this.props.dropdown.options}
                     value={this.props.dropdown.selected}
-                    placeholder='Select an option'/>
+                    placeholder='Select an option' />
             </div>
         );
     }

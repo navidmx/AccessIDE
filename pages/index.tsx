@@ -21,6 +21,7 @@ type IndexState = {
     audio: string,
     languages: Language[],
     curr: Language,
+    languageIdx: Number,
     code: string,
     dropdown: {
         options: Option[],
@@ -49,6 +50,7 @@ class Index extends React.Component {
             audio: 'Editor loaded',
             languages: [],
             curr: null,
+            languageIdx: 0,
             code: '',
             dropdown: {
                 options: [],
@@ -112,8 +114,16 @@ class Index extends React.Component {
     updateLanguage = (newLang: Option) => {
         // BACKEND - Send POST request with newLang.value to update language ID for runtime
         let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
+        let languageIdx;
+        for (let i = 0; i < this.state.languages.length; i++) {
+            if (this.state.languages[i].id == newLang.value) {
+                languageIdx = i;
+            }
+        }
+
         this.setState((prevState: IndexState) => ({
             curr: selected,
+            languageIdx: languageIdx,
             dropdown: {
                 ...prevState.dropdown,
                 selected: newLang
@@ -194,7 +204,8 @@ class Index extends React.Component {
                             dropdown={this.state.dropdown}
                             run={this.runCommand}
                             update={this.updateLanguage}
-                            onEnter={this.stopRecording} />
+                            onEnter={this.stopRecording}
+                            languageIdx={this.state.languageIdx} />
                     </Row>
                     <Row noGutters>
                         <Col md={9}>

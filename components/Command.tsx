@@ -33,18 +33,19 @@ type RecordedBlob = {
 }
 
 type CommandProps = {
-    run: (commands : OutputCommand[]) => void,
+    run: (commands: OutputCommand[]) => void,
     tabs: number,
     currLine: number,
     lines: string[],
     recording: boolean,
-    onEnter: (returnToEditor : boolean) => void
+    languageIdx: Number,
+    onEnter: (returnToEditor: boolean) => void
 }
 
-class Command extends React.Component < CommandProps > {
-    private command : any;
+class Command extends React.Component<CommandProps> {
+    private command: any;
 
-    constructor(props : CommandProps) {
+    constructor(props: CommandProps) {
         super(props);
         this.command = React.createRef();
     }
@@ -59,7 +60,8 @@ class Command extends React.Component < CommandProps > {
                     command: this.command.current.value,
                     tabs: this.props.tabs,
                     line: this.props.currLine,
-                    editor: this.props.lines
+                    editor: this.props.lines,
+                    languageIdx: this.props.languageIdx
                 }),
                 headers: {
                     'Content-Type': 'application/json'

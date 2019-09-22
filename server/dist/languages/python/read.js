@@ -1,6 +1,6 @@
 class PYRead {
     readLine(line) {
-        return "";
+        return line;
     }
 }
 export default new PYRead();

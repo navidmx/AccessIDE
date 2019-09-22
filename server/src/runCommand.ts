@@ -36,7 +36,7 @@ class CommandRunner {
                 case 'nav':
                     outputs.push({
                         type: 'nav',
-                        contents:  this.language.navigator.default.nav(processedCommand.contents, editor)
+                        contents: this.language.navigator.default.nav(processedCommand.contents, editor)
                     });
                     break;
                 default:

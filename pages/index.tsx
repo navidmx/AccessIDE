@@ -65,16 +65,19 @@ class Index extends React.Component {
                 case 'write':
                     console.log('Write:', cmd.contents);
                     this.setState({ audio: cmd.contents.audio });
-                    this.editor.session.insert(this.editor.getCursorPosition(), cmd.contents.cmd);
+                    let content = cmd.contents.cmd.split('|')[0];
+                    let type = cmd.contents.cmd.split('|')[1];
+                    this.editor.session.insert(this.editor.getCursorPosition(), content);
+                    type == 'block' ? this.editor.navigateUp(2) : null;
                     break;
                 case 'read':
                     console.log('Read:', cmd.contents);
                     this.setState({ audio: this.readCommand(cmd.contents.cmd) });
                     break;
                 case 'nav':
-                    this.editor.gotoLine(cmd.contents.cmd, 0);
-                    this.setState({ audio: cmd.contents.audio });
-                    console.log('Nav:', cmd.contents.cmd);
+                    console.log('Nav:', cmd.contents);
+                    let [row, col] = cmd.contents.cmd.split(',');
+                    this.editor.gotoLine(row, col, true);
                     break;
                 default:
                     if (cmd.contents.cmd.length != 0) {

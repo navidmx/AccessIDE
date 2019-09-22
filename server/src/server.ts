@@ -42,6 +42,11 @@ app
             res.send({ originalText: text, finalCmd: command });
         });
 
+        server.post('/run', (req, res) => {
+            const code = req.body.code;
+
+        });
+
         server.get('/getLangs', (req, res) => {
             res.send(languageRegistry.getLanguages());
         });

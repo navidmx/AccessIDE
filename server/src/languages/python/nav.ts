@@ -1,5 +1,6 @@
 import { Nav } from "../language";
 import { point } from "../language";
+
 class PYNav implements Nav {
     nav(command: string, lines: string[]): {
         cmd: string,
@@ -20,7 +21,7 @@ class PYNav implements Nav {
                 functions.push({
                     name: lines[i].split(' ')[1].split('(')[0],
                     row: i + 1,
-                    col: 0
+                    col: lines[i].indexOf('def')
                 });
             }
         }

@@ -1,9 +1,11 @@
 import { Nav } from "../language";
 import { point } from "../language";
-import { OutputCommand } from "../../runCommand";
 
 class JSNav implements Nav {
-    nav(command: string, lines: string[]): {cmd: string, audio: string} {
+    nav(command: string, lines: string[]): {
+        cmd: string,
+        audio: string
+    } {
         const checkpoints: point[] = [];
         const functions: point[] = [];
 

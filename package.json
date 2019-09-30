@@ -13,8 +13,8 @@
         "build:lint": "lint-fix",
         "dev": "run-p dev:*",
         "start": "run-s build:*",
-        "lint": "eslint \"server/src/**/*.ts\" \"pages/*.tsx\" \"components/*.tsx\"",
-        "lint-fix": "eslint \"server/src/**/*.ts\" \"pages/*.tsx\" \"components/*.tsx\" --fix"
+        "lint": "eslint \"./server/src/**/*.ts\" \"./pages/*.tsx\" \"./components/*.tsx\"",
+        "lint-fix": "eslint \"./server/src/**/*.ts\" \"./pages/*.tsx\" \"./components/*.tsx\" --fix"
     },
     "repository": {
         "type": "git",

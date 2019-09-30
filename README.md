@@ -1,14 +1,7 @@
 # AccessIDE
 #### An IDE with accessibility in mind using audio input/output and defined commands to easily navigate, read, and even write code.
 
-## Development
-To set up the project, make sure you have Node.js and npm installed, then run: `npm install`
 
-To start the development server, run: `npm run dev`
-
-To start a production build, run: `npm start`
-
-The server depends on ffmpeg to process audio, so that must be installed as well.
 
 ## Commands
 The following commands can be run by hitting the `ESC` key to activate voice input, or simply typing into the command bar at the top of the page.
@@ -27,6 +20,47 @@ Triggered with `create/make/write` keywords
 - `go to last line`
 - `go to line (line number)`
 - `go to function (function name)`
+
+
+## Development
+To set up the project, make sure you have Node.js and npm installed, then run: `npm install`
+
+To start the development server, run: `npm run dev`
+
+To start a production build, run: `npm start`
+
+The server depends on ffmpeg to process audio, so that must be installed as well.
+
+### Formatting and Linting
+
+This project is set up using [ESLint](https://eslint.org) and [Prettier](https://prettier.io). ESLint ensures that all the code in the project is within the defined guidelines. Prettier also ensures that all formatting is consistent throughout the project
+
+To lint the code run `npm run lint`. This will print out all of the errors and warnings in the code that the linter found
+
+To auto fix linting errors run `npm run lint-fix`
+
+*Note: Any code that is does not run through the linter without error will not be eligible to be merged*
+
+#### VSCode Settings and Extensions
+
+If you are using VSCode, you can add the [ESLint plugin](https://github.com/Microsoft/vscode-eslint.git) and add the following configuration to the settings.json file to automatically format and fix linting errors
+
+```json
+"eslint.autoFixOnSave": true,
+"eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+        "language": "typescript",
+        "autoFix": true
+    },
+    {
+        "language": "typescriptreact",
+        "autoFix": true
+    }
+]
+```
+
 
 ## Contributing
 

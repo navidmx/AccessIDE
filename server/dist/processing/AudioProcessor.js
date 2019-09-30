@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import fs from 'fs';
 import ffmpeg from 'ffmpeg';
-import f_ffmpeg from 'fluent-ffmpeg';
+import fluentFFMpeg from 'fluent-ffmpeg';
 import speech from '@google-cloud/speech';
 class AudioProcessor {
     constructor() {
@@ -16,7 +16,7 @@ class AudioProcessor {
         this.config = {
             encoding: 'LINEAR16',
             sampleRateHertz: 44100,
-            languageCode: 'en-US'
+            languageCode: 'en-US',
         };
     }
     processAudio(base64) {
@@ -35,7 +35,7 @@ class AudioProcessor {
                             resolve(file);
                     });
                 });
-                let track = './audio.mp3';
+                const track = './audio.mp3';
                 const conversion = yield this.convert(track, 1, 'wav');
                 output = yield this.transcribeAudio(conversion);
             }
@@ -49,17 +49,16 @@ class AudioProcessor {
     }
     convert(track, channels, format) {
         return new Promise((resolve, reject) => {
-            f_ffmpeg(track)
+            fluentFFMpeg(track)
                 .audioChannels(channels)
                 .toFormat(format)
                 .output(track.replace('.mp3', `.${format}`))
-                .on('progress', (progress) => {
-            })
+                .on('progress', progress => { })
                 .on('end', () => {
                 console.log('audio resolved');
                 resolve(track.replace('.mp3', `.${format}`));
             })
-                .on('error', (err) => {
+                .on('error', err => {
                 console.log(err);
                 reject(err);
             })
@@ -73,18 +72,13 @@ class AudioProcessor {
             const audioBytes = file.toString('base64');
             const request = {
                 audio: {
-                    content: audioBytes
+                    content: audioBytes,
                 },
-                config: this.config
+                config: this.config,
             };
-            const responses = yield this
-                .client
-                .recognize(request);
+            const responses = yield this.client.recognize(request);
             const [response] = responses;
-            const transcription = response
-                .results
-                .map((result) => result.alternatives[0].transcript)
-                .join('\n');
+            const transcription = response.results.map((result) => result.alternatives[0].transcript).join('\n');
             // .runCommand(transcription);
             console.log(transcription);
             return transcription;

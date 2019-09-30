@@ -1,4 +1,4 @@
-import {outputType} from '../runCommand';
+import { outputType } from '../runCommand';
 
 class NLP {
     private corrections = new Map([
@@ -21,30 +21,30 @@ class NLP {
         [/(six)/g, '6'],
         [/(seven)/g, '7'],
         [/(eight)/g, '8'],
-        [/(nine)/g, '9']
+        [/(nine)/g, '9'],
     ]);
 
-    processLine(input : string) : Command[] {
-        const commands : Command[] = [];
+    processLine(input: string): Command[] {
+        const commands: Command[] = [];
         input = this.cleanseLine(input);
         const audioList = input.split(' then ');
-        audioList.forEach((line) => {
+        audioList.forEach(line => {
             if (line.indexOf('go to') !== -1) {
-                commands.push({type: 'nav', contents: line});
+                commands.push({ type: 'nav', contents: line });
             } else if (line.indexOf('read') !== -1) {
-                commands.push({type: 'read', contents: line});
+                commands.push({ type: 'read', contents: line });
             } else if (/(make|new|create|write)/.test(line)) {
-                commands.push({type: 'write', contents: line});
+                commands.push({ type: 'write', contents: line });
             } else {
-                commands.push({type: 'err', contents: line});
+                commands.push({ type: 'err', contents: line });
             }
         });
         return commands;
     }
 
-    cleanseLine(input : string) : string {
+    cleanseLine(input: string): string {
         input = input.trim().toLowerCase();
-        for (let [find, replace] of this.corrections) {
+        for (const [find, replace] of this.corrections) {
             input = input.replace(find, replace);
         }
         return input;
@@ -52,8 +52,8 @@ class NLP {
 }
 
 interface Command {
-    type : outputType,
-    contents : string
+    type: outputType;
+    contents: string;
 }
 
 export default new NLP();

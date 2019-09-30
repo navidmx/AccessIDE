@@ -14,25 +14,22 @@ import Header from '../components/Header';
 import Editor from '../components/Editor';
 import Output from '../components/Output';
 
-type IndexProps = {}
+type IndexProps = {};
 
 type IndexState = {
-    recording: boolean,
-    audio: string,
-    languages: Language[],
-    curr: Language,
-    languageIdx: Number,
-    code: string,
+    recording: boolean;
+    audio: string;
+    languages: Language[];
+    curr: Language;
+    languageIdx: number;
+    code: string;
     dropdown: {
-        options: Option[],
-        selected: Option
-    }
-}
+        options: Option[];
+        selected: Option;
+    };
+};
 
-const Speech = dynamic(
-    () => import('../components/Speech'),
-    { ssr: false }
-)
+const Speech = dynamic(() => import('../components/Speech'), { ssr: false });
 
 class Index extends React.Component {
     private editor: AceEditorClass;
@@ -54,9 +51,9 @@ class Index extends React.Component {
             code: '',
             dropdown: {
                 options: [],
-                selected: null
-            }
-        }
+                selected: null,
+            },
+        };
     }
 
     runCommand(commands: OutputCommand[]) {
@@ -65,8 +62,8 @@ class Index extends React.Component {
                 case 'write':
                     console.log('Write:', cmd.contents);
                     this.setState({ audio: cmd.contents.audio });
-                    let content = cmd.contents.cmd.split('|')[0];
-                    let type = cmd.contents.cmd.split('|')[1];
+                    const content = cmd.contents.cmd.split('|')[0];
+                    const type = cmd.contents.cmd.split('|')[1];
                     this.editor.session.insert(this.editor.getCursorPosition(), content);
                     type == 'block' ? this.editor.navigateUp(2) : null;
                     break;
@@ -76,7 +73,7 @@ class Index extends React.Component {
                     break;
                 case 'nav':
                     console.log('Nav:', cmd.contents);
-                    let [row, col] = cmd.contents.cmd.split(',');
+                    const [row, col] = cmd.contents.cmd.split(',');
                     this.editor.gotoLine(row, col, true);
                     break;
                 default:
@@ -90,8 +87,8 @@ class Index extends React.Component {
 
     readCommand = (cmd: string) => {
         let row: number,
-            audio = '',
-            session = this.editor.getSession();
+            audio = '';
+        const session = this.editor.getSession();
         if (/((read|this|current) line)$/.test(cmd)) {
             row = this.editor.getCursorPosition().row;
             audio = this.read(session.getLine(row));
@@ -100,23 +97,23 @@ class Index extends React.Component {
             audio = this.read(session.getLine(row));
         }
         return audio;
-    }
+    };
 
     read = (cmd: string) => {
         return cmd;
-    }
+    };
 
     saveEditor = (instance: AceEditorClass) => {
         this.editor = instance;
-    }
+    };
 
     updateEditor = (newValue: string) => {
         this.setState({ code: newValue });
-    }
+    };
 
     updateLanguage = (newLang: Option) => {
         // BACKEND - Send POST request with newLang.value to update language ID for runtime
-        let selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
+        const selected = this.state.languages.filter(lang => lang.id == newLang.value)[0];
         let languageIdx;
         for (let i = 0; i < this.state.languages.length; i++) {
             if (this.state.languages[i].id == newLang.value) {
@@ -129,59 +126,59 @@ class Index extends React.Component {
             languageIdx: languageIdx,
             dropdown: {
                 ...prevState.dropdown,
-                selected: newLang
+                selected: newLang,
             },
-            audio: `Language set to ${newLang.label}`
+            audio: `Language set to ${newLang.label}`,
         }));
-    }
+    };
 
     voiceShortcut = (event: any) => {
         if (event.keyCode === 27) {
             this.state.recording ? this.stopRecording(true) : this.startRecording();
         }
-    }
+    };
 
     startRecording = () => {
         this.setState({ recording: true });
-    }
+    };
 
     stopRecording = (returnToEditor: boolean) => {
         this.setState({ recording: false });
         if (returnToEditor) this.editor.focus();
-    }
+    };
 
     clearAudio = () => {
         if (this.state.audio != '') this.setState({ audio: '' });
-    }
+    };
 
     componentWillMount = async () => {
         try {
-            let list = await fetch(`${Config.getURL()}/getLangs`).then((res) => res.json());
-            let options = list.map((lang: Language) => ({
-                'value': lang.id,
-                'label': `${lang.display.name} (${lang.display.version})`
+            const list = await fetch(`${Config.getURL()}/getLangs`).then(res => res.json());
+            const options = list.map((lang: Language) => ({
+                value: lang.id,
+                label: `${lang.display.name} (${lang.display.version})`,
             }));
-            let selected = options[0];
+            const selected = options[0];
             this.setState({
                 languages: list,
                 curr: list[0],
                 dropdown: {
                     options: options,
-                    selected: selected
-                }
+                    selected: selected,
+                },
             });
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     componentDidMount = () => {
         document.addEventListener('keydown', this.voiceShortcut, false);
-    }
+    };
 
     componentWillUnmount = () => {
         document.removeEventListener('keydown', this.voiceShortcut, false);
-    }
+    };
 
     render() {
         return (
@@ -195,44 +192,36 @@ class Index extends React.Component {
                     <Row noGutters>
                         <Header
                             recording={this.state.recording}
-                            tabs={this.editor
-                                ? this.editor.getCursorPositionScreen().column / 4
-                                : null}
-                            currLine={this.editor
-                                ? this.editor.getCursorPosition().row + 1
-                                : null}
-                            lines={this.editor
-                                ? this.editor.session.doc.getAllLines()
-                                : null}
+                            tabs={this.editor ? this.editor.getCursorPositionScreen().column / 4 : null}
+                            currLine={this.editor ? this.editor.getCursorPosition().row + 1 : null}
+                            lines={this.editor ? this.editor.session.doc.getAllLines() : null}
                             dropdown={this.state.dropdown}
                             run={this.runCommand}
                             update={this.updateLanguage}
                             onEnter={this.stopRecording}
-                            languageIdx={this.state.languageIdx} />
+                            languageIdx={this.state.languageIdx}
+                        />
                     </Row>
                     <Row noGutters>
                         <Col md={9}>
                             <Editor
                                 id="editor"
-                                mode={this.state.curr
-                                    ? this.state.curr.syntax
-                                    : "javascript"}
+                                mode={this.state.curr ? this.state.curr.syntax : 'javascript'}
                                 theme="twilight"
                                 fontSize="18px"
                                 value={this.state.code}
                                 onLoad={this.saveEditor}
                                 onChange={this.updateEditor}
                                 language={this.state.curr}
-                                editorProps={{ $blockScrolling: true }} />
+                                editorProps={{ $blockScrolling: true }}
+                            />
                         </Col>
                         <Col md={3}>
                             <Output />
                         </Col>
                     </Row>
                 </Container>
-                <Speech
-                    audio={this.state.audio}
-                    clear={this.clearAudio} />
+                <Speech audio={this.state.audio} clear={this.clearAudio} />
             </div>
         );
     }

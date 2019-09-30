@@ -18,17 +18,14 @@ import Config from './config';
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const reqURL = dev
-    ? 'http://localhost:3000'
-    : 'http://localhost:3000';
+const reqURL = dev ? 'http://localhost:3000' : 'http://localhost:3000';
 Config.setURL(reqURL);
-app
-    .prepare()
+app.prepare()
     .then(() => __awaiter(this, void 0, void 0, function* () {
     const server = express();
     yield Registry.findLanguages();
     CommandRunner.setLanguage(Registry.getLanguages()[1]);
-    server.use('/static', express.static(join(__dirname + "/static")));
+    server.use('/static', express.static(join(__dirname + '/static')));
     server.use(bodyParser.json({ limit: '50mb' }));
     server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
     server.use(bodyParser.raw({ limit: '50mb' }));
@@ -53,13 +50,13 @@ app
     server.get('*', (req, res) => {
         return handle(req, res);
     });
-    server.listen(3000, (err) => {
+    server.listen(3000, err => {
         if (err)
             throw err;
         console.log('> Ready on http://localhost:3000');
     });
 }))
-    .catch((ex) => {
+    .catch(ex => {
     console.error(ex.stack);
     process.exit(1);
 });

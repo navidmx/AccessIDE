@@ -1,37 +1,45 @@
-import { Write, Read, Nav } from "./languages/language";
+import { Write, Read, Nav } from './languages/language';
 import fs from 'fs';
 import { JsonDecoder } from 'ts.data.json';
-
 
 export class LanguageRegistry {
     private languages: Language[] = [];
 
     async findLanguages() {
-        let languageDir = __dirname + '\/languages';
+        const languageDir = __dirname + '/languages';
         let contents = fs.readdirSync(languageDir);
-        contents = contents.map(d => languageDir + '\/' + d);
+        contents = contents.map(d => languageDir + '/' + d);
         for (const dir of contents) {
             if (fs.existsSync(dir)) {
                 if (fs.statSync(dir).isDirectory()) {
-                    if (fs.existsSync(dir + '\/config.json')) {
-                        const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
-                        const languageDecoder = JsonDecoder.object<JSONConfig>({
-                            id: JsonDecoder.string,
-                            syntax: JsonDecoder.string,
-                            extension: JsonDecoder.string,
-                            version: JsonDecoder.string,
-                            exec: JsonDecoder.string,
-                            display: JsonDecoder.object<Display>({
-                                name: JsonDecoder.string,
+                    if (fs.existsSync(dir + '/config.json')) {
+                        const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'UTF-8' }));
+                        const languageDecoder = JsonDecoder.object<JSONConfig>(
+                            {
+                                id: JsonDecoder.string,
+                                syntax: JsonDecoder.string,
+                                extension: JsonDecoder.string,
                                 version: JsonDecoder.string,
-                                runtime: JsonDecoder.string
-                            }, 'display'),
-                            parsers: JsonDecoder.object<Parsers>({
-                                write: JsonDecoder.string,
-                                read: JsonDecoder.string,
-                                nav: JsonDecoder.string
-                            }, 'parser')
-                        }, 'language');
+                                exec: JsonDecoder.string,
+                                display: JsonDecoder.object<Display>(
+                                    {
+                                        name: JsonDecoder.string,
+                                        version: JsonDecoder.string,
+                                        runtime: JsonDecoder.string,
+                                    },
+                                    'display',
+                                ),
+                                parsers: JsonDecoder.object<Parsers>(
+                                    {
+                                        write: JsonDecoder.string,
+                                        read: JsonDecoder.string,
+                                        nav: JsonDecoder.string,
+                                    },
+                                    'parser',
+                                ),
+                            },
+                            'language',
+                        );
                         let languageInfo: JSONConfig;
                         try {
                             languageInfo = await languageDecoder.decodePromise(contents);
@@ -48,16 +56,16 @@ export class LanguageRegistry {
                                 version: languageInfo.version,
                                 exec: languageInfo.exec,
                                 display: languageInfo.display,
-                                writer: await import(dir + '\/' + languageInfo.parsers.write),
-                                reader: await import(dir + '\/' + languageInfo.parsers.read),
-                                navigator: await import(dir + '\/' + languageInfo.parsers.nav)
-                            }
+                                writer: await import(dir + '/' + languageInfo.parsers.write),
+                                reader: await import(dir + '/' + languageInfo.parsers.read),
+                                navigator: await import(dir + '/' + languageInfo.parsers.nav),
+                            };
                         } catch (e) {
                             console.log('Language could not be loaded:');
                             console.log(e);
                         }
                         this.languages.push(language);
-                    };
+                    }
                 }
             }
         }
@@ -82,10 +90,10 @@ export interface JSONConfig {
         runtime: string;
     };
     parsers: {
-        write: string,
-        read: string,
-        nav: string
-    }
+        write: string;
+        read: string;
+        nav: string;
+    };
 }
 
 export interface Language {
@@ -108,7 +116,7 @@ interface Display {
 }
 
 interface Parsers {
-    write: string,
-    read: string,
-    nav: string
+    write: string;
+    read: string;
+    nav: string;
 }

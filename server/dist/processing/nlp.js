@@ -20,14 +20,14 @@ class NLP {
             [/(six)/g, '6'],
             [/(seven)/g, '7'],
             [/(eight)/g, '8'],
-            [/(nine)/g, '9']
+            [/(nine)/g, '9'],
         ]);
     }
     processLine(input) {
         const commands = [];
         input = this.cleanseLine(input);
         const audioList = input.split(' then ');
-        audioList.forEach((line) => {
+        audioList.forEach(line => {
             if (line.indexOf('go to') !== -1) {
                 commands.push({ type: 'nav', contents: line });
             }
@@ -45,7 +45,7 @@ class NLP {
     }
     cleanseLine(input) {
         input = input.trim().toLowerCase();
-        for (let [find, replace] of this.corrections) {
+        for (const [find, replace] of this.corrections) {
             input = input.replace(find, replace);
         }
         return input;

@@ -7,22 +7,14 @@ class PYNav {
                 checkpoints.push({
                     name: lines[i].replace('// ~ checkpoint: ', ''),
                     row: i + 1,
-                    col: lines[i].indexOf('checkpoint')
+                    col: lines[i].indexOf('checkpoint'),
                 });
             }
-<<<<<<< HEAD
-            if (lines[i].includes('def ')) {
-                functions.push({
-                    name: lines[i].split(' ')[1].split('(')[0],
-                    row: i + 1,
-                    col: lines[i].indexOf('def')
-=======
             if (lines[i].includes('def')) {
                 functions.push({
                     name: lines[i].split(' ')[1].split('(')[0],
                     row: i + 1,
-                    col: 0
->>>>>>> 3c77cbc228d3ee462f473203aa6df4b4c95e8dd4
+                    col: lines[i].indexOf('def'),
                 });
             }
         }
@@ -32,7 +24,7 @@ class PYNav {
                 if (checkpoint.name.includes(keyword)) {
                     return {
                         cmd: `${checkpoint.row},${checkpoint.col}`,
-                        audio: `Now at checkpoint ${keyword}`
+                        audio: `Now at checkpoint ${keyword}`,
                     };
                 }
             }
@@ -42,7 +34,7 @@ class PYNav {
             const col = command.includes('end') ? lines[row - 1].length : 0;
             return {
                 cmd: `${row},${col}`,
-                audio: `Now at ${col != 0 ? 'end of' : ''} line ${row}`
+                audio: `Now at ${col != 0 ? 'end of' : ''} line ${row}`,
             };
         }
         if (command.includes('function')) {
@@ -51,14 +43,14 @@ class PYNav {
                 if (func.name.includes(keyword)) {
                     return {
                         cmd: `${func.row},${func.col}`,
-                        audio: `Now at function ${keyword}`
+                        audio: `Now at function ${keyword}`,
                     };
                 }
             }
         }
     }
     toCamel(s) {
-        return s.replace(/([ ]([a-z]|[0-9]))/ig, ($1) => {
+        return s.replace(/([ ]([a-z]|[0-9]))/gi, $1 => {
             return $1.toUpperCase().replace(' ', '');
         });
     }

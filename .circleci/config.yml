@@ -38,6 +38,4 @@ jobs:
 
       # run tests!
       - eslint: 
-        - lib: "~/repo"
-        - files: "server/src/**/*.ts" "pages/*.tsx" "components/*.tsx"
       - run: npm test

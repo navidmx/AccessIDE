@@ -41,3 +41,4 @@ jobs:
           lib: ~/repo
           files: server/src/**/*.ts pages/*.tsx components/*.tsx
       - run: npm test
+      - run: npm test

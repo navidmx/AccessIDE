@@ -4,7 +4,7 @@
     "description": "A web based IDE to aid Blind and Visually impared developers write code",
     "main": "server.js",
     "scripts": {
-        "test": "run-s lint build:typescript build:next",
+        "test": "run-s build:typescript build:next",
         "dev:node": "nodemon -r esm server/dist/server.js",
         "dev:typescript": "gulp dev",
         "build:next": "next build",
@@ -13,8 +13,8 @@
         "build:lint": "lint-fix",
         "dev": "run-p dev:*",
         "start": "run-s build:*",
-        "lint": "eslint \"server/src/**/*.ts\" \"pages/*.tsx\" \"components/*.tsx\"",
-        "lint-fix": "eslint \"server/src/**/*.ts\" \"pages/*.tsx\" \"components/*.tsx\" --fix"
+        "lint": "eslint \"./server/src/**/*.ts\" \"./pages/*.tsx\" \"./components/*.tsx\"",
+        "lint-fix": "eslint \"./server/src/**/*.ts\" \"./pages/*.tsx\" \"./components/*.tsx\" --fix"
     },
     "repository": {
         "type": "git",

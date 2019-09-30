@@ -10,11 +10,19 @@ class PYNav {
                     col: lines[i].indexOf('checkpoint')
                 });
             }
+<<<<<<< HEAD
             if (lines[i].includes('def ')) {
                 functions.push({
                     name: lines[i].split(' ')[1].split('(')[0],
                     row: i + 1,
                     col: lines[i].indexOf('def')
+=======
+            if (lines[i].includes('def')) {
+                functions.push({
+                    name: lines[i].split(' ')[1].split('(')[0],
+                    row: i + 1,
+                    col: 0
+>>>>>>> 3c77cbc228d3ee462f473203aa6df4b4c95e8dd4
                 });
             }
         }

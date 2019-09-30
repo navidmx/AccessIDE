@@ -1,5 +1,6 @@
 import { Nav } from "../language";
 import { point } from "../language";
+
 class PYNav implements Nav {
     nav(command: string, lines: string[]): { cmd: string, audio: string } {
         const checkpoints: point[] = [];
@@ -13,7 +14,7 @@ class PYNav implements Nav {
                     col: lines[i].indexOf('checkpoint')
                 });
             }
-            if (lines[i].includes('def ')) {
+            if (lines[i].includes('def')) {
                 functions.push({
                     name: lines[i].split(' ')[1].split('(')[0],
                     row: i + 1,

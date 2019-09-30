@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+orbs:
+  eslint: arrai/eslint@1.3.0
 jobs:
   build:
     docker:
@@ -27,7 +29,6 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
-      - run: npm install -g eslint
 
 
       - save_cache:
@@ -36,7 +37,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-
-      - run: eslint "./server/src/**/*.ts" "./pages/*.tsx" "./components/*.tsx"
-
+      - eslint: 
+        - lib: "~/repo"
+        - files: "server/src/**/*.ts" "pages/*.tsx" "components/*.tsx"
       - run: npm test

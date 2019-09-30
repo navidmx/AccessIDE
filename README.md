@@ -47,27 +47,23 @@ AccessIDE was designed to make implementing a new language an easy process. Supp
 #### Write.ts
 
 All write files should export a class that is an extension of the `write` class found in [Languages.ts](https://github.com/navidmx/AccessIDE/blob/master/server/src/languages/language.ts)
-
 Write files should implment all methods from the write class, and can have any number of other helper methods.
-
 The methods should return a formatted string that will be inserted into the editor.
 
 #### Read.ts
 
 All read files should export a class that is an extension of the `read` class found in [Languages.ts](https://github.com/navidmx/AccessIDE/blob/master/server/src/languages/language.ts)
-
 The read method should return a string that will be read out by a tts program ran client side.
 
 #### Nav.ts
 
 All Navigation files should export a class that is an extension of the `nav` class found in [Languages.ts](https://github.com/navidmx/AccessIDE/blob/master/server/src/languages/language.ts)
-
-the nav method should return a row and column that the editor will move the cursor to. 
+The nav method should return a row and column that the editor will move the cursor to. 
 
 #### Config.json
 
 Each language must contain a config.json file that allowes the language to be loaded by the editor. Here is an example language config.json file 
-```json
+```
 {
     "id": "javascript-es6", // Language ID used to identify the language
     "syntax": "javascript", // Syntax highlighting for the ACE editor

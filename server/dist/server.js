@@ -44,6 +44,9 @@ app
         const command = CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line, req.body.editor);
         res.send({ originalText: text, finalCmd: command });
     });
+    server.post('/run', (req, res) => {
+        const code = req.body.code;
+    });
     server.get('/getLangs', (req, res) => {
         res.send(languageRegistry.getLanguages());
     });

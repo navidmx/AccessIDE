@@ -37,6 +37,9 @@ class NLP {
             else if (/(make|new|create|write)/.test(line)) {
                 commands.push({ type: 'write', contents: line });
             }
+            else if (/(run)/.test(line)) {
+                commands.push({ type: 'run', contents: line });
+            }
             else {
                 commands.push({ type: 'err', contents: line });
             }

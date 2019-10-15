@@ -76,6 +76,10 @@ class Index extends React.Component {
                     const [row, col] = cmd.contents.cmd.split(',');
                     this.editor.gotoLine(row, col, true);
                     break;
+                case 'run':
+                    console.log('Run:', cmd.contents);
+                    console.log(cmd.contents.cmd);
+                    break;
                 default:
                     if (cmd.contents.cmd.length != 0) {
                         console.log('Error:', cmd.contents);

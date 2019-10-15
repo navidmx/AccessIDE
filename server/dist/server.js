@@ -15,6 +15,7 @@ import Registry from './languageRegistry';
 import AudioProcessor from './processing/AudioProcessor';
 import languageRegistry from './languageRegistry';
 import Config from './config';
+import CodeRunner from './runCode';
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -32,12 +33,14 @@ app.prepare()
     server.post('/voiceCommand', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const text = yield AudioProcessor.processAudio(req.body.audio);
         CommandRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
+        CodeRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
         const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line, req.body.editor);
         res.send({ originalText: text, finalCmd: command });
     }));
     server.post('/runCommand', (req, res) => {
         const text = req.body.command;
         CommandRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
+        CodeRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
         const command = CommandRunner.runCommand(req.body.command, req.body.tabs, req.body.line, req.body.editor);
         res.send({ originalText: text, finalCmd: command });
     });

@@ -1,4 +1,5 @@
 import nlp from './processing/nlp';
+import CodeRunner from './runCode';
 class CommandRunner {
     setLanguage(l) {
         this.language = l;
@@ -31,6 +32,12 @@ class CommandRunner {
                     outputs.push({
                         type: 'nav',
                         contents: this.language.navigator.default.nav(processedCommand.contents, editor),
+                    });
+                    break;
+                case 'run':
+                    outputs.push({
+                        type: 'run',
+                        contents: CodeRunner.run(editor.reduce((acc, curr) => acc + '\r' + curr)),
                     });
                     break;
                 default:

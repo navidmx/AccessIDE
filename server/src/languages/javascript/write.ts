@@ -1,28 +1,28 @@
 import { Write } from '../language';
 
 class JSWrite implements Write {
-    write(cmd: string, tabs: number, line: number): { cmd: string, audio: string } {
+    write(cmd: string, tabs: number, line: number): { cmd: string; audio: string } {
         const includes = (src: string, str: string) => {
             return src.indexOf(str) !== -1;
-        }
+        };
         if (includes(cmd, 'checkpoint')) {
-            let index = cmd.indexOf('checkpoint');
+            const index = cmd.indexOf('checkpoint');
             if (cmd.length > index + 10) {
-                let line = cmd.substring(index + 11).split(' ');
+                const line = cmd.substring(index + 11).split(' ');
                 if (line[0] == 'named' || line[0] == 'called') line.shift();
                 return {
                     cmd: this.makeCheckpoint('checkpoint', this.toCamel(line.join(' '))) + '|line',
-                    audio: `Created checkpoint ${line.join(' ')}`
-                }
+                    audio: `Created checkpoint ${line.join(' ')}`,
+                };
             }
         } else if (includes(cmd, 'loop')) {
-            let line = cmd.substring(cmd.indexOf('loop') + 5).split(' ');
-            let counter: string = 'i',
-                start: number = 0,
-                end: number = 10,
-                step: number = 1;
+            const line = cmd.substring(cmd.indexOf('loop') + 5).split(' ');
+            let counter = 'i',
+                start = 0,
+                end = 10,
+                step = 1;
             if (includes(cmd, 'length')) {
-                let index = line.indexOf('length');
+                const index = line.indexOf('length');
                 line.splice(parseInt(line[index]), 2);
                 line.push(line[line.length - 1]);
             }
@@ -40,11 +40,11 @@ class JSWrite implements Write {
             }
             return {
                 cmd: this.createForLoop(tabs, start, end, step, counter) + '|block',
-                audio: `Created a for loop from ${start} to ${end}${step!=1 ? ` with step ${step}` : ''}`
-            }
+                audio: `Created a for loop from ${start} to ${end}${step != 1 ? ` with step ${step}` : ''}`,
+            };
         } else if (includes(cmd, 'function')) {
             cmd = cmd.replace(/parameters?/g, '');
-            let line = cmd.substring(cmd.indexOf('function') + 9).split(' ');
+            const line = cmd.substring(cmd.indexOf('function') + 9).split(' ');
             let parameters = [];
             if (line[0] == 'named' || line[0] == 'called') line.shift();
             if (line.includes('with')) {
@@ -53,10 +53,14 @@ class JSWrite implements Write {
             }
             return {
                 cmd: this.createFunction(tabs, this.toCamel(line.join(' ')), parameters.filter(Boolean)) + '|block',
-                audio: `Created function ${line.join(' ')}${(parameters.length > 0) ? ` with parameter${parameters.length > 1 ? 's' : ''} `  + parameters.filter(Boolean).join(' ') : ''}`
-            }
+                audio: `Created function ${line.join(' ')}${
+                    parameters.length > 0
+                        ? ` with parameter${parameters.length > 1 ? 's' : ''} ` + parameters.filter(Boolean).join(' ')
+                        : ''
+                }`,
+            };
         } else if (/(constant|variable)/g.test(cmd)) {
-            let type: string, name: string, value: string;
+            let type: string, value: string;
             if (cmd.includes('constant')) {
                 type = 'const';
                 cmd = cmd.replace('variable', '');
@@ -65,27 +69,27 @@ class JSWrite implements Write {
             let cmdArr = cmd.substring(cmd.search(/(variable|constant)/) + 9).split(' ');
             if (cmdArr.includes('value')) {
                 cmd = cmdArr.join(' ');
-                let index = cmd.indexOf('value');
+                const index = cmd.indexOf('value');
                 value = cmd.substring(index + 6);
                 cmdArr = cmd.substring(0, index).split(' ');
             }
-            name = this.toCamel(cmdArr.filter(Boolean).join(' '));
+            const name = this.toCamel(cmdArr.filter(Boolean).join(' '));
             if (type === 'const') {
                 return {
                     cmd: this.createConstant(name, value) + '|line',
-                    audio: `Created a constant named ${name}${!!name ? ' with value ' + value : ''}`
-                }
+                    audio: `Created a constant named ${name}${!!name ? ' with value ' + value : ''}`,
+                };
             } else {
                 return {
                     cmd: this.createVariable(name, value) + '|line',
-                    audio: `Created a variable named ${name}${!!name ? ' with value ' + value : ''}`
-                }
+                    audio: `Created a variable named ${name}${!!name ? ' with value ' + value : ''}`,
+                };
             }
         } else {
             return {
                 cmd: '',
-                audio: 'No writable object found'
-            }
+                audio: 'No writable object found',
+            };
         }
     }
 
@@ -102,7 +106,9 @@ class JSWrite implements Write {
     }
 
     createForLoop(tabs: number, start: number, end: number, step: number, flag: string): string {
-        return `for(let ${flag} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} ${start > end ? '-' : '+'}= ${step}) ${this.createBlock(tabs)}`;
+        return `for(let ${flag} = ${start}; ${flag} ${start > end ? '>' : '<'} ${end}; ${flag} ${
+            start > end ? '-' : '+'
+        }= ${step}) ${this.createBlock(tabs)}`;
     }
 
     createWhileLoop(tabs: number, condition: string): string {
@@ -134,14 +140,14 @@ class JSWrite implements Write {
     }
 
     private toCamel(s: string) {
-        return s.replace(/([ ]([a-z]|[0-9]))/ig, ($1) => {
+        return s.replace(/([ ]([a-z]|[0-9]))/gi, $1 => {
             return $1.toUpperCase().replace(' ', '');
         });
     }
 
     private makeCheckpoint(type, name) {
-        let symbol = ' ~ ';
-        let comment = '//' + symbol + type + ': "' + name + '"';
+        const symbol = ' ~ ';
+        const comment = '//' + symbol + type + ': "' + name + '"';
         return comment;
     }
 }

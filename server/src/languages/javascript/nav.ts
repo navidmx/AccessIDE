@@ -1,26 +1,29 @@
-import { Nav, point } from "../language";
+import { Nav, Point } from '../language';
 
 class JSNav implements Nav {
-    nav(command: string, lines: string[]): {
-        cmd: string,
-        audio: string
+    nav(
+        command: string,
+        lines: string[],
+    ): {
+        cmd: string;
+        audio: string;
     } {
-        const checkpoints: point[] = [];
-        const functions: point[] = [];
+        const checkpoints: Point[] = [];
+        const functions: Point[] = [];
 
         for (let i = 0; i < lines.length; i++) {
             if (lines[i].includes('// ~ checkpoint: ')) {
                 checkpoints.push({
                     name: lines[i].replace('// ~ checkpoint: ', ''),
                     row: i + 1,
-                    col: lines[i].indexOf('checkpoint')
+                    col: lines[i].indexOf('checkpoint'),
                 });
             }
             if (lines[i].includes('function ')) {
                 functions.push({
                     name: lines[i].split(' ')[1].split('(')[0],
                     row: i + 1,
-                    col: lines[i].indexOf('function')
+                    col: lines[i].indexOf('function'),
                 });
             }
         }
@@ -31,7 +34,7 @@ class JSNav implements Nav {
                 if (checkpoint.name.includes(keyword)) {
                     return {
                         cmd: `${checkpoint.row},${checkpoint.col}`,
-                        audio: `Now at checkpoint ${keyword}`
+                        audio: `Now at checkpoint ${keyword}`,
                     };
                 }
             }
@@ -42,7 +45,7 @@ class JSNav implements Nav {
             const col = command.includes('end') ? lines[row - 1].length : 0;
             return {
                 cmd: `${row},${col}`,
-                audio: `Now at ${col != 0 ? 'end of' : ''} line ${row}`
+                audio: `Now at ${col != 0 ? 'end of' : ''} line ${row}`,
             };
         }
 
@@ -52,7 +55,7 @@ class JSNav implements Nav {
                 if (func.name.includes(keyword)) {
                     return {
                         cmd: `${func.row},${func.col}`,
-                        audio: `Now at function ${keyword}`
+                        audio: `Now at function ${keyword}`,
                     };
                 }
             }
@@ -60,7 +63,7 @@ class JSNav implements Nav {
     }
 
     private toCamel(s: string) {
-        return s.replace(/([ ]([a-z]|[0-9]))/ig, ($1) => {
+        return s.replace(/([ ]([a-z]|[0-9]))/gi, $1 => {
             return $1.toUpperCase().replace(' ', '');
         });
     }

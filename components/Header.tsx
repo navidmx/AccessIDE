@@ -4,36 +4,36 @@ import Command from '../components/Command';
 import { Language } from '../server/src/languageRegistry';
 import { OutputCommand } from '../server/src/runCommand';
 
-let HeaderStyle = {
+const HeaderStyle = {
     display: 'flex',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: '80px',
-    backgroundColor: '#2A2A2A'
-}
+    backgroundColor: '#2A2A2A',
+};
 
-let BrandTextStyle = {
+const BrandTextStyle = {
     color: '#f9ee98',
     fontSize: '32px',
     fontWeight: 800,
-    margin: '0 20px'
-}
+    margin: '0 20px',
+};
 
 type HeaderProps = {
-    tabs: number,
-    recording: boolean,
-    currLine: number,
-    lines: string[],
-    languageIdx: Number,
+    tabs: number;
+    recording: boolean;
+    currLine: number;
+    lines: string[];
+    languageIdx: number;
     dropdown: {
-        options: Option[],
-        selected: Option
-    }
-    update: (newLang: Option) => void,
-    run: (commands: OutputCommand[]) => void,
-    onEnter: (returnToEditor: boolean) => void
-}
+        options: Option[];
+        selected: Option;
+    };
+    update: (newLang: Option) => void;
+    run: (commands: OutputCommand[]) => void;
+    onEnter: (returnToEditor: boolean) => void;
+};
 
 class Header extends React.Component<HeaderProps> {
     constructor(props: HeaderProps) {
@@ -51,12 +51,14 @@ class Header extends React.Component<HeaderProps> {
                     currLine={this.props.currLine}
                     recording={this.props.recording}
                     onEnter={this.props.onEnter}
-                    languageIdx={this.props.languageIdx} />
+                    languageIdx={this.props.languageIdx}
+                />
                 <Dropdown
                     onChange={this.props.update}
                     options={this.props.dropdown.options}
                     value={this.props.dropdown.selected}
-                    placeholder='Select an option' />
+                    placeholder="Select an option"
+                />
             </div>
         );
     }

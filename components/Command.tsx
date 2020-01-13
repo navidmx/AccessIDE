@@ -8,39 +8,39 @@ import { OutputCommand } from '../server/src/runCommand';
 import Config from '../server/src/config';
 import Recorder from '../components/Recorder';
 
-let CommandPrefixStyle = {
+const CommandPrefixStyle = {
     backgroundColor: '#272727',
     borderColor: '#ccc',
-    width: '50px'
-}
+    width: '50px',
+};
 
-let CommandStyle = {
+const CommandStyle = {
     fontSize: '24px',
     width: 'calc(100% - 150px)',
     color: 'white',
     backgroundColor: '#131313',
-    display: 'block'
-}
+    display: 'block',
+};
 
-let MaxWidth = {
+const MaxWidth = {
     width: '100%',
-    maxWidth: '700px'
-}
+    maxWidth: '700px',
+};
 
 type RecordedBlob = {
     blob: Blob;
     blobURL: string;
-}
+};
 
 type CommandProps = {
-    run: (commands: OutputCommand[]) => void,
-    tabs: number,
-    currLine: number,
-    lines: string[],
-    recording: boolean,
-    languageIdx: Number,
-    onEnter: (returnToEditor: boolean) => void
-}
+    run: (commands: OutputCommand[]) => void;
+    tabs: number;
+    currLine: number;
+    lines: string[];
+    recording: boolean;
+    languageIdx: number;
+    onEnter: (returnToEditor: boolean) => void;
+};
 
 class Command extends React.Component<CommandProps> {
     private command: any;
@@ -61,21 +61,21 @@ class Command extends React.Component<CommandProps> {
                     tabs: this.props.tabs,
                     line: this.props.currLine,
                     editor: this.props.lines,
-                    languageIdx: this.props.languageIdx
+                    languageIdx: this.props.languageIdx,
                 }),
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                },
             }).then(res => res.json());
-            this.props.run(response.finalCmd)
+            this.props.run(response.finalCmd);
             this.command.current.value = '';
             this.props.onEnter(true);
         }
-    }
+    };
 
     saveAudio = async (audio: RecordedBlob) => {
         const reader = new FileReader();
-        const res: { finalCmd: OutputCommand[], originalText: string } = await new Promise((resolve, reject) => {
+        const res: { finalCmd: OutputCommand[]; originalText: string } = await new Promise((resolve, reject) => {
             reader.onload = async () => {
                 try {
                     const raw = reader.result;
@@ -84,16 +84,16 @@ class Command extends React.Component<CommandProps> {
                         audio: b64,
                         tabs: this.props.tabs,
                         line: this.props.currLine,
-                        editor: this.props.lines
-                    }
+                        editor: this.props.lines,
+                    };
                     const response = await fetch(`${Config.getURL()}/voiceCommand`, {
                         method: 'POST',
                         body: JSON.stringify(body),
                         headers: {
-                            'Content-Type': 'application/json'
-                        }
+                            'Content-Type': 'application/json',
+                        },
                     }).then(res => res.json());
-                    resolve(response)
+                    resolve(response);
                 } catch (err) {
                     console.log(err);
                 }
@@ -101,46 +101,45 @@ class Command extends React.Component<CommandProps> {
             reader.readAsDataURL(audio.blob);
         });
         this.props.run(res.finalCmd);
-    }
+    };
 
     componentDidUpdate = () => {
         if (this.props.recording) {
             this.command.current.focus();
         }
-    }
+    };
 
     render() {
         return (
             <Form inline style={MaxWidth}>
                 <InputGroup style={MaxWidth}>
                     <InputGroup.Prepend>
-                        <InputGroup.Text
-                            style={CommandPrefixStyle}>
-                            <FontAwesomeIcon
-                                style={{ margin: 'auto' }}
-                                icon={faCode} />
+                        <InputGroup.Text style={CommandPrefixStyle}>
+                            <FontAwesomeIcon style={{ margin: 'auto' }} icon={faCode} />
                         </InputGroup.Text>
                     </InputGroup.Prepend>
                     <Form.Control
                         style={CommandStyle}
-                        className='command-bar'
+                        className="command-bar"
                         onKeyPress={this.commandEntered}
-                        placeholder='Enter a command...'
+                        placeholder="Enter a command..."
                         type="text"
-                        ref={this.command}></Form.Control>
+                        ref={this.command}
+                    ></Form.Control>
                     <Recorder
                         record={this.props.recording}
-                        className='sound-wave'
+                        className="sound-wave"
                         onStop={this.saveAudio}
-                        mimeType='video/webm'
+                        mimeType="video/webm"
                         width={98}
                         height={48}
-                        strokeColor='#CCC'
-                        backgroundColor='#131313' />
+                        strokeColor="#CCC"
+                        backgroundColor="#131313"
+                    />
                 </InputGroup>
             </Form>
-        )
+        );
     }
-};
+}
 
 export default Command;

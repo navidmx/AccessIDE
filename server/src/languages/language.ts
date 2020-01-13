@@ -7,9 +7,13 @@ export interface Write {
     createIfStatement(tabs: number, condition: string): string;
     createElseIfStatement(tabs: number, condition: string): string;
     createElseStatement(tabs: number): string;
-    write(input: string, tabs: number, line: number): {
-        cmd: string,
-        audio: string
+    write(
+        input: string,
+        tabs: number,
+        line: number,
+    ): {
+        cmd: string;
+        audio: string;
     };
 }
 
@@ -18,14 +22,17 @@ export interface Read {
 }
 
 export interface Nav {
-    nav(command: string, lines: string[]): {
-        cmd: string,
-        audio: string
+    nav(
+        command: string,
+        lines: string[],
+    ): {
+        cmd: string;
+        audio: string;
     };
 }
 
-export interface point {
-    name: string,
-    row: number,
-    col: number
+export interface Point {
+    name: string;
+    row: number;
+    col: number;
 }

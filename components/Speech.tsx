@@ -1,37 +1,35 @@
 import React from 'react';
 
 type SpeechProps = {
-    audio: string,
-    clear: Function
-}
+    audio: string;
+    clear: Function;
+};
 
 const synth = window.speechSynthesis;
 
-class Speech extends React.Component < SpeechProps > {
-    private command : any;
+class Speech extends React.Component<SpeechProps> {
+    private command: any;
 
-    constructor(props : SpeechProps) {
+    constructor(props: SpeechProps) {
         super(props);
     }
 
-    speakAudio = (text : SpeechSynthesisUtterance) => {
+    speakAudio = (text: SpeechSynthesisUtterance) => {
         synth.speak(text);
         this.props.clear();
-    }
+    };
 
     componentDidMount = () => {
         this.speakAudio(new SpeechSynthesisUtterance(this.props.audio));
-    }
+    };
 
     componentDidUpdate = () => {
         this.speakAudio(new SpeechSynthesisUtterance(this.props.audio));
-    }
+    };
 
     render() {
-        return (
-            <div></div>
-        )
+        return <div></div>;
     }
-};
+}
 
 export default Speech;

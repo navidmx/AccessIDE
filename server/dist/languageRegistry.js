@@ -14,14 +14,14 @@ export class LanguageRegistry {
     }
     findLanguages() {
         return __awaiter(this, void 0, void 0, function* () {
-            let languageDir = __dirname + '\/languages';
+            const languageDir = __dirname + '/languages';
             let contents = fs.readdirSync(languageDir);
-            contents = contents.map(d => languageDir + '\/' + d);
+            contents = contents.map(d => languageDir + '/' + d);
             for (const dir of contents) {
                 if (fs.existsSync(dir)) {
                     if (fs.statSync(dir).isDirectory()) {
-                        if (fs.existsSync(dir + '\/config.json')) {
-                            const contents = JSON.parse(fs.readFileSync(dir + '\/config.json', { encoding: 'UTF-8' }));
+                        if (fs.existsSync(dir + '/config.json')) {
+                            const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'UTF-8' }));
                             const languageDecoder = JsonDecoder.object({
                                 id: JsonDecoder.string,
                                 syntax: JsonDecoder.string,
@@ -31,13 +31,13 @@ export class LanguageRegistry {
                                 display: JsonDecoder.object({
                                     name: JsonDecoder.string,
                                     version: JsonDecoder.string,
-                                    runtime: JsonDecoder.string
+                                    runtime: JsonDecoder.string,
                                 }, 'display'),
                                 parsers: JsonDecoder.object({
                                     write: JsonDecoder.string,
                                     read: JsonDecoder.string,
-                                    nav: JsonDecoder.string
-                                }, 'parser')
+                                    nav: JsonDecoder.string,
+                                }, 'parser'),
                             }, 'language');
                             let languageInfo;
                             try {
@@ -56,9 +56,9 @@ export class LanguageRegistry {
                                     version: languageInfo.version,
                                     exec: languageInfo.exec,
                                     display: languageInfo.display,
-                                    writer: yield import(dir + '\/' + languageInfo.parsers.write),
-                                    reader: yield import(dir + '\/' + languageInfo.parsers.read),
-                                    navigator: yield import(dir + '\/' + languageInfo.parsers.nav)
+                                    writer: yield import(dir + '/' + languageInfo.parsers.write),
+                                    reader: yield import(dir + '/' + languageInfo.parsers.read),
+                                    navigator: yield import(dir + '/' + languageInfo.parsers.nav),
                                 };
                             }
                             catch (e) {
@@ -67,7 +67,6 @@ export class LanguageRegistry {
                             }
                             this.languages.push(language);
                         }
-                        ;
                     }
                 }
             }

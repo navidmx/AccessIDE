@@ -1,5 +1,4 @@
-import { Nav } from "../language";
-import { point } from "../language";
+import { Nav, point } from "../language";
 
 class JSNav implements Nav {
     nav(command: string, lines: string[]): {

@@ -14,7 +14,11 @@ class PYNav {
                 functions.push({
                     name: lines[i].split(' ')[1].split('(')[0],
                     row: i + 1,
+<<<<<<< HEAD
+                    col: lines[i].indexOf('def')
+=======
                     col: lines[i].indexOf('def'),
+>>>>>>> d6e7da24192075d267a666b1ff45a1d3ddfcefb5
                 });
             }
         }

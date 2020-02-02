@@ -1,6 +1,7 @@
 # AccessIDE
 #### An IDE with accessibility in mind using audio input/output and defined commands to easily navigate, read, and even write code.
 
+![Discord](https://img.shields.io/discord/614119159067836441?label=discord&logoColor=%233250a8)
 
 
 ## Commands

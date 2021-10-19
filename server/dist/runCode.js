@@ -10,7 +10,7 @@ class CodeRunner {
             fs.unlinkSync(fileName);
         }
         fs.appendFileSync(fileName, code);
-        const output = childProcess.execSync(`${this.language.exec} ` + fileName).toString('UTF-8');
+        const output = childProcess.execSync(`${this.language.exec} ` + fileName).toString('utf-8');
         fs.unlinkSync(fileName);
         return {
             audio: 'ran code',

@@ -28,6 +28,8 @@ app.prepare()
 
         server.post('/voiceCommand', async (req, res) => {
             const text = await AudioProcessor.processAudio(req.body.audio);
+            console.log(req.body);
+            console.log(Registry.getLanguages());
             CommandRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
             CodeRunner.setLanguage(Registry.getLanguages()[req.body.languageIdx]);
             const command = CommandRunner.runCommand(text, req.body.tabs, req.body.line, req.body.editor);

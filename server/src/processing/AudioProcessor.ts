@@ -37,7 +37,7 @@ class AudioProcessor {
             const conversion = await this.convert(track, 1, 'wav');
             output = await this.transcribeAudio(conversion);
         } catch (err) {
-            console.log(err);
+            console.error(err);
             output = 'error processing audio';
         }
         this.cleanFiles();
@@ -56,7 +56,7 @@ class AudioProcessor {
                     resolve(track.replace('.mp3', `.${format}`));
                 })
                 .on('error', err => {
-                    console.log(err);
+                    console.error(err);
                     reject(err);
                 })
                 .run();

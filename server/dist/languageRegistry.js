@@ -1,8 +1,9 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -21,7 +22,7 @@ export class LanguageRegistry {
                 if (fs.existsSync(dir)) {
                     if (fs.statSync(dir).isDirectory()) {
                         if (fs.existsSync(dir + '/config.json')) {
-                            const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'UTF-8' }));
+                            const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'utf-8' }));
                             const languageDecoder = JsonDecoder.object({
                                 id: JsonDecoder.string,
                                 syntax: JsonDecoder.string,
@@ -42,12 +43,14 @@ export class LanguageRegistry {
                             let languageInfo;
                             try {
                                 languageInfo = yield languageDecoder.decodePromise(contents);
+                                console.log(languageInfo);
                             }
-                            catch (e) {
-                                console.log(e);
+                            catch (err) {
+                                console.error(err);
                             }
                             let language;
                             try {
+                                const writerpath = dir + '/' + languageInfo.parsers.write;
                                 language = {
                                     name: languageInfo.display.name,
                                     syntax: languageInfo.syntax,
@@ -62,8 +65,8 @@ export class LanguageRegistry {
                                 };
                             }
                             catch (e) {
-                                console.log('Language could not be loaded:');
-                                console.log(e);
+                                console.error('Language could not be loaded:');
+                                console.error(e);
                             }
                             this.languages.push(language);
                         }

@@ -13,7 +13,7 @@ export class LanguageRegistry {
             if (fs.existsSync(dir)) {
                 if (fs.statSync(dir).isDirectory()) {
                     if (fs.existsSync(dir + '/config.json')) {
-                        const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'UTF-8' }));
+                        const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'utf-8' }));
                         const languageDecoder = JsonDecoder.object<JSONConfig>(
                             {
                                 id: JsonDecoder.string,

@@ -11,7 +11,7 @@ export class CodeRunner {
 
     run(code: string): string {
         fs.appendFileSync('file.js', code);
-        const output = childProcess.execSync('node file.js').toString('UTF-8');
+        const output = childProcess.execSync('node file.js').toString('utf-8');
         return output;
     }
 }

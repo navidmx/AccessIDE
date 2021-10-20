@@ -1,10 +1,11 @@
 import { Language } from './languageRegistry';
 import nlp from './processing/nlp';
+import CodeRunner from './runCode';
 
 class CommandRunner {
     language: Language;
 
-    setLanguage(l: Language) {
+    setLanguage(l: Language): void {
         this.language = l;
     }
 
@@ -39,6 +40,12 @@ class CommandRunner {
                         contents: this.language.navigator.default.nav(processedCommand.contents, editor),
                     });
                     break;
+                case 'run':
+                    outputs.push({
+                        type: 'run',
+                        contents: CodeRunner.run(editor.reduce((acc: string, curr: string) => acc + '\r' + curr)),
+                    });
+                    break;
                 default:
                     outputs.push({
                         type: 'err',
@@ -55,7 +62,7 @@ class CommandRunner {
     }
 }
 
-export type outputType = 'write' | 'read' | 'nav' | 'err';
+export type outputType = 'write' | 'read' | 'nav' | 'run' | 'err';
 
 export interface OutputCommand {
     type: outputType;

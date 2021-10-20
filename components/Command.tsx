@@ -85,6 +85,8 @@ class Command extends React.Component<CommandProps> {
                         tabs: this.props.tabs,
                         line: this.props.currLine,
                         editor: this.props.lines,
+                        languageIdx: this.props.languageIdx,
+
                     };
                     const response = await fetch(`${Config.getURL()}/voiceCommand`, {
                         method: 'POST',
@@ -95,7 +97,7 @@ class Command extends React.Component<CommandProps> {
                     }).then(res => res.json());
                     resolve(response);
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             };
             reader.readAsDataURL(audio.blob);

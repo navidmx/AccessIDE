@@ -9,11 +9,12 @@ export class LanguageRegistry {
         const languageDir = __dirname + '/languages';
         let contents = fs.readdirSync(languageDir);
         contents = contents.map(d => languageDir + '/' + d);
+        
         for (const dir of contents) {
             if (fs.existsSync(dir)) {
                 if (fs.statSync(dir).isDirectory()) {
                     if (fs.existsSync(dir + '/config.json')) {
-                        const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'UTF-8' }));
+                        const contents = JSON.parse(fs.readFileSync(dir + '/config.json', { encoding: 'utf-8' }));
                         const languageDecoder = JsonDecoder.object<JSONConfig>(
                             {
                                 id: JsonDecoder.string,
@@ -43,11 +44,14 @@ export class LanguageRegistry {
                         let languageInfo: JSONConfig;
                         try {
                             languageInfo = await languageDecoder.decodePromise(contents);
-                        } catch (e) {
-                            console.log(e);
+                            console.log(languageInfo);
+                        } catch (err) {
+                            console.error(err);
                         }
                         let language: Language;
                         try {
+                            const writerpath = dir + '/' + languageInfo.parsers.write;
+
                             language = {
                                 name: languageInfo.display.name,
                                 syntax: languageInfo.syntax,
@@ -61,8 +65,8 @@ export class LanguageRegistry {
                                 navigator: await import(dir + '/' + languageInfo.parsers.nav),
                             };
                         } catch (e) {
-                            console.log('Language could not be loaded:');
-                            console.log(e);
+                            console.error('Language could not be loaded:');
+                            console.error(e);
                         }
                         this.languages.push(language);
                     }

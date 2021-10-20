@@ -1,5 +1,6 @@
 class Config {
-    private url = 'http://localhost:3000';
+    private port = process.env.NODE_ENV === "production" ? 80 : 3000;
+    private url = `${process.env.URL}:${process.env.PORT || this.port}` || 'http://localhost:3000';
 
     public setURL(url: string) {
         this.url = url;

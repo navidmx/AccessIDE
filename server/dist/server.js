@@ -20,7 +20,7 @@ import CodeRunner from './runCode';
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const reqURL = dev ? 'http://localhost:3000' : 'http://localhost:3000';
+const reqURL = dev ? 'http://localhost:3000' : process.env.URL || 'http://localhost:3000';
 Config.setURL(reqURL);
 app.prepare()
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,10 +56,11 @@ app.prepare()
     server.get('*', (req, res) => {
         return handle(req, res);
     });
-    server.listen(3000, err => {
+    const port = dev ? 3000 : 80;
+    server.listen(port, err => {
         if (err)
             throw err;
-        console.log('> Ready on http://localhost:3000');
+        console.log(`> Ready on ${reqURL}:${port}`);
     });
 }))
     .catch(ex => {

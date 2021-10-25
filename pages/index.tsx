@@ -157,7 +157,7 @@ class Index extends React.Component {
 
     componentWillMount = async () => {
         try {
-            const list = await fetch(`${Config.getURL()}/getLangs`).then(res => res.json());
+            const list = await fetch(`/getLangs`).then(res => res.json());
             const options = list.map((lang: Language) => ({
                 value: lang.id,
                 label: `${lang.display.name} (${lang.display.version})`,

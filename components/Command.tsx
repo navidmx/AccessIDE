@@ -54,7 +54,7 @@ class Command extends React.Component<CommandProps> {
         if (this.props.recording) this.props.onEnter(false);
         if (event.charCode == 13) {
             event.preventDefault();
-            const response = await fetch(`${Config.getURL()}/runCommand`, {
+            const response = await fetch(`/runCommand`, {
                 method: 'POST',
                 body: JSON.stringify({
                     command: this.command.current.value,
@@ -88,7 +88,7 @@ class Command extends React.Component<CommandProps> {
                         languageIdx: this.props.languageIdx,
 
                     };
-                    const response = await fetch(`${Config.getURL()}/voiceCommand`, {
+                    const response = await fetch(`/voiceCommand`, {
                         method: 'POST',
                         body: JSON.stringify(body),
                         headers: {

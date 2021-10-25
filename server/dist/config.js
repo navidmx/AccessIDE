@@ -1,9 +1,10 @@
 class Config {
     constructor() {
-        this.url = 'http://localhost:3000';
+        this.port = process.env.NEXT_PUBLIC_NODE_ENV === "production" ? 80 : 3000;
+        this.url = process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT || this.port}` : 'http://localhost:3000';
+        console.log(this.url);
     }
     setURL(url) {
-        this.url = url;
     }
     getURL() {
         return this.url;

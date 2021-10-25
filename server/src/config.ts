@@ -1,9 +1,14 @@
 class Config {
-    private port = process.env.NODE_ENV === "production" ? 80 : 3000;
-    private url = `${process.env.URL}:${process.env.PORT || this.port}` || 'http://localhost:3000';
+    private port = process.env.NEXT_PUBLIC_NODE_ENV === "production" ? 80 : 3000;
+    private url = process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT || this.port}` : 'http://localhost:3000';
 
+    constructor()
+    {
+      console.log(this.url);
+    }
+    
     public setURL(url: string) {
-        this.url = url;
+        
     }
 
     public getURL(): string {

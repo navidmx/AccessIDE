@@ -41,7 +41,7 @@
         "eslint-config-prettier": "^6.3.0",
         "eslint-plugin-prettier": "^3.1.1",
         "eslint-plugin-react": "^7.14.3",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "ffmpeg": "0.0.4",
         "fluent-ffmpeg": "^2.1.2",
         "gulp-eslint": "^6.0.0",
